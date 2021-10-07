@@ -1,0 +1,24 @@
+{
+  "name": "doc-plugin-rush-stack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API Documenter plugin used with the rushstack.io website",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@microsoft/api-documenter": "^7.13.59",
+    "@microsoft/api-extractor-model": "^7.13.11",
+    "@microsoft/tsdoc": "0.13.2",
+    "fs-extra": "^10.0.0",
+    "js-yaml": "~3.13.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/js-yaml": "3.12.1",
+    "@types/node": "10.17.13"
+  }
+}
