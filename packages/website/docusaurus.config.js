@@ -13,9 +13,9 @@ module.exports = {
   projectName: "docusaurus", // Usually your repo name.
   plugins: [
     [
-      require.resolve('./docusaurus-plugin-api-extractor/lib/plugin.js'),
+      require.resolve('../docusaurus-plugin-api-extractor/lib/plugin.js'),
       {
-        entryPoints: ["../src/"],
+        entryPoints: ["../docusaurus-plugin-api-extractor/lib/"],
         out: "api",
       },
     ],

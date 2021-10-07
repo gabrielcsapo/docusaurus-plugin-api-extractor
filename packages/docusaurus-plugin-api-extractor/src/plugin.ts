@@ -48,9 +48,10 @@ export const getPluginOptions = (
  */
 async function buildDocs(configFile: string, entryPoint: string, out: string) {
   await new Promise((resolve, reject) => {
-    console.log(`api-extractor run --local -c ${configFile} && api-documenter markdown -i ${entryPoint} -o ${out}`)
+    const command = `${require.resolve('@microsoft/api-extractor/bin/api-extractor')} run --local -c ${configFile} && ${require.resolve('@microsoft/api-documenter/bin/api-documenter')} markdown -i ${entryPoint} -o ${out}`;
+    console.log(command);
     return exec(
-      `api-extractor run --local -c ${configFile} && api-documenter markdown -i ${entryPoint} -o ${out}`,
+      command,
       (err, stdout) => {
         if (err) {
           reject(err);
@@ -62,6 +63,8 @@ async function buildDocs(configFile: string, entryPoint: string, out: string) {
     );
   });
 }
+
+let built = false;
 
 /**
  * Docusaurus plugin entrypoint
@@ -87,8 +90,11 @@ export default async function pluginDocusaurus(
     throw new Error("entryPoints were not provided in configuration");
   }
 
-  for (const entryPoint of options.entryPoints) {
-    await buildDocs(options.configFile, path.resolve(process.cwd(), entryPoint), outputDir);
+  if(!built) {
+    built = true;
+    for (const entryPoint of options.entryPoints) {
+      await buildDocs(options.configFile, path.resolve(process.cwd(), entryPoint), outputDir);
+    }
   }
 
   return {

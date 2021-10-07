@@ -1,10 +1,11 @@
 {
-  "name": "doc-plugin-rush-stack",
-  "version": "1.0.0",
+  "name": "docusaurus-plugin-api-extractor-markdown-documenter",
+  "version": "0.0.0",
   "private": true,
-  "description": "API Documenter plugin used with the rushstack.io website",
+  "description": "API Documenter plugin used with the docusaurus-plugin-api-extractor",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "tsc"
@@ -19,6 +20,6 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "3.12.1",
-    "@types/node": "10.17.13"
+    "@types/node": "^16.10.2"
   }
 }
