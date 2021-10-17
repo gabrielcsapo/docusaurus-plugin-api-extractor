@@ -1,5 +1,6 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const path = require('path');
 
 module.exports = {
   title: "My Site",
@@ -13,10 +14,12 @@ module.exports = {
   projectName: "docusaurus", // Usually your repo name.
   plugins: [
     [
-      require.resolve('../docusaurus-plugin-api-extractor/lib/plugin.js'),
+      require.resolve('../docusaurus-plugin-api-extractor'),
       {
-        entryPoints: ["../docusaurus-plugin-api-extractor/lib/"],
-        out: "api",
+        projectFolder: path.resolve(__dirname, '..', 'example-project'),
+        tsConfigFile: "../example-project/tsconfig.json",
+        entryPoint: '../example-project/lib/index.d.ts',
+        out: "example-api",
       },
     ],
   ],

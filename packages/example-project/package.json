@@ -1,0 +1,13 @@
+{
+  "name": "example-project",
+  "version": "0.0.0",
+  "description": "Example project to test docusaurus-plugin-api-extractor",
+  "main": "lib/plugin.js",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.2"
+  }
+}

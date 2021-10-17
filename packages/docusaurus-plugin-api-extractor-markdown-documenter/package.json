@@ -1,8 +1,8 @@
 {
   "name": "docusaurus-plugin-api-extractor-markdown-documenter",
   "version": "0.0.0",
-  "private": true,
   "description": "API Documenter plugin used with the docusaurus-plugin-api-extractor",
+  "private": false,
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
@@ -11,15 +11,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@microsoft/api-documenter": "^7.13.59",
-    "@microsoft/api-extractor-model": "^7.13.11",
-    "@microsoft/tsdoc": "0.13.2",
-    "fs-extra": "^10.0.0",
-    "js-yaml": "~3.13.1"
+    "@microsoft/api-documenter": "^7.13.63",
+    "fs-extra": "^10.0.0"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.13",
-    "@types/js-yaml": "3.12.1",
-    "@types/node": "^16.10.2"
+    "@types/node": "^16.10.2",
+    "typescript": "^4.4.2"
   }
 }

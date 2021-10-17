@@ -1,24 +1,33 @@
 {
-  "$schema": "http://json.schemastore.org/tsconfig",
-
   "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "target": "es2019",
+    "types": ["node"],
+    "baseUrl": ".",
     "outDir": "./lib",
     "rootDir": "./src",
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "declaration": true,
-    "sourceMap": true,
-    "declarationMap": true,
-    "inlineSources": true,
-    "experimentalDecorators": true,
     "strict": true,
     "esModuleInterop": true,
-    "noEmitOnError": false,
-    "allowUnreachableCode": false,
-    "types": ["node", "jest"],
     "module": "commonjs",
-    "target": "es2017",
-    "lib": ["es2017"]
+    "moduleResolution": "node",
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": true,
+    "noFallthroughCasesInSwitch": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "paths": {
+      "*": ["types/*"]
+    }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+  "include": ["./src/*.ts"]
 }

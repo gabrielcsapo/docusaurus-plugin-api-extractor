@@ -6,7 +6,7 @@
   "private": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "cp -r src/api-documenter.json lib && tsc",
     "lint": "eslint src/**/*.ts"
   },
   "repository": {
@@ -20,8 +20,9 @@
   },
   "homepage": "https://github.com/gabrielcsapo/docusaurus-plugin-api-extractor#readme",
   "dependencies": {
-    "@microsoft/api-documenter": "^7.13.55",
-    "@microsoft/api-extractor": "^7.18.12",
+    "@microsoft/api-documenter": "^7.13.63",
+    "@microsoft/api-extractor": "^7.18.16",
+    "docusaurus-plugin-api-extractor-markdown-documenter": "0.0.0",
     "fs-extra": "^10.0.0"
   },
   "devDependencies": {
@@ -29,8 +30,6 @@
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.10.2",
-    "@typescript-eslint/eslint-plugin": "^4.32.0",
-    "@typescript-eslint/parser": "^4.32.0",
     "typescript": "^4.4.2"
   }
 }
