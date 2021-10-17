@@ -1,6 +1,6 @@
 {
   "name": "example-project",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Example project to test docusaurus-plugin-api-extractor",
   "main": "lib/plugin.js",
   "private": true,
