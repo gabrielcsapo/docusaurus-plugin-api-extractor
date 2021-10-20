@@ -6,10 +6,10 @@ module.exports = {
   plugins: ['prettier', '@typescript-eslint'],
   extends: [
     'eslint:recommended',
-    'plugin:prettier/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:node/recommended',
+    'plugin:prettier/recommended',
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
@@ -23,7 +23,10 @@ module.exports = {
       },
     },
     {
-      files: ['./packages/website/docusaurus.config.js'],
+      files: ['./packages/website/**/*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 0,
+      },
       env: {
         node: true,
       },

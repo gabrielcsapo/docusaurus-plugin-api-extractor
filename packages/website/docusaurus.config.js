@@ -14,6 +14,7 @@ module.exports = {
   projectName: 'docusaurus', // Usually your repo name.
   plugins: [
     [
+      // eslint-disable-next-line node/no-unpublished-require
       require.resolve('../docusaurus-plugin-api-extractor'),
       {
         projectFolder: path.resolve(__dirname, '..', 'example-project'),
