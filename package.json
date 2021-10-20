@@ -5,6 +5,7 @@
     "lint": "eslint packages/docusaurus-plugin-api-extractor/src/*.ts"
   },
   "devDependencies": {
+    "eslint-plugin-node": "^11.1.0",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
     "eslint": "^7.32.0",
@@ -22,9 +23,6 @@
   "volta": {
     "node": "16.11.1",
     "npm": "8.1.0"
-  },
-  "dependencies": {
-    "eslint-plugin-node": "^11.1.0"
   },
   "engines": {
     "node": ">=14.0.0"
