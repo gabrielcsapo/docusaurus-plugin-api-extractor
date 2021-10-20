@@ -16,7 +16,7 @@ npm install docusaurus-plugin-api-extractor --save-dev
 
 > "declarationMap": true - This enables generation of .d.ts.map files that allow API Extractor errors to be reported using line numbers from your original source files; without this, the error locations will instead refer to the generated .d.ts files.
 
-This plugin works as a plugin that can be configured in `docusaurus.config.js` and as an extendion the docusaurus CLI to enable dry runs with the following command:
+This plugin works as a plugin that can be configured in `docusaurus.config.js` and as an extension the docusaurus CLI to enable dry runs with the following command:
 
 ```
 docusaurus api-extractor:build

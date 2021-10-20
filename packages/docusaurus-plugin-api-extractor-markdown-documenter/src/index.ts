@@ -7,7 +7,7 @@ export const apiDocumenterPluginManifest: IApiDocumenterPluginManifest = {
     {
       featureName: 'docusaurus-plugin-api-extractor-markdown-documenter',
       kind: 'MarkdownDocumenterFeature',
-      subclass: DocusaurusFeature
-    }
-  ]
+      subclass: DocusaurusFeature,
+    },
+  ],
 };
