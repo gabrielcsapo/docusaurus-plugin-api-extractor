@@ -16,11 +16,19 @@ npm install docusaurus-plugin-api-extractor --save-dev
 
 > "declarationMap": true - This enables generation of .d.ts.map files that allow API Extractor errors to be reported using line numbers from your original source files; without this, the error locations will instead refer to the generated .d.ts files.
 
-This plugin works as a plugin that can be configured in `docusaurus.config.js` and as an extension the docusaurus CLI to enable dry runs with the following command:
+This plugin works as a plugin that can be configured in `docusaurus.config.js` and as an extension the docusaurus CLI to setup a new project with api-extractor and enable dry runs.
 
 ```
-docusaurus api-extractor:build
+docusaurus api-extractor:init
 ```
+
+Use this command when setting up API Extractor for a new project. It writes an api-extractor.json config file template with code comments that describe all the settings. The file will be written in the current directory.
+
+```
+docusaurus api-extractor:run
+```
+
+Invokes API Extractor and API documenter on a project
 
 ### Config
 
@@ -30,7 +38,7 @@ Add the plugin to `docusaurus.config.js` and specify the required options (see [
 module.exports = {
   plugins: [
     [
-      "docusaurus-plugin-api-extractor",
+      'docusaurus-plugin-api-extractor',
       {
         // Plugin options
       },
@@ -41,20 +49,20 @@ module.exports = {
 
 ## Options
 
-At a minimum the `entryPoint`, `projectFolder` and `tsConfigFile` options will need to be set.
+At a minimum the `srcDir`, `outDir`, `verbose` and `force` options will need to be set.
 
 ### Plugin options
 
 Options specific to the plugin should also be declared in the same object.
 
-| Name            | Default          | Required                                                 | Description                                                                                                                                                                                                       |
-| :-------------- | :--------------- | :------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `out`           | `"api"`          | false                                                    | Output directory relative to `docsRoot` directory.                                                                                                                                                                |
-| `docsRoot`      | `docs`           | Output directory for built out directory to be built do. |
-| `entryPoint`    |                  | true                                                     | Entry point d.ts to start api-extractor from                                                                                                                                                                      |
-| `projectFolder` |                  | true                                                     | relative path from current docs directory to project folder                                                                                                                                                       |
-| `tsConfigFile`  |                  | true                                                     | relative path to tsConfigFile from current docs directory                                                                                                                                                         |
-| `sidebarConfig` | { title: 'API' } | false                                                    | `_category_.json` options configured for [docusaurus](https://github.com/facebook/docusaurus/blob/8d92e9bcf5cf533719b07b17db73facea788fac1/packages/docusaurus-plugin-content-docs/src/sidebars/generator.ts#L30) |
+```ts
+interface PluginOptions {
+  srcDir: string; // Path to the sources files (default: "src")
+  outDir: string; // Name of the directory that will be placed in the documentation root (default: "api")
+  force?: boolean; // Skips caching and forces the docs to be rebuilt (default: false)
+  verbose?: boolean; // Enable verbose logging (default: false)
+}
+```
 
 ### An example configuration
 
@@ -62,12 +70,10 @@ Options specific to the plugin should also be declared in the same object.
 module.exports = {
   plugins: [
     [
-      "docusaurus-plugin-api-extractor",
+      'docusaurus-plugin-api-extractor',
       {
-        projectFolder: "..",
-        tsConfigFile: "../tsconfig.json",
-        entryPoint: "../dist/index.d.ts",
-        out: "api-xyz",
+        srcDir: 'src',
+        outDir: 'api-xyz',
       },
     ],
   ],

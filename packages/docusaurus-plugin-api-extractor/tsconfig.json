@@ -5,7 +5,7 @@
     "target": "es2019",
     "types": ["node", "jest"],
     "baseUrl": ".",
-    "outDir": "./lib",
+    "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,

@@ -15,12 +15,10 @@ module.exports = {
   plugins: [
     [
       // eslint-disable-next-line node/no-unpublished-require
-      require.resolve('../docusaurus-plugin-api-extractor'),
+      'docusaurus-plugin-api-extractor',
       {
-        projectFolder: path.resolve(__dirname, '..', 'example-project'),
-        tsConfigFile: '../example-project/tsconfig.json',
-        entryPoint: '../example-project/lib/index.d.ts',
-        out: 'example-api',
+        srcDir: 'src',
+        outDir: 'example-api',
       },
     ],
   ],

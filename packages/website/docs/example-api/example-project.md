@@ -10,3 +10,9 @@
 |  --- | --- |
 |  [sum(a, b)](./example-project.sum.md) | Sum two numbers |
 
+## Variables
+
+|  Variable | Description |
+|  --- | --- |
+|  [bar](./example-project.bar.md) |  |
+

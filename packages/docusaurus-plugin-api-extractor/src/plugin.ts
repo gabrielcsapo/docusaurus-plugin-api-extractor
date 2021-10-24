@@ -1,48 +1,37 @@
 import path from 'path';
-import fs from 'fs-extra';
-import child_process from 'child_process';
+import fs, { mkdirpSync } from 'fs-extra';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import util from 'util';
-import deepmerge from 'deepmerge';
+import { promisify } from 'util';
+import { exec as _exec } from 'child_process';
+import { sync as resolveBin } from 'resolve-bin';
 
-const exec = util.promisify(child_process.exec);
+import { generateDocs, CategoryMetadatasFile } from './generate-docs';
 
-import {
-  Extractor,
-  ExtractorConfig,
-  ExtractorResult,
-  IConfigFile,
-} from '@microsoft/api-extractor';
+const exec = promisify(_exec);
 
-// TODO: we should use the right type for this, copied from https://github.com/facebook/docusaurus/blob/8d92e9bcf5cf533719b07b17db73facea788fac1/packages/docusaurus-plugin-content-docs/src/sidebars/generator.ts#L30
-type CategoryMetadatasFile = {
-  label?: string;
-  position?: number;
-  collapsed?: boolean;
-  collapsible?: boolean;
-  className?: string;
-};
+export interface UserSuppliedOptions {
+  outDir: string;
+  srcDir: string;
+  verbose?: boolean;
+  force?: boolean;
+}
 
 /**
  * @public
  */
-export interface PluginOptions {
+export interface PluginOptions extends UserSuppliedOptions {
   id: string;
   docsRoot: string;
-  out: string;
-  entryPoint?: string;
-  tsConfigFile?: string;
-  projectFolder?: string;
   sidebarConfig: CategoryMetadatasFile;
 }
 
 /**
  * @public
  */
-export const DEFAULT_PLUGIN_OPTIONS: PluginOptions = {
+export const DEFAULT_PLUGIN_OPTIONS: Partial<PluginOptions> = {
   id: 'default',
   docsRoot: 'docs',
-  out: 'api',
+  outDir: 'api',
   sidebarConfig: {
     label: 'API',
   },
@@ -53,9 +42,7 @@ export const DEFAULT_PLUGIN_OPTIONS: PluginOptions = {
  * @param opts - options passed in via docusaurus.config.js
  * @returns - all options with default values if they are not defined
  */
-export const getPluginOptions = (
-  opts: Partial<PluginOptions>
-): PluginOptions => {
+export const getPluginOptions = (opts: PluginOptions): PluginOptions => {
   const options = {
     ...DEFAULT_PLUGIN_OPTIONS,
     ...opts,
@@ -64,199 +51,89 @@ export const getPluginOptions = (
 };
 
 /**
- * Builds API documentation for a given directory.
- * @internal
- * @param projectFolder - path to the main folder
- * @param tsConfigFile - path to the tsconfig.json file
- * @param entryPoint - string path to the directory to run api-extractor on
- * @param out - output directory of built API documentation
- */
-async function buildDocs(
-  projectFolder: string,
-  tsConfigFile: string,
-  entryPoint: string,
-  sidebarConfig: CategoryMetadatasFile,
-  out: string
-) {
-  fs.ensureDirSync(out);
-
-  const configObject = createExtractorConfig(
-    entryPoint,
-    projectFolder,
-    tsConfigFile
-  );
-
-  const extractorConfig = ExtractorConfig.prepare({
-    packageJsonFullPath: path.resolve(projectFolder, 'package.json'),
-    configObjectFullPath: undefined,
-    configObject,
-  });
-
-  // Invoke API Extractor
-  const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
-    // Equivalent to the "--local" command-line parameter
-    localBuild: true,
-
-    // Equivalent to the "--verbose" command-line parameter
-    showVerboseMessages: true,
-  });
-
-  if (extractorResult.succeeded) {
-    console.log(`API Extractor completed successfully`);
-
-    const { stdout, stderr } = await exec(
-      `${require.resolve(
-        '@microsoft/api-documenter/bin/api-documenter'
-      )} generate -i ${path.resolve(projectFolder, 'temp')} -o ${path.resolve(
-        projectFolder,
-        'temp',
-        'built'
-      )}`,
-      {
-        cwd: __dirname,
-      }
-    );
-
-    console.log(`${stdout}`);
-    console.error(`${stderr}`);
-
-    fs.writeFileSync(
-      path.resolve(process.cwd(), out, '_category_.json'),
-      JSON.stringify(sidebarConfig, null, 4)
-    );
-
-    fs.copySync(
-      path.resolve(projectFolder, 'temp', 'built'),
-      path.resolve(process.cwd(), out)
-    );
-
-    fs.removeSync(path.resolve(projectFolder, 'temp'));
-  } else {
-    console.log(
-      `API Extractor completed with ${extractorResult.errorCount} errors` +
-        ` and ${extractorResult.warningCount} warnings`
-    );
-  }
-}
-
-function createExtractorConfig(
-  entryPoint: string,
-  projectFolder: string,
-  tsConfigFile: string
-): IConfigFile {
-  const apiExtractorJsonPath = path.join(projectFolder, 'api-extractor.json');
-  const hasApiExtractorJson = fs.existsSync(apiExtractorJsonPath);
-
-  const defaults: IConfigFile = {
-    mainEntryPointFilePath: path.resolve(process.cwd(), entryPoint),
-    projectFolder,
-    compiler: {
-      tsconfigFilePath: path.resolve(process.cwd(), tsConfigFile),
-      skipLibCheck: false,
-    },
-    bundledPackages: [],
-    apiReport: {
-      enabled: true,
-      reportFileName: '<unscopedPackageName>.api.md',
-      reportFolder: '<projectFolder>/temp/',
-      reportTempFolder: '<projectFolder>/temp/',
-    },
-    docModel: {
-      enabled: true,
-      apiJsonFilePath: '<projectFolder>/temp/<unscopedPackageName>.api.json',
-    },
-    dtsRollup: {
-      enabled: true,
-      untrimmedFilePath: '<projectFolder>/dist/<unscopedPackageName>.d.ts',
-      betaTrimmedFilePath: '',
-      publicTrimmedFilePath: '',
-      omitTrimmingComments: false,
-    },
-    tsdocMetadata: {
-      enabled: true,
-      tsdocMetadataFilePath: '<lookup>',
-    },
-    testMode: false,
-  };
-
-  if (hasApiExtractorJson) {
-    const apiExtractorJson: IConfigFile = JSON.parse(
-      fs.readFileSync(apiExtractorJsonPath, 'utf-8')
-    );
-
-    return deepmerge(defaults, apiExtractorJson);
-  }
-
-  return defaults;
-}
-
-/**
  * Docusaurus plugin entrypoint
  * @public
  * @param context - global site context defined by docusaurus.
  * @param opts - options defined in docusaurus.config.js plugins array.
  * @returns
  */
-export default async function pluginDocusaurus(
+export default function pluginDocusaurus(
   context: LoadContext,
-  opts: Partial<PluginOptions>
-): Promise<Plugin> {
+  opts: PluginOptions
+): Plugin {
   const { siteDir } = context;
-  const options = getPluginOptions(opts);
-  const outputDir = path.resolve(siteDir, options.docsRoot, options.out);
+  const config = getPluginOptions(opts);
+  const outputDir = path.resolve(siteDir, config.docsRoot, config.outDir);
 
-  if (!options?.entryPoint) {
-    throw new Error('entryPoints were not provided in configuration');
-  }
-
-  if (!options?.tsConfigFile) {
-    throw new Error('tsConfigFile were not provided in configuration');
-  }
-
-  if (!options?.projectFolder) {
-    throw new Error('projectFolder were not provided in configuration');
-  }
+  const projectFolder = path.resolve(
+    process.env.DOCUSAURUS_PLUGIN_API_EXTRACTOR_PROJECT_FOLDER_OVERRIDE ||
+      process.cwd()
+  );
 
   if (!fs.existsSync(outputDir)) {
-    await buildDocs(
-      options.projectFolder,
-      options.tsConfigFile,
-      path.resolve(process.cwd(), options.entryPoint),
-      options.sidebarConfig,
-      outputDir
-    );
+    mkdirpSync(outputDir);
   }
 
   return {
     name: 'docusaurus-plugin-api-extractor',
-    extendCli(cli: any) {
+    extendCli(cli) {
       cli
-        .command('api-extractor:build')
-        .description('Build docs')
+        .command('api-extractor:init')
+        .description('Initializes api-extractor for the project')
         .action(async () => {
-          fs.removeSync(outputDir);
-          fs.ensureDirSync(outputDir);
-
-          if (!options?.entryPoint) {
-            throw new Error('entryPoints were not provided in configuration');
-          }
-
-          if (!options?.tsConfigFile) {
-            throw new Error('tsConfigFile were not provided in configuration');
-          }
-
-          if (!options?.projectFolder) {
-            throw new Error('projectFolder were not provided in configuration');
-          }
-
-          await buildDocs(
-            options.projectFolder,
-            options.tsConfigFile,
-            path.resolve(process.cwd(), options.entryPoint),
-            options.sidebarConfig,
-            outputDir
-          );
+          const binScript = resolveBin('@microsoft/api-extractor');
+          await exec(`${binScript} init`);
         });
+
+      cli
+        .command('api-extractor:run')
+        .description('Generate API documentation')
+        .option(
+          '-s, --srcDir <path>',
+          'Path to the sources files',
+          config.srcDir || 'src'
+        )
+        .option(
+          '-o, --outDir <name>',
+          'Name of the directory that will be placed in the documentation root',
+          config.outDir || 'api'
+        )
+        .option(
+          '--force',
+          'Skips caching and forces the docs to be rebuilt',
+          false
+        )
+        .option('--verbose', 'Enable verbose logging', false)
+        .action(
+          async (
+            options: PluginOptions & { verbose: boolean; force: boolean }
+          ) => {
+            await generateDocs(
+              projectFolder,
+              options.srcDir,
+              outputDir,
+              config.sidebarConfig,
+              options.verbose,
+              options.force
+            );
+          }
+        );
     },
   };
+}
+
+export function validateOptions({
+  options,
+}: {
+  options: Partial<UserSuppliedOptions>;
+}): UserSuppliedOptions {
+  if (!options?.outDir) {
+    throw new Error('outDir was not provided in configuration');
+  }
+
+  if (!options?.srcDir) {
+    throw new Error('srcDir was not provided in configuration');
+  }
+
+  return options as UserSuppliedOptions;
 }

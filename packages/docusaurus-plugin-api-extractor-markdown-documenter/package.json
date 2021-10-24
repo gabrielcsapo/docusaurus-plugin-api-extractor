@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "API Documenter plugin used with the docusaurus-plugin-api-extractor",
   "private": false,
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
   "license": "MIT",
   "scripts": {
