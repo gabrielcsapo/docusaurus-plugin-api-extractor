@@ -35,7 +35,8 @@ export async function generateDocs(
   outDir: string,
   sidebarConfig: CategoryMetadatasFile,
   verbose: boolean,
-  force: boolean
+  force: boolean,
+  local: boolean
 ): Promise<void> {
   ensureDirSync(outDir);
 
@@ -44,13 +45,13 @@ export async function generateDocs(
   );
 
   if (force) {
-    await generate(extractorConfig, outDir, sidebarConfig, verbose);
+    await generate(extractorConfig, outDir, sidebarConfig, verbose, local);
   } else {
     await cached(
       join(extractorConfig.projectFolder, srcDir),
       outDir,
       async () => {
-        await generate(extractorConfig, outDir, sidebarConfig, verbose);
+        await generate(extractorConfig, outDir, sidebarConfig, verbose, local);
       }
     );
   }
@@ -60,18 +61,16 @@ async function generate(
   extractorConfig: ExtractorConfig,
   outDir: string,
   sidebarConfig: CategoryMetadatasFile,
-  verbose: boolean
+  verbose: boolean,
+  local: boolean
 ) {
-  console.log(
-    join(extractorConfig.projectFolder, 'node_modules', 'typescript')
-  );
   const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
     typescriptCompilerFolder: join(
       extractorConfig.projectFolder,
       'node_modules',
       'typescript'
     ),
-    localBuild: true,
+    localBuild: local,
     showVerboseMessages: verbose,
   });
 

@@ -49,7 +49,7 @@ module.exports = {
 
 ## Options
 
-At a minimum the `srcDir`, `outDir`, `verbose` and `force` options will need to be set.
+At a minimum the `srcDir`, `outDir`, `local`, `verbose`, `local` and `force` options will need to be set.
 
 ### Plugin options
 
@@ -59,6 +59,7 @@ Options specific to the plugin should also be declared in the same object.
 interface PluginOptions {
   srcDir: string; // Path to the sources files (default: "src")
   outDir: string; // Name of the directory that will be placed in the documentation root (default: "api")
+  local?: boolean; // Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine. (default: true)
   force?: boolean; // Skips caching and forces the docs to be rebuilt (default: false)
   verbose?: boolean; // Enable verbose logging (default: false)
 }

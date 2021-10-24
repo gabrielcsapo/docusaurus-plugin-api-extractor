@@ -14,6 +14,7 @@ export interface UserSuppliedOptions {
   srcDir: string;
   verbose?: boolean;
   force?: boolean;
+  locale?: boolean;
 }
 
 /**
@@ -70,13 +71,28 @@ export default function pluginDocusaurus(
       process.cwd()
   );
 
-  if (!fs.existsSync(outputDir)) {
-    mkdirpSync(outputDir);
-  }
+  const isProd = process.env.NODE_ENV === 'production';
 
   return {
     name: 'docusaurus-plugin-api-extractor',
+    async loadContent() {
+      if (isProd) {
+        mkdirpSync(outputDir);
+        await generateDocs(
+          projectFolder,
+          config.srcDir,
+          outputDir,
+          config.sidebarConfig,
+          false,
+          false,
+          false
+        );
+      }
+    },
     extendCli(cli) {
+      if (!fs.existsSync(outputDir)) {
+        mkdirpSync(outputDir);
+      }
       cli
         .command('api-extractor:init')
         .description('Initializes api-extractor for the project')
@@ -103,10 +119,19 @@ export default function pluginDocusaurus(
           'Skips caching and forces the docs to be rebuilt',
           false
         )
+        .option(
+          '--local',
+          `Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine.`,
+          true
+        )
         .option('--verbose', 'Enable verbose logging', false)
         .action(
           async (
-            options: PluginOptions & { verbose: boolean; force: boolean }
+            options: PluginOptions & {
+              verbose: boolean;
+              force: boolean;
+              local: boolean;
+            }
           ) => {
             await generateDocs(
               projectFolder,
@@ -114,7 +139,8 @@ export default function pluginDocusaurus(
               outputDir,
               config.sidebarConfig,
               options.verbose,
-              options.force
+              options.force,
+              options.local
             );
           }
         );
