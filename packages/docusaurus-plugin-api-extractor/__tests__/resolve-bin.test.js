@@ -1,9 +1,10 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 import { resolveBin } from '../dist/resolve-bin';
+import { join } from 'path';
 
 test('it resolves the bin path', async () => {
   await expect(resolveBin('typescript', 'tsc')).resolves.toBe(
-    `${process.cwd()}/node_modules/typescript/bin/tsc`
+    join(process.cwd(), 'node_modules', 'typescript', 'bin', 'tsc')
   );
 });
 
