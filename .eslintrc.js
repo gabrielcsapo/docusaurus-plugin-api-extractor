@@ -23,6 +23,12 @@ module.exports = {
       },
     },
     {
+      files: ['packages/**/*.test.js'],
+      env: {
+        jest: true,
+      },
+    },
+    {
       files: ['./packages/website/**/*.js'],
       rules: {
         '@typescript-eslint/no-var-requires': 0,
