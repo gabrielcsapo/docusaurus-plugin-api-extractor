@@ -2,7 +2,7 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 import { cached } from '../dist/diff';
 import fixturify from 'fixturify';
-import { existsSync, rmdirSync, statSync, writeFileSync } from 'fs';
+import { existsSync, rmSync, statSync, writeFileSync } from 'fs';
 
 const dir = {
   src: {
@@ -20,7 +20,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  rmdirSync('./fixtures', { recursive: true });
+  rmSync('./fixtures', { recursive: true });
 });
 
 test('idempotent update', async () => {
@@ -47,11 +47,16 @@ test('update', async () => {
     await expect(true).toBe(true);
   });
 
-  writeFileSync('./fixtures/src/f.ts', 'let f;');
-
   expect(existsSync('./fixtures/out/.api-extractor-meta')).toBe(true);
 
   const oldStats = statSync('./fixtures/out/.api-extractor-meta');
+
+  // sleep
+  await new Promise((resolve) => {
+    setTimeout(resolve, 200);
+  });
+
+  writeFileSync('./fixtures/src/f.ts', 'let f;');
 
   await cached('./fixtures/src', './fixtures/out', async () => {
     // should be called because we wrote into the src/ dir
