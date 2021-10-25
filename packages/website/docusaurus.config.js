@@ -1,6 +1,5 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-const path = require('path');
 
 module.exports = {
   title: 'My Site',
@@ -15,12 +14,10 @@ module.exports = {
   plugins: [
     [
       // eslint-disable-next-line node/no-unpublished-require
-      require.resolve('../docusaurus-plugin-api-extractor'),
+      'docusaurus-plugin-api-extractor',
       {
-        projectFolder: path.resolve(__dirname, '..', 'example-project'),
-        tsConfigFile: '../example-project/tsconfig.json',
-        entryPoint: '../example-project/lib/index.d.ts',
-        out: 'example-api',
+        srcDir: 'src',
+        outDir: 'example-api',
       },
     ],
   ],
@@ -58,8 +55,14 @@ module.exports = {
           type: 'doc',
           docId: 'intro',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Docs',
         },
+        // {
+        //   type: 'doc',
+        //   docId: 'example-project',
+        //   position: 'left',
+        //   label: 'API',
+        // },
         { to: '/blog', label: 'Blog', position: 'left' },
         {
           href: 'https://github.com/facebook/docusaurus',

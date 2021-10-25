@@ -1,5 +1,6 @@
 /**
  * Sum two numbers
+ * @public
  * @param a - a number to add
  * @param b - a number to add a to
  * @returns the sum of A plus B.
