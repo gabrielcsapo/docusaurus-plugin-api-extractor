@@ -60,6 +60,5 @@ test('update', async () => {
 
   expect(existsSync('./fixtures/out/.api-extractor-meta')).toBe(true);
   const newStats = statSync('./fixtures/out/.api-extractor-meta');
-
-  expect(newStats.mtime > oldStats.mtime).toBe(true);
+  expect(newStats.mtime.getTime() > oldStats.mtime.getTime()).toBe(true);
 });
