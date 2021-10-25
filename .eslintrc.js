@@ -13,6 +13,12 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
   overrides: [
     {
