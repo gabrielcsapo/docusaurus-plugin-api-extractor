@@ -13,6 +13,12 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
   overrides: [
     {
@@ -20,6 +26,12 @@ module.exports = {
       rules: {
         'node/no-unsupported-features/es-syntax': 'off',
         'node/no-missing-import': 'off',
+      },
+    },
+    {
+      files: ['packages/**/*.test.js'],
+      env: {
+        jest: true,
       },
     },
     {

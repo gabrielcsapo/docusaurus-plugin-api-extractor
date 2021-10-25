@@ -6,8 +6,8 @@
   "types": "dist/plugin.d.ts",
   "private": false,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cp -r src/api-documenter.json dist && tsc",
+    "test": "npm run build && jest",
+    "build": "tsc && cp -r src/api-documenter.json dist",
     "lint": "eslint src/**/*.ts"
   },
   "repository": {
@@ -40,7 +40,12 @@
     "walk-sync": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
     "@types/jest": "^27.0.1",
+    "babel-jest": "^27.3.1",
+    "fixturify": "^2.1.1",
+    "jest": "^27.3.1",
     "typescript": "^4.4.2"
   }
 }
