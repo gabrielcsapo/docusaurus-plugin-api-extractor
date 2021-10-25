@@ -1,6 +1,5 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-const path = require('path');
 
 module.exports = {
   title: 'My Site',
@@ -56,8 +55,14 @@ module.exports = {
           type: 'doc',
           docId: 'intro',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Docs',
         },
+        // {
+        //   type: 'doc',
+        //   docId: 'example-project',
+        //   position: 'left',
+        //   label: 'API',
+        // },
         { to: '/blog', label: 'Blog', position: 'left' },
         {
           href: 'https://github.com/facebook/docusaurus',

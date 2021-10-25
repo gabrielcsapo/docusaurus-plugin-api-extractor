@@ -15,4 +15,5 @@
 |  Variable | Description |
 |  --- | --- |
 |  [bar](./example-project.bar.md) |  |
+|  [foo](./example-project.foo.md) |  |
 

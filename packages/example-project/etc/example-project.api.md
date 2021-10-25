@@ -5,7 +5,10 @@
 ```ts
 
 // @public (undocumented)
-export const bar = "bar";
+export const bar = "bard";
+
+// @public (undocumented)
+export const foo = "fosso";
 
 // @public
 export function sum(a: number, b: number): number;

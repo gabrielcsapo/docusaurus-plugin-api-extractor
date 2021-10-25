@@ -3,6 +3,7 @@ import { join, resolve } from 'path';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import child_process from 'child_process';
 import { cached } from './diff';
+import { resolveBin } from './resolve-bin';
 
 const exec = util.promisify(child_process.exec);
 
@@ -10,6 +11,7 @@ import {
   Extractor,
   ExtractorConfig,
   ExtractorResult,
+  ExtractorLogLevel,
 } from '@microsoft/api-extractor';
 
 // TODO: we should use the right type for this, copied from https://github.com/facebook/docusaurus/blob/8d92e9bcf5cf533719b07b17db73facea788fac1/packages/docusaurus-plugin-content-docs/src/sidebars/generator.ts#L30
@@ -72,20 +74,33 @@ async function generate(
     ),
     localBuild: local,
     showVerboseMessages: verbose,
+    messageCallback(message) {
+      if (
+        message.logLevel === 'warning' &&
+        !local &&
+        message.text.includes(
+          'You have changed the public API signature for this project. Please copy the file'
+        )
+      ) {
+        message.logLevel = ExtractorLogLevel.Error;
+      }
+    },
   });
+
+  if (!local && extractorResult.apiReportChanged) {
+    return;
+  }
 
   if (extractorResult.succeeded) {
     try {
       await exec(
-        `${require.resolve(
-          '@microsoft/api-documenter/bin/api-documenter'
-        )} generate -i ${resolve(
+        `${await resolveBin(
+          '@microsoft/api-documenter',
+          'api-documenter'
+        )} markdown -i ${resolve(
           extractorConfig.projectFolder,
           'temp'
-        )} -o ${outDir}`,
-        {
-          cwd: __dirname,
-        }
+        )} -o ${outDir}`
       );
 
       writeFileSync(

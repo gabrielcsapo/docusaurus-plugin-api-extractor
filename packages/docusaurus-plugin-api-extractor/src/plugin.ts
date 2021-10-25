@@ -3,7 +3,7 @@ import fs, { mkdirpSync } from 'fs-extra';
 import type { LoadContext, Plugin } from '@docusaurus/types';
 import { promisify } from 'util';
 import { exec as _exec } from 'child_process';
-import { sync as resolveBin } from 'resolve-bin';
+import { resolveBin } from './resolve-bin';
 
 import { generateDocs, CategoryMetadatasFile } from './generate-docs';
 
@@ -97,7 +97,10 @@ export default function pluginDocusaurus(
         .command('api-extractor:init')
         .description('Initializes api-extractor for the project')
         .action(async () => {
-          const binScript = resolveBin('@microsoft/api-extractor');
+          const binScript = await resolveBin(
+            '@microsoft/api-extractor',
+            'api-extractor'
+          );
           await exec(`${binScript} init`);
         });
 
@@ -120,7 +123,7 @@ export default function pluginDocusaurus(
           false
         )
         .option(
-          '--local',
+          '--no-local',
           `Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine.`,
           true
         )

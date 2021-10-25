@@ -3,4 +3,9 @@ export * from './sum';
 /**
  * @public
  */
-export const bar = 'bar';
+export const bar = 'bard';
+
+/**
+ * @public
+ */
+export const foo = 'fosso';

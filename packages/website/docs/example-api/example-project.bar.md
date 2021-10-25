@@ -8,5 +8,5 @@
 <b>Signature:</b>
 
 ```typescript
-bar = "bar"
+bar = "bard"
 ```
