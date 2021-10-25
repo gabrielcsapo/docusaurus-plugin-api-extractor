@@ -7,7 +7,7 @@
   "private": false,
   "scripts": {
     "test": "npm run build && jest",
-    "build": "cp -r src/api-documenter.json dist && tsc",
+    "build": "tsc && cp -r src/api-documenter.json dist",
     "lint": "eslint src/**/*.ts"
   },
   "repository": {
