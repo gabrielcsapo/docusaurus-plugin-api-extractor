@@ -30,7 +30,7 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - name: install dependencies
-      run: npx lerna bootstrap --no-ci
+      run: npm i && npx lerna bootstrap --no-ci
     - name: lint
       run: npm run lint
       env:
