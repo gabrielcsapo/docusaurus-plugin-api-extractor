@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "npm run build"
+    "postinstall": "npm run build"
   },
   "devDependencies": {
     "typescript": "^4.4.2"
