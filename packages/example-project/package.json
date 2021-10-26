@@ -2,7 +2,8 @@
   "name": "example-project",
   "version": "0.0.1",
   "description": "Example project to test docusaurus-plugin-api-extractor",
-  "main": "dist/plugin.js",
+  "main": "dist/index.js",
+  "types": "dist/example-project.d.ts",
   "private": true,
   "scripts": {
     "build": "tsc",

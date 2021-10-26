@@ -57,12 +57,12 @@ module.exports = {
           position: 'left',
           label: 'Docs',
         },
-        // {
-        //   type: 'doc',
-        //   docId: 'example-project',
-        //   position: 'left',
-        //   label: 'API',
-        // },
+        {
+          type: 'doc',
+          docId: 'example-api/example-project',
+          position: 'left',
+          label: 'API',
+        },
         { to: '/blog', label: 'Blog', position: 'left' },
         {
           href: 'https://github.com/facebook/docusaurus',
