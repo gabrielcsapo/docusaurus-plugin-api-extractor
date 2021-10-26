@@ -4,6 +4,9 @@ import { ensureDirSync, writeFileSync } from 'fs-extra';
 import child_process from 'child_process';
 import { cached } from './diff';
 import { resolveBin } from './resolve-bin';
+import debugMessage from 'debug';
+
+const debug = debugMessage('docusaurus-api-extractor:generate');
 
 const exec = util.promisify(child_process.exec);
 
@@ -46,6 +49,7 @@ export async function generateDocs(
     join(projectFolder, 'api-extractor.json')
   );
 
+  debug('projectFolder: %s', extractorConfig.packageFolder);
   if (force) {
     await generate(extractorConfig, outDir, sidebarConfig, verbose, local);
   } else {
@@ -76,11 +80,12 @@ async function generate(
     showVerboseMessages: verbose,
     messageCallback(message) {
       if (
-        message.logLevel === 'warning' &&
-        !local &&
-        message.text.includes(
-          'You have changed the public API signature for this project. Please copy the file'
-        )
+        (message.logLevel === 'warning' &&
+          !local &&
+          message.text.includes(
+            'You have changed the public API signature for this project. Please copy the file'
+          )) ||
+        message.text.includes('The API report file is missing.')
       ) {
         message.logLevel = ExtractorLogLevel.Error;
       }
@@ -93,15 +98,19 @@ async function generate(
 
   if (extractorResult.succeeded) {
     try {
-      await exec(
-        `${await resolveBin(
-          '@microsoft/api-documenter',
-          'api-documenter'
-        )} markdown -i ${resolve(
-          extractorConfig.projectFolder,
-          'temp'
-        )} -o ${outDir}`
-      );
+      const cmd = `${await resolveBin(
+        '@microsoft/api-documenter',
+        'api-documenter'
+      )} generate -i ${resolve(
+        extractorConfig.projectFolder,
+        'temp'
+      )} -o ${outDir}`;
+
+      debug('documeter cmd: %s', cmd);
+
+      await exec(cmd, {
+        cwd: __dirname,
+      });
 
       writeFileSync(
         join(outDir, '_category_.json'),
