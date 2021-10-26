@@ -53,6 +53,15 @@ jobs:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
       - name: install dependencies
         run: npm i && npx lerna bootstrap --no-ci
+      - name: build
+        run: |
+          cd packages/docusaurus-plugin-api-extractor
+          npm run build
+          cd ../docusaurus-plugin-api-extractor-markdown-documenter
+          npm run build
+          cd ../external-project
+          npm run build
+          cd ../../
       - name: test
         run: npm test
       - name: Release to GitHub Pages
