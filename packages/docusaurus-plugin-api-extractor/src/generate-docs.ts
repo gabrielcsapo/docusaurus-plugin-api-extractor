@@ -39,9 +39,9 @@ export async function generateDocs(
   srcDir: string,
   outDir: string,
   sidebarConfig: CategoryMetadatasFile,
-  verbose: boolean,
-  force: boolean,
-  local: boolean
+  verbose = false,
+  force = false,
+  local = false
 ): Promise<void> {
   ensureDirSync(outDir);
 

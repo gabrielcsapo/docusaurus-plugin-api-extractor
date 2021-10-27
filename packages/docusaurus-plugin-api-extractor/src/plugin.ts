@@ -83,9 +83,9 @@ export default function pluginDocusaurus(
           config.srcDir,
           outputDir,
           config.sidebarConfig,
-          false,
-          false,
-          false
+          config.verbose,
+          config.force,
+          config.locale
         );
       }
     },
