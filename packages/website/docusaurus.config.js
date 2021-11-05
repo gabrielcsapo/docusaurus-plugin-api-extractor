@@ -11,16 +11,7 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'gabrielcsapo',
   projectName: 'docusaurus-plugin-api-extractor',
-  plugins: [
-    [
-      // eslint-disable-next-line node/no-unpublished-require
-      'docusaurus-plugin-api-extractor',
-      {
-        srcDir: 'src',
-        outDir: 'example-api',
-      },
-    ],
-  ],
+  plugins: ['docusaurus-plugin-api-extractor'],
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -59,7 +50,7 @@ module.exports = {
         },
         {
           type: 'doc',
-          docId: 'example-api/example-project',
+          docId: 'example-api/index',
           position: 'left',
           label: 'API',
         },

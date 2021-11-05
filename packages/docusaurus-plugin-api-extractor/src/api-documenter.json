@@ -3,7 +3,9 @@
   "plugins": [
     {
       "packageName": "docusaurus-plugin-api-extractor-markdown-documenter",
-      "enabledFeatureNames": ["docusaurus-plugin-api-extractor-markdown-documenter"]
+      "enabledFeatureNames": [
+        "docusaurus-plugin-api-extractor-markdown-documenter"
+      ]
     }
   ]
 }

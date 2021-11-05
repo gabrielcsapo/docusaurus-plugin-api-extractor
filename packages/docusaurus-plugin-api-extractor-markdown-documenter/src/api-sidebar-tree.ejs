@@ -1,0 +1,18 @@
+<% if (isSideBarItem(sideBarItems)) {%>
+  <%_ sideBarItems.forEach((item) => { _%>
+    {
+      type: '<%-item.type%>',
+      label: '<%=item.label%>',
+      <%_ if (item.id) {_%>id: `${dir}/<%=item.id%>`,<%_}_%>
+      <% if(item.type === 'category') {%>collapsed: <%-item.collapsed%>,<%}%>
+      <% if(item.type === 'category') {%>items: [<%- tree({
+          sideBarItems: item.items,
+          tree: tree,
+          isSideBarItem: isSideBarItem
+        }) %>],
+      <%}%>
+    },
+  <%_ }); _%>
+<% } else { %>
+  <% sideBarItems.forEach(item => {%> '<$= item %>',<% }) %>
+<%}%>

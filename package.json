@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "test": "cd packages/docusaurus-plugin-api-extractor && npm test && cd ../../ && cd packages/example-project && npm run build",
+    "test": "cd packages/docusaurus-plugin-api-extractor && npm test && cd ../../ && cd packages/example-project && npm run build && cd ../docusaurus-plugin-api-extractor-markdown-documenter && npm run build && npm run test",
     "lint": "eslint packages/docusaurus-plugin-api-extractor/src/*.ts"
   },
   "devDependencies": {

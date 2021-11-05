@@ -58,41 +58,15 @@ export const getPluginOptions = (opts: PluginOptions): PluginOptions => {
  * @param opts - options defined in docusaurus.config.js plugins array.
  * @returns
  */
-export default function pluginDocusaurus(
-  context: LoadContext,
-  opts: PluginOptions
-): Plugin {
-  const { siteDir } = context;
-  const config = getPluginOptions(opts);
-  const outputDir = path.resolve(siteDir, config.docsRoot, config.outDir);
-
+export default function pluginDocusaurus(context: LoadContext): Plugin {
   const projectFolder = path.resolve(
     process.env.DOCUSAURUS_PLUGIN_API_EXTRACTOR_PROJECT_FOLDER_OVERRIDE ||
       process.cwd()
   );
 
-  const isProd = process.env.NODE_ENV === 'production';
-
   return {
     name: 'docusaurus-plugin-api-extractor',
-    async loadContent() {
-      if (isProd) {
-        mkdirpSync(outputDir);
-        await generateDocs(
-          projectFolder,
-          config.srcDir,
-          outputDir,
-          config.sidebarConfig,
-          config.verbose,
-          config.force,
-          config.locale
-        );
-      }
-    },
     extendCli(cli) {
-      if (!fs.existsSync(outputDir)) {
-        mkdirpSync(outputDir);
-      }
       cli
         .command('api-extractor:init')
         .description('Initializes api-extractor for the project')
@@ -107,15 +81,11 @@ export default function pluginDocusaurus(
       cli
         .command('api-extractor:run')
         .description('Generate API documentation')
-        .option(
-          '-s, --srcDir <path>',
-          'Path to the sources files',
-          config.srcDir || 'src'
-        )
+        .option('-s, --srcDir <path>', 'Path to the sources files', 'src')
         .option(
           '-o, --outDir <name>',
           'Name of the directory that will be placed in the documentation root',
-          config.outDir || 'api'
+          'api'
         )
         .option(
           '--force',
@@ -136,6 +106,17 @@ export default function pluginDocusaurus(
               local: boolean;
             }
           ) => {
+            const { siteDir } = context;
+            const config = getPluginOptions(options);
+            const outputDir = path.resolve(
+              siteDir,
+              config.docsRoot,
+              config.outDir
+            );
+
+            if (!fs.existsSync(outputDir)) {
+              mkdirpSync(outputDir);
+            }
             await generateDocs(
               projectFolder,
               options.srcDir,
@@ -149,20 +130,4 @@ export default function pluginDocusaurus(
         );
     },
   };
-}
-
-export function validateOptions({
-  options,
-}: {
-  options: Partial<UserSuppliedOptions>;
-}): UserSuppliedOptions {
-  if (!options?.outDir) {
-    throw new Error('outDir was not provided in configuration');
-  }
-
-  if (!options?.srcDir) {
-    throw new Error('srcDir was not provided in configuration');
-  }
-
-  return options as UserSuppliedOptions;
 }

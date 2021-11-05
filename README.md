@@ -16,7 +16,9 @@ npm install docusaurus-plugin-api-extractor --save-dev
 
 > "declarationMap": true - This enables generation of .d.ts.map files that allow API Extractor errors to be reported using line numbers from your original source files; without this, the error locations will instead refer to the generated .d.ts files.
 
-This plugin works as a plugin that can be configured in `docusaurus.config.js` and as an extension the docusaurus CLI to setup a new project with api-extractor and enable dry runs.
+This plugin extends Docusaurus' command line by adding the following commands.
+
+### api-extractor:init
 
 ```
 docusaurus api-extractor:init
@@ -24,59 +26,37 @@ docusaurus api-extractor:init
 
 Use this command when setting up API Extractor for a new project. It writes an api-extractor.json config file template with code comments that describe all the settings. The file will be written in the current directory.
 
+#### CLI Options
+
+```
+-h, --help  display help for command
+```
+
+### api-extractor:run
+
 ```
 docusaurus api-extractor:run
 ```
 
-Invokes API Extractor and API documenter on a project
+This runs api-extractor and api-documenter to produce Docusaurus formatted Markdown files and a `api-sidebar.js` file which can be used within your `sidebar.js` file. Please see the example website for more details.
 
-### Config
+Due to how Docusaurus plugins currently work, this command should always be ran before `docusaurus watch` or `docusaurus build`.
 
-Add the plugin to `docusaurus.config.js` and specify the required options (see [options](#options)).
+#### CLI Options
 
-```js
-module.exports = {
-  plugins: [
-    [
-      'docusaurus-plugin-api-extractor',
-      {
-        // Plugin options
-      },
-    ],
-  ],
-};
 ```
-
-## Options
-
-At a minimum the `srcDir`, `outDir`, `local`, `verbose`, `local` and `force` options will need to be set.
-
-### Plugin options
-
-Options specific to the plugin should also be declared in the same object.
-
-```ts
-interface PluginOptions {
-  srcDir: string; // Path to the sources files (default: "src")
-  outDir: string; // Name of the directory that will be placed in the documentation root (default: "api")
-  local?: boolean; // Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine. (default: true)
-  force?: boolean; // Skips caching and forces the docs to be rebuilt (default: false)
-  verbose?: boolean; // Enable verbose logging (default: false)
-}
+-s, --srcDir <path>  Path to the sources files (default: "src")
+-o, --outDir <name>  Name of the directory that will be placed in the documentation root (default: "api")
+--force              Skips caching and forces the docs to be rebuilt (default: false)
+--no-local           Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine.
+--verbose            Enable verbose logging (default: false)
+-h, --help           display help for command
 ```
 
 ### An example configuration
 
 ```js
 module.exports = {
-  plugins: [
-    [
-      'docusaurus-plugin-api-extractor',
-      {
-        srcDir: 'src',
-        outDir: 'api-xyz',
-      },
-    ],
-  ],
+  plugins: ['docusaurus-plugin-api-extractor'],
 };
 ```
