@@ -63,4 +63,5 @@ jobs:
           git config --global user.email "gabecsapo@gmail.com"
           git config --global user.name "Gabriel J. Csapo"
           cd packages/website
+          npm run api-extractor
           npm run deploy

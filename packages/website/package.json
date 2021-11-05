@@ -5,6 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
+    "api-extractor": "DOCUSAURUS_PLUGIN_API_EXTRACTOR_PROJECT_FOLDER_OVERRIDE=../example-project docusaurus api-extractor:run -s ./src -o example-api",
     "build": "DOCUSAURUS_PLUGIN_API_EXTRACTOR_PROJECT_FOLDER_OVERRIDE=../example-project docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "DOCUSAURUS_PLUGIN_API_EXTRACTOR_PROJECT_FOLDER_OVERRIDE=../example-project docusaurus deploy",

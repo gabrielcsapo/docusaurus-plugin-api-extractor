@@ -9,11 +9,25 @@ title: example-project package
 
 ## example-project package
 
+## Classes
+
+|  Class | Description |
+|  --- | --- |
+|  [Bizz](./example-project.bizz.md) |  |
+|  [Box](./example-project.box.md) | Boxes an unknown value and unwraps it |
+
 ## Functions
 
 |  Function | Description |
 |  --- | --- |
 |  [sum(a, b)](./example-project.sum.md) | Sum two numbers |
+
+## Interfaces
+
+|  Interface | Description |
+|  --- | --- |
+|  [Animal](./example-project.animal.md) | An interface to define an animal |
+|  [AnimalOptions](./example-project.animaloptions.md) | Constructor options for [Animal](./example-project.animal.md) |
 
 ## Variables
 

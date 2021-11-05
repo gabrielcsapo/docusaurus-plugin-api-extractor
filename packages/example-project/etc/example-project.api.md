@@ -4,8 +4,35 @@
 
 ```ts
 
+// @public
+export interface Animal {
+    // (undocumented)
+    speak(): string;
+}
+
+// @public
+export interface AnimalOptions {
+    // (undocumented)
+    name: string;
+}
+
 // @public (undocumented)
 export const bar = "bard";
+
+// @public (undocumented)
+export class Bizz {
+    constructor(bar?: string);
+    // (undocumented)
+    bar: string;
+    // (undocumented)
+    foo(): number;
+}
+
+// @public
+export class Box<T> {
+    constructor(boxee: T);
+    unwrap(): T;
+}
 
 // @public (undocumented)
 export const foo = "fosso";
