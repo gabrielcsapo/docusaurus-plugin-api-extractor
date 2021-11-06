@@ -48,7 +48,7 @@ Due to how Docusaurus plugins currently work, this command should always be ran 
 -s, --srcDir <path>  Path to the sources files (default: "src")
 -o, --outDir <name>  Name of the directory that will be placed in the documentation root (default: "api")
 --force              Skips caching and forces the docs to be rebuilt (default: false)
---no-local           Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine.
+--local              Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine.
 --verbose            Enable verbose logging (default: false)
 -h, --help           display help for command
 ```
