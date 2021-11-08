@@ -95,7 +95,7 @@ export default function pluginDocusaurus(context: LoadContext): Plugin {
         .option(
           '--local',
           `Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine.`,
-          false
+          true
         )
         .option('--verbose', 'Enable verbose logging', false)
         .action(

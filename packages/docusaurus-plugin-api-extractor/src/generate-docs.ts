@@ -53,13 +53,9 @@ export async function generateDocs(
   if (force) {
     await generate(extractorConfig, outDir, sidebarConfig, verbose, local);
   } else {
-    await cached(
-      join(extractorConfig.projectFolder, srcDir),
-      outDir,
-      async () => {
-        await generate(extractorConfig, outDir, sidebarConfig, verbose, local);
-      }
-    );
+    await cached(extractorConfig, srcDir, outDir, async () => {
+      await generate(extractorConfig, outDir, sidebarConfig, verbose, local);
+    });
   }
 }
 

@@ -1,6 +1,7 @@
+import { ExtractorConfig } from '@microsoft/api-extractor';
 import { existsSync, readFileSync, writeFileSync } from 'fs-extra';
 import FSTree, { Patch } from 'fs-tree-diff';
-import { join } from 'path';
+import { dirname, join } from 'path';
 import walkSync, { Entry } from 'walk-sync';
 
 function inflateEntries(schema: CompactedEntries): Entry[] {
@@ -34,15 +35,35 @@ function inflateEntries(schema: CompactedEntries): Entry[] {
 type Executor = () => Promise<void>;
 
 export async function cached(
-  entry: string,
+  extractorConfig: ExtractorConfig,
+  srcDir: string,
   outDir: string,
   executor: Executor
 ): Promise<void> {
   const metaPath = join(outDir, '.api-extractor-meta');
-
+  const entry = join(extractorConfig.projectFolder, srcDir);
   const newEntries = walkSync.entries(entry, {
     globs: ['**/**/*.ts'],
   });
+
+  if (extractorConfig.apiReportEnabled) {
+    const apiReportEntry = walkSync.entries(
+      dirname(extractorConfig.apiJsonFilePath),
+      {
+        globs: ['*.md'],
+      }
+    );
+
+    newEntries.push(...apiReportEntry);
+    newEntries.sort((a, b) => {
+      if (a.relativePath === b.relativePath) {
+        return 0;
+      } else if (a.relativePath < b.relativePath) {
+        return -1;
+      }
+      return 1;
+    });
+  }
 
   const newTree = FSTree.fromEntries(newEntries);
   const hasMeta = existsSync(metaPath);
