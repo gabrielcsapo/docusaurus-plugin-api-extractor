@@ -10,8 +10,9 @@
   "scripts": {
     "test": "jest",
     "build": "tsc && cp ./src/*.ejs ./dist",
-    "postinstall": "npm run build"
+    "prepublish": "npm run build"
   },
+  "files": ["dist"],
   "dependencies": {
     "@microsoft/api-documenter": "^7.13.63",
     "@types/debug": "^4.1.7",
