@@ -12,10 +12,19 @@ const dir = {
       'd.ts': 'let d',
     },
   },
+  temp: {
+    'some-api.md': '',
+  },
   out: {},
 };
 
+let extractorConfig;
 beforeEach(() => {
+  extractorConfig = {
+    projectFolder: './fixtures',
+    apiReportEnabled: true,
+    apiJsonFilePath: './fixtures/temp/some-api.md',
+  };
   fixturify.writeSync('fixtures', dir);
 });
 
@@ -26,13 +35,13 @@ afterEach(() => {
 test('idempotent update', async () => {
   expect.assertions(3);
 
-  await cached('./fixtures/src', './fixtures/out', async () => {
+  await cached(extractorConfig, 'src', './fixtures/out', async () => {
     await expect(true).toBe(true);
   });
 
   expect(existsSync('./fixtures/out/.api-extractor-meta')).toBe(true);
 
-  await cached('./fixtures/src', './fixtures/out', async () => {
+  await cached(extractorConfig, 'src', './fixtures/out', async () => {
     // should never happen
     await expect(true).toBe(false);
   });
@@ -43,7 +52,7 @@ test('idempotent update', async () => {
 test('update', async () => {
   expect.assertions(5);
 
-  await cached('./fixtures/src', './fixtures/out', async () => {
+  await cached(extractorConfig, 'src', './fixtures/out', async () => {
     await expect(true).toBe(true);
   });
 
@@ -58,8 +67,36 @@ test('update', async () => {
 
   writeFileSync('./fixtures/src/f.ts', 'let f;');
 
-  await cached('./fixtures/src', './fixtures/out', async () => {
+  await cached(extractorConfig, 'src', './fixtures/out', async () => {
     // should be called because we wrote into the src/ dir
+    await expect(true).toBe(true);
+  });
+
+  expect(existsSync('./fixtures/out/.api-extractor-meta')).toBe(true);
+  const newStats = statSync('./fixtures/out/.api-extractor-meta');
+  expect(newStats.mtime.getTime() > oldStats.mtime.getTime()).toBe(true);
+});
+
+test('updating the api md file busts the cache', async () => {
+  expect.assertions(5);
+
+  await cached(extractorConfig, 'src', './fixtures/out', async () => {
+    await expect(true).toBe(true);
+  });
+
+  expect(existsSync('./fixtures/out/.api-extractor-meta')).toBe(true);
+
+  const oldStats = statSync('./fixtures/out/.api-extractor-meta');
+
+  // sleep
+  await new Promise((resolve) => {
+    setTimeout(resolve, 200);
+  });
+
+  writeFileSync('./fixtures/temp/some-api.md', '#hello');
+
+  await cached(extractorConfig, 'src', './fixtures/out', async () => {
+    // should be called because we wrote into the temp/some-api.md
     await expect(true).toBe(true);
   });
 

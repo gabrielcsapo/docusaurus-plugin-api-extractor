@@ -69,3 +69,21 @@ export interface AnimalOptions {
 export interface Animal {
   speak(): string;
 }
+
+/**
+ * Gets a get
+ * @public
+ */
+export interface Getter {
+  get(): string;
+}
+
+/**
+ * A Get class to get an empty string
+ * @public
+ */
+export class Get implements Getter {
+  get(): string {
+    return '';
+  }
+}

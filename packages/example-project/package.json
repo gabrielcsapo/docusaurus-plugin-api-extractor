@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "@microsoft/api-documenter": "^7.13.68"
   }
 }

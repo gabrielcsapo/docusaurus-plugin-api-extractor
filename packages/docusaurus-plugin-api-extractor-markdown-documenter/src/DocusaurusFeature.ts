@@ -3,14 +3,14 @@ import {
   IMarkdownDocumenterFeatureOnBeforeWritePageArgs,
   MarkdownDocumenterAccessor,
 } from '@microsoft/api-documenter';
-import { ApiItem, ApiItemKind, ApiModel } from '@microsoft/api-extractor-model';
+import { ApiItem, ApiItemKind } from '@microsoft/api-extractor-model';
 import fs from 'fs';
 import ejs from 'ejs';
-import { EOL } from 'os';
 import { writeFileSync } from 'fs';
 import prettier from 'prettier';
-import { parse, join, sep } from 'path';
+import { parse, join } from 'path';
 import { CategoryNode, DocNode } from './interfaces';
+import { toDocusaurusMarkDown } from './markdown/to-docusaurus-markdown';
 
 const sidebar = fs.readFileSync(join(__dirname, './api-sidebar.ejs'), 'utf-8');
 const tree = fs.readFileSync(
@@ -20,33 +20,13 @@ const tree = fs.readFileSync(
 const sidebarTmpl = ejs.compile(sidebar);
 const treeTmpl = ejs.compile(tree);
 
-const TITLE_REGEX = /## (.*)/;
 export class DocusaurusFeature extends MarkdownDocumenterFeature {
   public onBeforeWritePage(
     eventArgs: IMarkdownDocumenterFeatureOnBeforeWritePageArgs
   ): void {
     const { name: id } = parse(eventArgs.outputFilename);
-    const headerParts: string[] = ['---', `id: ${id}`, 'hide_title: true'];
 
-    const lines = toLines(eventArgs.pageContent);
-
-    let foundTitle = false;
-    for (const line of lines) {
-      const maybeTitle = line.match(TITLE_REGEX);
-      if (maybeTitle && !foundTitle) {
-        const title = maybeTitle[1];
-        headerParts.push(`title: ${title}`);
-        foundTitle = true;
-      }
-    }
-
-    if (eventArgs.outputFilename.indexOf('index.md') > -1) {
-      headerParts.push('slug: /');
-    }
-
-    headerParts.push('---', '');
-
-    eventArgs.pageContent = headerParts.join('\n') + eventArgs.pageContent;
+    eventArgs.pageContent = toDocusaurusMarkDown(eventArgs.pageContent, id);
   }
 
   public onFinished() {
@@ -89,10 +69,6 @@ function isSideBarItem(items: string[] | CategoryNode[]): boolean {
     items[0] !== null &&
     'type' in items[0]
   );
-}
-
-function toLines(content: string) {
-  return content.split(EOL);
 }
 
 export function buildNavigation(
