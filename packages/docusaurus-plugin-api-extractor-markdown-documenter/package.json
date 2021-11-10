@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-plugin-api-extractor-markdown-documenter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "API Documenter plugin used with the docusaurus-plugin-api-extractor",
   "private": false,
   "main": "dist/index.js",
@@ -12,7 +12,9 @@
     "build": "tsc && cp ./src/*.ejs ./dist",
     "prepublish": "npm run build"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@microsoft/api-documenter": "^7.13.63",
     "@types/debug": "^4.1.7",

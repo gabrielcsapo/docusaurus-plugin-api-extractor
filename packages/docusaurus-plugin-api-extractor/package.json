@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-plugin-api-extractor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Docusaurus plugin to use https://api-extractor.com",
   "main": "dist/plugin.js",
   "types": "dist/plugin.d.ts",
@@ -24,7 +24,9 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@docusaurus/types": "^2.0.0-beta.6",
     "@microsoft/api-documenter": "^7.13.63",
