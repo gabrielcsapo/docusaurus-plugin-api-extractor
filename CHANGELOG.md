@@ -1,3 +1,8 @@
+# 0.2.0 (11/11/2021)
+
+- Removes edit link (#15) (@chietala)
+- Removes lerna and publishes via yarn
+
 # 0.1.2 (11/10/2021)
 
 - fixes bad publish (@gabrielcsapo)
@@ -8,7 +13,7 @@
 
 # 0.1.0 (11/09/2021)
 
-- Major rewrite @chietala
+- Major rewrite (@chietala)
 
 # 0.0.1 (10/17/2021)
 

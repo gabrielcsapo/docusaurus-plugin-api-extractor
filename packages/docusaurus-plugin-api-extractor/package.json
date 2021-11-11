@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-plugin-api-extractor",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Docusaurus plugin to use https://api-extractor.com",
   "main": "dist/plugin.js",
   "types": "dist/plugin.d.ts",
@@ -37,7 +37,7 @@
     "@types/resolve": "^1.20.1",
     "@types/resolve-bin": "^0.4.1",
     "debug": "^2.6.9",
-    "docusaurus-plugin-api-extractor-markdown-documenter": "^0.1.2",
+    "docusaurus-plugin-api-extractor-markdown-documenter": "^0.2.0",
     "execa": "^5.1.1",
     "find-up": "5.0.0",
     "fs-extra": "^10.0.0",
