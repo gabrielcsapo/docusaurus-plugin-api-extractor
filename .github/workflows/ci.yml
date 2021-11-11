@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: install dependencies
-        run: npm i && npx lerna bootstrap --no-ci
+        run: npm i
       - name: lint
         run: npm run lint
         env:
@@ -52,7 +52,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
       - name: install dependencies
-        run: npm i && npx lerna bootstrap --no-ci
+        run: npm i
       - name: test
         run: npm test
       - name: Release to GitHub Pages
