@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        node: ['14', '16', 'latest']
+        node: ['14', '16']
         os: [ubuntu, macOS, windows]
 
     steps:
@@ -29,16 +29,14 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: ${{ matrix.node }}
+      - name: install pnpm
+        run: volta install pnpm
+      - name: check changelog
+        run: node common/scripts/install-run-rush.js change -v
       - name: install dependencies
-        run: npm i && npx lerna bootstrap --no-ci
-      - name: lint
-        run: npm run lint
-        env:
-          CI: true
-      - name: test
-        run: npm test
-        env:
-          CI: true
+        run: node common/scripts/install-run-rush.js install
+      - name: build
+        run: node common/scripts/install-run-rush.js rebuild --verbose
 
   gh-release:
     if: github.event_name != 'pull_request'
@@ -52,9 +50,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
       - name: install dependencies
-        run: npm i && npx lerna bootstrap --no-ci
-      - name: test
-        run: npm test
+        run: node common/scripts/install-run-rush.js install
+      - name: build
+        run: node common/scripts/install-run-rush.js rebuild --verbose
       - name: Release to GitHub Pages
         env:
           USE_SSH: true
@@ -62,6 +60,5 @@ jobs:
         run: |
           git config --global user.email "gabecsapo@gmail.com"
           git config --global user.name "Gabriel J. Csapo"
-          cd packages/website
-          npm run api-extractor
+          cd examples/website
           npm run deploy

@@ -2,5 +2,8 @@
   "search.exclude": {
     "**/lib/": true,
     "**/node_modules/": true
+  },
+  "files.associations": {
+    "*.json": "jsonc"
   }
 }

@@ -1,0 +1,62 @@
+{
+  "name": "docusaurus-plugin-api-extractor",
+  "version": "0.1.2",
+  "description": "Docusaurus plugin to use https://api-extractor.com",
+  "main": "dist/plugin.js",
+  "types": "dist/plugin.d.ts",
+  "private": false,
+  "scripts": {
+    "build": "npm-run-all build:*",
+    "build:lint": "eslint src/**/*.ts",
+    "build:compile": "rm -rf dist && tsc && cp -r src/api-documenter.json dist",
+    "build:test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielcsapo/docusaurus-plugin-api-extractor.git"
+  },
+  "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gabrielcsapo/docusaurus-plugin-api-extractor/issues"
+  },
+  "homepage": "https://github.com/gabrielcsapo/docusaurus-plugin-api-extractor#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@docusaurus/types": "^2.0.0-beta.6",
+    "@microsoft/api-documenter": "^7.13.68",
+    "@microsoft/api-extractor": "^7.18.16",
+    "@types/debug": "^4.1.7",
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^16.10.2",
+    "@types/resolve": "^1.20.1",
+    "@types/resolve-bin": "^0.4.1",
+    "debug": "^2.6.9",
+    "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
+    "execa": "^5.1.1",
+    "find-up": "5.0.0",
+    "fs-extra": "^10.0.0",
+    "fs-tree-diff": "^2.0.1",
+    "resolve": "^1.17.0",
+    "resolve-bin": "^1.0.0",
+    "walk-sync": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "@rushstack/eslint-config": "^2.4.5",
+    "@rushstack/eslint-plugin": "^0.8.3",
+    "npm-run-all": "^4.1.5",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@types/jest": "^27.0.1",
+    "babel-jest": "^27.3.1",
+    "fixturify": "^2.1.1",
+    "jest": "^27.3.1",
+    "typescript": "^4.4.2"
+  }
+}

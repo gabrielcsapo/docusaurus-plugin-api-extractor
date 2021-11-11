@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "docusaurus-plugin-api-extractor-markdown-documenter",
+      "comment": "move to rush stack",
+      "type": "patch"
+    }
+  ],
+  "packageName": "docusaurus-plugin-api-extractor-markdown-documenter"
+}
