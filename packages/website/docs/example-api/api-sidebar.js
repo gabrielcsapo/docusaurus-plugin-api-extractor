@@ -114,6 +114,40 @@ module.exports = (dir = 'api') => [
             id: `${dir}/example-project.foo`,
           },
           {
+            type: 'category',
+            label: 'Get',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/example-project.get`,
+              },
+              {
+                type: 'doc',
+                label: 'get',
+                id: `${dir}/example-project.get.get`,
+              },
+            ],
+          },
+          {
+            type: 'category',
+            label: 'Getter',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/example-project.getter`,
+              },
+              {
+                type: 'doc',
+                label: 'get',
+                id: `${dir}/example-project.getter.get`,
+              },
+            ],
+          },
+          {
             type: 'doc',
             label: 'sum',
             id: `${dir}/example-project.sum`,

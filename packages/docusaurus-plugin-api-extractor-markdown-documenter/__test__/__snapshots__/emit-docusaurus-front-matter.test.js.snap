@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Emits frontmatter specific to index 1`] = `
+"---
+id: index
+hide_title: true
+title: Example
+slug: /
+---
+
+## Example
+"
+`;
+
+exports[`Emits frontmatter with "A Class" title 1`] = `
+"---
+id: a-class
+hide_title: true
+title: A Class
+---
+
+## A Class
+"
+`;

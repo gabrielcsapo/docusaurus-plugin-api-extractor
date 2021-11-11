@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`doesn't replace all <b> tags 1`] = `
+"<b>Bold</b>
+
+# foo
+
+**References:** [Bar](./bar.md)
+
+Hi <b>Chad</b>!
+"
+`;
+
+exports[`replaces <b> around "Extends" heritage types 1`] = `
+"**Extends:** [Bar](./bar.md)
+"
+`;
+
+exports[`replaces <b> around "Implements" heritage types 1`] = `
+"**Implements:** [Bar](./bar.md)
+"
+`;
+
+exports[`replaces <b> around "References" heritage types 1`] = `
+"**References:** [Bar](./bar.md)
+"
+`;

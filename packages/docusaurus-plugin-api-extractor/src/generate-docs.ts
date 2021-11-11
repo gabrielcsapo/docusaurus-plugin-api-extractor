@@ -104,9 +104,15 @@ async function generate(
 
       debug('documeter cmd: %s', cmd);
 
-      await exec(cmd, {
+      const { stdout, stderr } = await exec(cmd, {
         cwd: __dirname,
       });
+
+      console.log(stdout);
+
+      if (stderr) {
+        throw stderr;
+      }
 
       writeFileSync(
         join(outDir, '_category_.json'),

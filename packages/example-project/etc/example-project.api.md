@@ -38,6 +38,18 @@ export class Box<T> {
 export const foo = "fosso";
 
 // @public
+export class Get implements Getter {
+    // (undocumented)
+    get(): string;
+}
+
+// @public
+export interface Getter {
+    // (undocumented)
+    get(): string;
+}
+
+// @public
 export function sum(a: number, b: number): number;
 
 // (No @packageDocumentation comment for this package)
