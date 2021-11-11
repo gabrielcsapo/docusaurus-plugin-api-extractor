@@ -4,6 +4,7 @@ exports[`Emits frontmatter specific to index 1`] = `
 "---
 id: index
 hide_title: true
+custom_edit_url: null
 title: Example
 slug: /
 ---
@@ -16,6 +17,7 @@ exports[`Emits frontmatter with "A Class" title 1`] = `
 "---
 id: a-class
 hide_title: true
+custom_edit_url: null
 title: A Class
 ---
 

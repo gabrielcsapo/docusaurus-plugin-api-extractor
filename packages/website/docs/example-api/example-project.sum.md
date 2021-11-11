@@ -1,6 +1,7 @@
 ---
 id: example-project.sum
 hide_title: true
+custom_edit_url: null
 title: sum() function
 ---
 

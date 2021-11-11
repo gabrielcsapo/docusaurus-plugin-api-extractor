@@ -1,6 +1,7 @@
 ---
 id: example-project.foo
 hide_title: true
+custom_edit_url: null
 title: foo variable
 ---
 

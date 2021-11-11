@@ -1,6 +1,7 @@
 ---
 id: example-project.bizz.foo
 hide_title: true
+custom_edit_url: null
 title: Bizz.foo() method
 ---
 

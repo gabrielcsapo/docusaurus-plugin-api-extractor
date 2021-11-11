@@ -1,6 +1,7 @@
 ---
 id: example-project.box._constructor_
 hide_title: true
+custom_edit_url: null
 title: Box.(constructor)
 ---
 

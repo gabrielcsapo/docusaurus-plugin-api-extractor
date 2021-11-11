@@ -13,7 +13,7 @@ interface HeadingNode extends Parent<Literal<string>> {
 export const emitDocusaurusFrontMatter = (id: string) => {
   return (tree: Node) => {
     let foundHeading = false;
-    const parts = [`id: ${id}`, 'hide_title: true'];
+    const parts = [`id: ${id}`, 'hide_title: true', 'custom_edit_url: null'];
     visit<HeadingNode>(tree, 'heading', (headingNode) => {
       if (
         !foundHeading &&

@@ -1,6 +1,7 @@
 ---
 id: example-project.bar
 hide_title: true
+custom_edit_url: null
 title: bar variable
 ---
 
