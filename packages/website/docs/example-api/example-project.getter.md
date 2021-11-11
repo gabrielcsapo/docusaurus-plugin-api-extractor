@@ -1,6 +1,7 @@
 ---
 id: example-project.getter
 hide_title: true
+custom_edit_url: null
 title: Getter interface
 ---
 

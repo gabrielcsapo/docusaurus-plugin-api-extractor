@@ -1,6 +1,7 @@
 ---
 id: example-project
 hide_title: true
+custom_edit_url: null
 title: example-project package
 ---
 

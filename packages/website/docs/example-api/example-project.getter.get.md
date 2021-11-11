@@ -1,6 +1,7 @@
 ---
 id: example-project.getter.get
 hide_title: true
+custom_edit_url: null
 title: Getter.get() method
 ---
 

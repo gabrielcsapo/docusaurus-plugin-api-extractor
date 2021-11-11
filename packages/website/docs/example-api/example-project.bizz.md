@@ -1,6 +1,7 @@
 ---
 id: example-project.bizz
 hide_title: true
+custom_edit_url: null
 title: Bizz class
 ---
 

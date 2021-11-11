@@ -1,6 +1,7 @@
 ---
 id: example-project.animaloptions
 hide_title: true
+custom_edit_url: null
 title: AnimalOptions interface
 ---
 

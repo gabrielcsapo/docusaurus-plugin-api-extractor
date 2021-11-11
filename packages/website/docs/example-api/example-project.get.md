@@ -1,6 +1,7 @@
 ---
 id: example-project.get
 hide_title: true
+custom_edit_url: null
 title: Get class
 ---
 
