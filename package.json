@@ -17,6 +17,12 @@
     "lint-staged": "^11.1.2",
     "prettier": "^2.4.1"
   },
+  "workspaces": [
+    "packages/docusaurus-plugin-api-extractor",
+    "packages/docusaurus-plugin-api-extractor-markdown-documenter",
+    "packages/example-project",
+    "packages/website"
+  ],
   "lint-staged": {
     "*.js": "eslint --cache --fix",
     "*.ts": "eslint --cache --fix"
