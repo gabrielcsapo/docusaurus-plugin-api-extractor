@@ -8,7 +8,7 @@ module.exports = (dir = 'api') => [
       {
         type: 'doc',
         label: 'Overview',
-        id: `${dir}/index`
+        id: `${dir}/index`,
       },
       {
         type: 'category',
@@ -18,7 +18,7 @@ module.exports = (dir = 'api') => [
           {
             type: 'doc',
             label: 'Overview',
-            id: `${dir}/example-api`
+            id: `${dir}/example-api`,
           },
           {
             type: 'category',
@@ -28,14 +28,14 @@ module.exports = (dir = 'api') => [
               {
                 type: 'doc',
                 label: 'Overview',
-                id: `${dir}/example-api.animal`
+                id: `${dir}/example-api.animal`,
               },
               {
                 type: 'doc',
                 label: 'speak',
-                id: `${dir}/example-api.animal.speak`
-              }
-            ]
+                id: `${dir}/example-api.animal.speak`,
+              },
+            ],
           },
           {
             type: 'category',
@@ -45,19 +45,19 @@ module.exports = (dir = 'api') => [
               {
                 type: 'doc',
                 label: 'Overview',
-                id: `${dir}/example-api.animaloptions`
+                id: `${dir}/example-api.animaloptions`,
               },
               {
                 type: 'doc',
                 label: 'name',
-                id: `${dir}/example-api.animaloptions.name`
-              }
-            ]
+                id: `${dir}/example-api.animaloptions.name`,
+              },
+            ],
           },
           {
             type: 'doc',
             label: 'bar',
-            id: `${dir}/example-api.bar`
+            id: `${dir}/example-api.bar`,
           },
           {
             type: 'category',
@@ -67,24 +67,24 @@ module.exports = (dir = 'api') => [
               {
                 type: 'doc',
                 label: 'Overview',
-                id: `${dir}/example-api.bizz`
+                id: `${dir}/example-api.bizz`,
               },
               {
                 type: 'doc',
                 label: '(constructor)',
-                id: `${dir}/example-api.bizz._constructor_`
+                id: `${dir}/example-api.bizz._constructor_`,
               },
               {
                 type: 'doc',
                 label: 'bar',
-                id: `${dir}/example-api.bizz.bar`
+                id: `${dir}/example-api.bizz.bar`,
               },
               {
                 type: 'doc',
                 label: 'foo',
-                id: `${dir}/example-api.bizz.foo`
-              }
-            ]
+                id: `${dir}/example-api.bizz.foo`,
+              },
+            ],
           },
           {
             type: 'category',
@@ -94,24 +94,24 @@ module.exports = (dir = 'api') => [
               {
                 type: 'doc',
                 label: 'Overview',
-                id: `${dir}/example-api.box`
+                id: `${dir}/example-api.box`,
               },
               {
                 type: 'doc',
                 label: '(constructor)',
-                id: `${dir}/example-api.box._constructor_`
+                id: `${dir}/example-api.box._constructor_`,
               },
               {
                 type: 'doc',
                 label: 'unwrap',
-                id: `${dir}/example-api.box.unwrap`
-              }
-            ]
+                id: `${dir}/example-api.box.unwrap`,
+              },
+            ],
           },
           {
             type: 'doc',
             label: 'foo',
-            id: `${dir}/example-api.foo`
+            id: `${dir}/example-api.foo`,
           },
           {
             type: 'category',
@@ -121,14 +121,14 @@ module.exports = (dir = 'api') => [
               {
                 type: 'doc',
                 label: 'Overview',
-                id: `${dir}/example-api.get`
+                id: `${dir}/example-api.get`,
               },
               {
                 type: 'doc',
                 label: 'get',
-                id: `${dir}/example-api.get.get`
-              }
-            ]
+                id: `${dir}/example-api.get.get`,
+              },
+            ],
           },
           {
             type: 'category',
@@ -138,22 +138,22 @@ module.exports = (dir = 'api') => [
               {
                 type: 'doc',
                 label: 'Overview',
-                id: `${dir}/example-api.getter`
+                id: `${dir}/example-api.getter`,
               },
               {
                 type: 'doc',
                 label: 'get',
-                id: `${dir}/example-api.getter.get`
-              }
-            ]
+                id: `${dir}/example-api.getter.get`,
+              },
+            ],
           },
           {
             type: 'doc',
             label: 'sum',
-            id: `${dir}/example-api.sum`
-          }
-        ]
-      }
-    ]
-  }
+            id: `${dir}/example-api.sum`,
+          },
+        ],
+      },
+    ],
+  },
 ];

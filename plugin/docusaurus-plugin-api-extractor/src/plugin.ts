@@ -1,5 +1,6 @@
 import path from 'path';
-import fs, { mkdirpSync } from 'fs-extra';
+import { promises as fs, existsSync } from 'fs';
+import { mkdirpSync } from 'fs-extra';
 import type { LoadContext, Plugin } from '@docusaurus/types';
 import { promisify } from 'util';
 import { exec as _exec } from 'child_process';
@@ -72,6 +73,10 @@ export default function pluginDocusaurus(context: LoadContext): Plugin {
         .action(async () => {
           const binScript: string = await resolveBin('@microsoft/api-extractor', 'api-extractor');
           await exec(`${binScript} init`);
+          await fs.writeFile(
+            path.join(process.cwd(), 'api-documenter.json'),
+            await fs.readFile('./api-documenter.json', 'utf-8')
+          );
         });
 
       cli
@@ -102,7 +107,7 @@ export default function pluginDocusaurus(context: LoadContext): Plugin {
             const config: IPluginOptions = getPluginOptions(options);
             const outputDir: string = path.resolve(siteDir, config.docsRoot, config.outDir);
 
-            if (!fs.existsSync(outputDir)) {
+            if (!existsSync(outputDir)) {
               mkdirpSync(outputDir);
             }
             await generateDocs(

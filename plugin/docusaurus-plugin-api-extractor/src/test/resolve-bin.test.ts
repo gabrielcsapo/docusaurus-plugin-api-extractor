@@ -1,15 +1,20 @@
 import { resolveBin } from '../resolve-bin';
-import { join } from 'path';
+import { resolve } from 'path';
 
 test('it resolves the bin path', async () => {
   await expect(resolveBin('typescript', 'tsc')).resolves.toBe(
-    join(process.cwd(), 'node_modules', 'typescript', 'bin', 'tsc')
+    resolve(
+      __dirname,
+      '../../../../common/temp/node_modules/.pnpm/typescript@4.4.4/node_modules/typescript/bin/tsc'
+    )
   );
 });
 
 test('throws if the packageName is not given', async () => {
   // @ts-expect-error
-  await expect(resolveBin(undefined, 'tsc')).rejects.toThrowError('Path must be a string.');
+  await expect(resolveBin(undefined, 'tsc')).rejects.toThrowError(
+    'The first argument to require.resolve must be a string. Received null or undefined.'
+  );
 });
 
 test('throws if the bin name is not given', async () => {

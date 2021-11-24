@@ -1,10 +1,9 @@
 import { readFileSync, existsSync } from 'fs';
 import { dirname, join } from 'path';
-import { sync as resolve } from 'resolve';
 import findUp from 'find-up';
 
 export async function resolveBin(packageName: string, binName: string): Promise<string> {
-  const resolvedMain: string = resolve(packageName);
+  const resolvedMain: string = require.resolve(packageName);
   const packageJSON: string | undefined = await findUp('package.json', {
     cwd: dirname(resolvedMain)
   });

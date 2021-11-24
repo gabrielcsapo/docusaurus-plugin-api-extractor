@@ -3,7 +3,6 @@ import { join, resolve } from 'path';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import child_process from 'child_process';
 import { cached } from './diff';
-import { resolveBin } from './resolve-bin';
 import debugMessage from 'debug';
 
 // eslint-disable-next-line @typescript-eslint/typedef
@@ -88,10 +87,14 @@ async function generate(
 
   if (extractorResult.succeeded) {
     try {
-      const cmd: string = `${await resolveBin(
-        '@microsoft/api-documenter',
-        'api-documenter'
-      )} generate -i ${resolve(extractorConfig.projectFolder, 'temp')} -o ${outDir}`;
+      const apiDocumenter: string = require.resolve(
+        join(process.cwd(), `./node_modules/.bin/api-documenter`)
+      );
+
+      const cmd: string = `${apiDocumenter} generate -i ${resolve(
+        extractorConfig.projectFolder,
+        'temp'
+      )} -o ${outDir}`;
 
       debug('documeter cmd: %s', cmd);
 

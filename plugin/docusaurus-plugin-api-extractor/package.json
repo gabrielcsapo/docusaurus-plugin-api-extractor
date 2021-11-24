@@ -7,7 +7,7 @@
   "private": false,
   "scripts": {
     "postinstall": "node ./scripts/patch-fs-tree-diff.js",
-    "build": "heft test --clean && cp -r src/api-documenter.json dist"
+    "build": "heft test --clean"
   },
   "repository": {
     "type": "git",
@@ -25,16 +25,18 @@
   "files": [
     "dist"
   ],
+  "peerDependencies": {
+    "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
+    "@microsoft/api-documenter": ">= 7.13.68 < 7.14.0",
+    "@microsoft/api-extractor": ">= 7.18.16 < 7.19.0"
+  },
   "dependencies": {
     "@docusaurus/types": "^2.0.0-beta.6",
-    "@microsoft/api-documenter": "^7.13.68",
-    "@microsoft/api-extractor": "^7.18.16",
     "@types/debug": "^4.1.7",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.10.2",
     "@types/resolve": "^1.20.1",
     "debug": "^2.6.9",
-    "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
     "find-up": "5.0.0",
     "fs-extra": "^10.0.0",
     "fs-tree-diff": "^2.0.1",
@@ -42,6 +44,9 @@
     "walk-sync": "^3.0.0"
   },
   "devDependencies": {
+    "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
+    "@microsoft/api-documenter": "^7.13.68",
+    "@microsoft/api-extractor": "^7.18.16",
     "glob": "^7.2.0",
     "eslint": "^7.0.0",
     "@rushstack/eslint-config": "^2.4.5",

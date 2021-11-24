@@ -97,6 +97,6 @@ shrinkwrap.json
 # Build outputs
 dist
 lib
-
+examples/website/docs/example-api
 # Prettier reformats code blocks inside Markdown, which affects rendered output
 *.md
