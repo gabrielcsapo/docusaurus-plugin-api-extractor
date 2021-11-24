@@ -5,7 +5,7 @@
 ## Installation
 
 ```
-npm install docusaurus-plugin-api-extractor --save-dev
+npm install @microsoft/api-extractor @microsoft/api-documenter docusaurus-plugin-api-extractor docusaurus-plugin-api-extractor-markdown-documenter --save-dev
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ This plugin extends Docusaurus' command line by adding the following commands.
 docusaurus api-extractor:init
 ```
 
-Use this command when setting up API Extractor for a new project. It writes an api-extractor.json config file template with code comments that describe all the settings. The file will be written in the current directory.
+Use this command when setting up API Extractor for a new project. It writes an api-extractor.json and api-documenter.json file. The api-extractor.json config file template with code comments that describe all the settings. These files will be written in the current directory.
 
 #### CLI Options
 
