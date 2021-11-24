@@ -7,6 +7,9 @@
   "typings": "dist/index.d.ts",
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "heft test --clean && cp ./src/*.ejs ./dist"
   },
