@@ -95,9 +95,7 @@ async function generate(
 
       debug('documeter cmd: %s', cmd);
 
-      const { stdout, stderr } = await exec(cmd, {
-        cwd: __dirname
-      });
+      const { stdout, stderr } = await exec(cmd);
 
       console.log(stdout);
 
