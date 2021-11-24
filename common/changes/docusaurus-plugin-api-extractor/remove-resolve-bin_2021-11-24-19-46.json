@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "docusaurus-plugin-api-extractor",
+      "comment": "remove internal resolve-bin",
+      "type": "patch"
+    }
+  ],
+  "packageName": "docusaurus-plugin-api-extractor"
+}

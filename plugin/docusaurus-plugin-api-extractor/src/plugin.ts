@@ -4,7 +4,6 @@ import { mkdirpSync } from 'fs-extra';
 import type { LoadContext, Plugin } from '@docusaurus/types';
 import { promisify } from 'util';
 import { exec as _exec } from 'child_process';
-import { resolveBin } from './resolve-bin';
 
 import { generateDocs, ICategoryMetadatasFile } from './generate-docs';
 
@@ -71,8 +70,10 @@ export default function pluginDocusaurus(context: LoadContext): Plugin {
         .command('api-extractor:init')
         .description('Initializes api-extractor for the project')
         .action(async () => {
-          const binScript: string = await resolveBin('@microsoft/api-extractor', 'api-extractor');
-          await exec(`${binScript} init`);
+          const apiExtractor: string = require.resolve(
+            path.join(process.cwd(), `./node_modules/.bin/api-extractor`)
+          );
+          await exec(`${apiExtractor} init`);
           await fs.writeFile(
             path.join(process.cwd(), 'api-documenter.json'),
             await fs.readFile('./api-documenter.json', 'utf-8')
