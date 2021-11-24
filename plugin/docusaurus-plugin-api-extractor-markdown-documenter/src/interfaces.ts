@@ -1,12 +1,12 @@
-export interface DocNode {
+export interface IDocNode {
   type: 'doc';
   label: string;
   id: string;
 }
 
-export interface CategoryNode {
+export interface ICategoryNode {
   type: 'category';
-  items: DocNode[];
+  items: IDocNode[];
   collapsed: boolean;
   label: string;
 }

@@ -6,10 +6,8 @@
   "types": "dist/plugin.d.ts",
   "private": false,
   "scripts": {
-    "build": "npm-run-all build:*",
-    "build:lint": "eslint src/**/*.ts",
-    "build:compile": "rm -rf dist && tsc && cp -r src/api-documenter.json dist",
-    "build:test": "jest"
+    "postinstall": "node ./scripts/patch-fs-tree-diff.js",
+    "build": "heft test --clean && cp -r src/api-documenter.json dist"
   },
   "repository": {
     "type": "git",
@@ -35,28 +33,23 @@
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.10.2",
     "@types/resolve": "^1.20.1",
-    "@types/resolve-bin": "^0.4.1",
     "debug": "^2.6.9",
     "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
-    "execa": "^5.1.1",
     "find-up": "5.0.0",
     "fs-extra": "^10.0.0",
     "fs-tree-diff": "^2.0.1",
     "resolve": "^1.17.0",
-    "resolve-bin": "^1.0.0",
     "walk-sync": "^3.0.0"
   },
   "devDependencies": {
+    "glob": "^7.2.0",
     "eslint": "^7.0.0",
     "@rushstack/eslint-config": "^2.4.5",
     "@rushstack/eslint-plugin": "^0.8.3",
-    "npm-run-all": "^4.1.5",
-    "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
-    "@types/jest": "^27.0.1",
-    "babel-jest": "^27.3.1",
     "fixturify": "^2.1.1",
-    "jest": "^27.3.1",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.2",
+    "@rushstack/heft-jest-plugin": "~0.1.46",
+    "@rushstack/heft": "~0.42.2",
+    "@types/heft-jest": "1.0.2"
   }
 }

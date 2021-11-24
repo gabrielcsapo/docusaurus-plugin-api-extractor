@@ -3,7 +3,7 @@
     "declaration": true,
     "declarationMap": true,
     "target": "es2019",
-    "types": ["node"],
+    "types": ["node", "heft-jest"],
     "baseUrl": ".",
     "outDir": "./dist",
     "rootDir": "./src",
@@ -23,11 +23,11 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "inlineSourceMap": true,
+    "sourceMap": true,
     "inlineSources": true,
     "paths": {
       "*": ["types/*"]
     }
   },
-  "include": ["./src/*.ts"]
+  "include": ["./src/**/*.ts"]
 }

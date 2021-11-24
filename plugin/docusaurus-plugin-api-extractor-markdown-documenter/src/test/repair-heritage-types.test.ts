@@ -1,5 +1,5 @@
 import remark from 'remark';
-import { repairHeritageTypes } from '../dist/markdown/repair-heritage-types';
+import { repairHeritageTypes } from '../markdown/repair-heritage-types';
 
 it('replaces <b> around "Implements" heritage types', () => {
   const out = remark().use(repairHeritageTypes).processSync('<b>Implements:</b> [Bar](./bar.md)').contents;

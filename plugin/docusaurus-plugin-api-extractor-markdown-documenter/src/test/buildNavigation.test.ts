@@ -1,19 +1,18 @@
-/* eslint-disable node/no-unpublished-import */
-/* eslint-disable node/no-unsupported-features/es-syntax */
-import { buildNavigation } from '../dist/DocusaurusFeature';
+import { buildNavigation } from '../DocusaurusFeature';
 import { join } from 'path';
-import { ApiModel } from '@microsoft/api-extractor-model';
+import { ApiItem, ApiModel } from '@microsoft/api-extractor-model';
+import type { MarkdownDocumenterAccessor } from '@microsoft/api-documenter';
 
 const documenter = {
-  getLinkForApiItem(apiModel) {
+  getLinkForApiItem(apiModel: ApiItem) {
     return apiModel.displayName;
   }
-};
+} as MarkdownDocumenterAccessor;
 
 it('it produces a tree structure for the sidebar', () => {
   const model = new ApiModel();
   model.loadPackage(join(__dirname, './fixtures/api-model.json'));
-  const parentNodes = [];
+  const parentNodes: unknown[] = [];
   buildNavigation(parentNodes, model, documenter);
   expect(parentNodes).toMatchSnapshot();
 });

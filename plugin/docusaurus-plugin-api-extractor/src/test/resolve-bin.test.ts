@@ -1,5 +1,4 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
-import { resolveBin } from '../dist/resolve-bin';
+import { resolveBin } from '../resolve-bin';
 import { join } from 'path';
 
 test('it resolves the bin path', async () => {
@@ -9,10 +8,12 @@ test('it resolves the bin path', async () => {
 });
 
 test('throws if the packageName is not given', async () => {
+  // @ts-expect-error
   await expect(resolveBin(undefined, 'tsc')).rejects.toThrowError('Path must be a string.');
 });
 
 test('throws if the bin name is not given', async () => {
+  // @ts-expect-error
   await expect(resolveBin('typescript')).rejects.toThrowError('Could not find bin script undefined');
 });
 

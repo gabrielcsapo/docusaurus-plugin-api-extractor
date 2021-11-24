@@ -1,8 +1,7 @@
-/* eslint-disable node/no-unpublished-import */
-/* eslint-disable node/no-unsupported-features/es-syntax */
-import { cached } from '../dist/diff';
+import { cached } from '../diff';
 import fixturify from 'fixturify';
 import { existsSync, rmSync, statSync, writeFileSync } from 'fs';
+import { ExtractorConfig } from '@microsoft/api-extractor';
 
 const dir = {
   src: {
@@ -18,13 +17,13 @@ const dir = {
   out: {}
 };
 
-let extractorConfig;
+let extractorConfig: ExtractorConfig;
 beforeEach(() => {
   extractorConfig = {
     projectFolder: './fixtures',
     apiReportEnabled: true,
     apiJsonFilePath: './fixtures/temp/some-api.md'
-  };
+  } as ExtractorConfig;
   fixturify.writeSync('fixtures', dir);
 });
 

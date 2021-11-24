@@ -9,7 +9,7 @@ import ejs from 'ejs';
 import { writeFileSync } from 'fs';
 import prettier from 'prettier';
 import { parse, join } from 'path';
-import { CategoryNode, DocNode } from './interfaces';
+import { ICategoryNode, IDocNode } from './interfaces';
 import { toDocusaurusMarkDown } from './markdown/to-docusaurus-markdown';
 
 const sidebar: string = fs.readFileSync(join(__dirname, './api-sidebar.ejs'), 'utf-8');
@@ -27,8 +27,8 @@ export class DocusaurusFeature extends MarkdownDocumenterFeature {
   }
 
   public onFinished(): void {
-    const navigationFile: CategoryNode[] = [];
-    const packages: CategoryNode = {
+    const navigationFile: ICategoryNode[] = [];
+    const packages: ICategoryNode = {
       type: 'category',
       label: 'Packages',
       items: [overviewNode('index')],
@@ -52,7 +52,7 @@ export class DocusaurusFeature extends MarkdownDocumenterFeature {
   }
 }
 
-function isSideBarItem(items: string[] | CategoryNode[]): boolean {
+function isSideBarItem(items: string[] | ICategoryNode[]): boolean {
   return Array.isArray(items) && typeof items[0] === 'object' && items[0] !== null && 'type' in items[0];
 }
 
@@ -67,7 +67,7 @@ export function buildNavigation(
 
     const id: string = `${documenter.getLinkForApiItem(apiItem)?.replace('./', '')?.replace('.md', '')}`;
 
-    let navItem: CategoryNode;
+    let navItem: ICategoryNode;
     switch (kind) {
       case 'EntryPoint':
         buildNavigation(parentNodes, apiItem, documenter);
@@ -100,7 +100,7 @@ function shouldCollapse(kind: ApiItemKind): boolean {
   return kind === 'Class' || kind === 'Namespace' || kind === 'Interface';
 }
 
-function overviewNode(id: string): DocNode {
+function overviewNode(id: string): IDocNode {
   return {
     type: 'doc',
     label: 'Overview',

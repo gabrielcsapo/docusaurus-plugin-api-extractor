@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { sync as resolve } from 'resolve';
 import findUp from 'find-up';
@@ -14,7 +14,13 @@ export async function resolveBin(packageName: string, binName: string): Promise<
 
     if (relativeBinPath === undefined) throw new Error(`Could not find bin script ${binName}`);
 
-    return join(dirname(packageJSON), relativeBinPath);
+    const binPath: string = join(dirname(packageJSON), relativeBinPath);
+
+    if (!existsSync(binPath)) {
+      throw new Error('Resolution is not correct');
+    }
+
+    return binPath;
   } else {
     throw new Error(`Could not find package.json for ${packageName}`);
   }

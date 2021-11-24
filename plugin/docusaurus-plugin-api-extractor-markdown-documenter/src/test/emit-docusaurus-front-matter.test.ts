@@ -1,5 +1,5 @@
 import remark from 'remark';
-import { emitDocusaurusFrontMatter } from '../dist/markdown/emit-docusaurus-front-matter';
+import { emitDocusaurusFrontMatter } from '../markdown/emit-docusaurus-front-matter';
 import remarkFrontmatter from 'remark-frontmatter';
 
 it('Emits frontmatter with "A Class" title', () => {

@@ -73,3 +73,5 @@ dist
 .docusaurus
 
 examples/website/build
+
+plugin/**/temp
