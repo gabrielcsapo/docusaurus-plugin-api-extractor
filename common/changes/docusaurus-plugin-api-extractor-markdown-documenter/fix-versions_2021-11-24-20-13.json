@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "docusaurus-plugin-api-extractor-markdown-documenter",
+      "comment": "fix versioning",
+      "type": "minor"
+    }
+  ],
+  "packageName": "docusaurus-plugin-api-extractor-markdown-documenter"
+}
