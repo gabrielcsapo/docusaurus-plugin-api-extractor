@@ -42,6 +42,7 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
+      - uses: volta-cli/action@v1
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
@@ -49,6 +50,8 @@ jobs:
       - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
+      - name: install pnpm
+        run: volta install pnpm
       - name: install dependencies
         run: node common/scripts/install-run-rush.js install
       - name: build
