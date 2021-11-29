@@ -26,17 +26,17 @@ To run the example docusaurus site:
 
 ```bash
 cd examples/website
-``
+```
 
 Then build
 
-```js
+```bash
 pnpm run build
 ```
 
 Finally serve
 
-```
+```bash
 pnpm run serve
 ```
 
