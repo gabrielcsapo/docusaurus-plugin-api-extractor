@@ -1,0 +1,31 @@
+{
+  "name": "docusaurus-plugin-api-extractor-markdown-documenter",
+  "entries": [
+    {
+      "version": "0.3.0",
+      "tag": "docusaurus-plugin-api-extractor-markdown-documenter_v0.3.0",
+      "date": "Mon, 29 Nov 2021 19:37:50 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "remove test files from distro"
+          },
+          {
+            "comment": "move to rush stack"
+          },
+          {
+            "comment": "use heft-jest"
+          },
+          {
+            "comment": "tyring to fix windows"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "fix versioning"
+          }
+        ]
+      }
+    }
+  ]
+}

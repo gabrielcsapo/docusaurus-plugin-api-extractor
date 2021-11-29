@@ -1,0 +1,42 @@
+{
+  "name": "docusaurus-plugin-api-extractor",
+  "entries": [
+    {
+      "version": "0.3.0",
+      "tag": "docusaurus-plugin-api-extractor_v0.3.0",
+      "date": "Mon, 29 Nov 2021 19:37:50 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "remove test files from distro"
+          },
+          {
+            "comment": "remove internal resolve-bin"
+          },
+          {
+            "comment": "move to rush stack"
+          },
+          {
+            "comment": "use heft-jest"
+          },
+          {
+            "comment": "trying to fix windows"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "fix versioning"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"docusaurus-plugin-api-extractor-markdown-documenter\" to `0.3.0`"
+          },
+          {
+            "comment": "Updating dependency \"docusaurus-plugin-api-extractor-markdown-documenter\" to `0.3.0`"
+          }
+        ]
+      }
+    }
+  ]
+}
