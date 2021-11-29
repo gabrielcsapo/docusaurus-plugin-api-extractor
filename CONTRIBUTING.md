@@ -20,6 +20,27 @@ From the root of the repo run the following to bootstrap all the dependencies:
 rush update
 ```
 
+## Running Example Site
+
+To run the example docusaurus site:
+
+```bash
+cd examples/website
+``
+
+Then build
+
+```js
+pnpm run build
+```
+
+Finally serve
+
+```
+pnpm run serve
+```
+
+
 ## Running Tests
 
 The interesting parts of this repo are in the `plugin/` directory and thus you can `cd` into those repos and run `pnpm run build`.
