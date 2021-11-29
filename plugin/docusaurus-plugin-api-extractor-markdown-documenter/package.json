@@ -8,7 +8,9 @@
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist/**/*.js*",
+    "dist/**/*.d.ts*",
+    "!dist/test/*"
   ],
   "scripts": {
     "build": "heft test --clean && cp ./src/*.ejs ./dist"

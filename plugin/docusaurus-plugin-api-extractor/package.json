@@ -23,7 +23,9 @@
     "node": ">=14.0.0"
   },
   "files": [
-    "dist"
+    "dist/**/*.js*",
+    "dist/**/*.d.ts*",
+    "!dist/test/*"
   ],
   "peerDependencies": {
     "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
