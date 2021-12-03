@@ -1,6 +1,13 @@
 # Change Log - docusaurus-plugin-api-extractor
 
-This log was last generated on Fri, 03 Dec 2021 19:45:06 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Dec 2021 19:55:31 GMT and should not be manually modified.
+
+## 0.4.2
+Fri, 03 Dec 2021 19:55:31 GMT
+
+### Patches
+
+- fix init by including json file
 
 ## 0.4.1
 Fri, 03 Dec 2021 19:45:06 GMT
