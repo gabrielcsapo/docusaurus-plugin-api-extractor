@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`doesn't replace all less than and greater than symbols 1`] = `
+"If I write a thing up here we escape bar<neat>
+
+<b>Returns:</b>
+
+Foo\\\\_\\\\__REPAIR_LT\\\\_\\\\_\\\\_[Bar]('./bar')\\\\__\\\\_REPAIR_GT\\\\_\\\\_\\\\_
+"
+`;
+
+exports[`replaces less than and greater than symbols with markers 1`] = `
+"<b>Returns:</b>
+
+Foo<Bar>
+"
+`;
+
+exports[`replaces less than and greater than symbols with markers with links 1`] = `
+"<b>Returns:</b>
+
+Foo\\\\_\\\\__REPAIR_LT\\\\_\\\\_\\\\_[Bar]('./bar')\\\\__\\\\_REPAIR_GT\\\\_\\\\_\\\\_
+"
+`;

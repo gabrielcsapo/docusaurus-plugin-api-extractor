@@ -24,6 +24,7 @@ title: example-api package
 |  Function | Description |
 |  --- | --- |
 |  [sum(a, b)](./example-api.sum.md) | Sum two numbers |
+|  [x()](./example-api.x.md) | creates a frozen Getter |
 
 ## Interfaces
 

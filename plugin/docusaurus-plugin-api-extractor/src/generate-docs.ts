@@ -1,5 +1,7 @@
 import util from 'util';
-import { join, resolve } from 'path';
+import { dirname, join, resolve } from 'path';
+import { existsSync } from 'fs';
+import { mkdirpSync } from 'fs-extra';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import child_process from 'child_process';
 import { cached } from './diff';
@@ -44,6 +46,17 @@ export async function generateDocs(
   const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(
     join(projectFolder, 'api-extractor.json')
   );
+
+  const reportDir: string = dirname(extractorConfig.reportFilePath);
+  const tempReportDir: string = dirname(extractorConfig.reportTempFilePath);
+
+  if (!existsSync(reportDir)) {
+    mkdirpSync(reportDir);
+  }
+
+  if (!existsSync(tempReportDir)) {
+    mkdirpSync(tempReportDir);
+  }
 
   debug('projectFolder: %s', extractorConfig.packageFolder);
   if (force) {

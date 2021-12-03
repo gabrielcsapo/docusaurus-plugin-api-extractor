@@ -52,6 +52,11 @@ export interface Getter {
 // @public
 export function sum(a: number, b: number): number;
 
+// Warning: (ae-forgotten-export) The symbol "Y" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function x(): Readonly<Y>;
+
 // (No @packageDocumentation comment for this package)
 
 ```
