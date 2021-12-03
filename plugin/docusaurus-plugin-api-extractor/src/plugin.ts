@@ -87,7 +87,7 @@ export default function pluginDocusaurus(context: LoadContext, pluginOptions: IP
           await exec(`${apiExtractor} init`);
           await fs.writeFile(
             path.join(process.cwd(), 'api-documenter.json'),
-            await fs.readFile(path.resolve(__dirname, './api-documenter.json', 'utf-8'))
+            await fs.readFile(path.resolve(__dirname, './api-documenter.json'), 'utf-8')
           );
         });
 
