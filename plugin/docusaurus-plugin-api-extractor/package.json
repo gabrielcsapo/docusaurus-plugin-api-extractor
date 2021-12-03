@@ -6,8 +6,7 @@
   "types": "dist/plugin.d.ts",
   "private": false,
   "scripts": {
-    "postinstall": "node ./scripts/patch-fs-tree-diff.js",
-    "build": "heft test --clean"
+    "build": "node ./scripts/patch-fs-tree-diff.js && heft test --clean"
   },
   "repository": {
     "type": "git",
