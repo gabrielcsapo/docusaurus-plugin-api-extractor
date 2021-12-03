@@ -87,3 +87,13 @@ export class Get implements Getter {
     return "";
   }
 }
+
+
+type Y = {}
+/**
+ * creates a frozen Getter
+ * @returns @public
+ */
+export function x(): Readonly<Y> {
+  return Object.freeze(new Get());
+}

@@ -53,10 +53,21 @@ Due to how Docusaurus plugins currently work, this command should always be ran 
 -h, --help           display help for command
 ```
 
-### An example configuration
+### An example plugin configuration
 
+**Basic Usage**
 ```js
 module.exports = {
   plugins: ['docusaurus-plugin-api-extractor'],
+};
+```
+
+**Advanced Usage**
+
+If you have project where your documentation website doesn't sit in the root of the project you can specify an alternative site directory.
+
+```js
+module.exports = {
+  plugins: ['docusaurus-plugin-api-extractor', { siteDir: 'my-site'}],
 };
 ```

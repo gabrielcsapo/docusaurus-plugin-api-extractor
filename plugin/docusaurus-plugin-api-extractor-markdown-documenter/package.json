@@ -8,6 +8,7 @@
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
   "license": "MIT",
   "files": [
+    "dist/**/*.ejs",
     "dist/**/*.js*",
     "dist/**/*.d.ts*",
     "!dist/test/*"

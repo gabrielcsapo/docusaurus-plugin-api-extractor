@@ -5,33 +5,39 @@ import type { LoadContext, Plugin } from '@docusaurus/types';
 import { promisify } from 'util';
 import { exec as _exec } from 'child_process';
 
-import { generateDocs, ICategoryMetadatasFile } from './generate-docs';
+import { generateDocs } from './generate-docs';
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const exec = promisify(_exec);
 
-export interface IUserSuppliedOptions {
+export interface ICLIOptions {
   outDir: string;
   srcDir: string;
   verbose?: boolean;
   force?: boolean;
-  locale?: boolean;
+  local?: boolean;
 }
 
 /**
  * @public
  */
-export interface IPluginOptions extends IUserSuppliedOptions {
+export interface IPluginOptions {
   id: string;
+  siteDir?: string;
+}
+
+interface IMergedPluginOptions extends IPluginOptions {
+  siteDir: string;
   docsRoot: string;
-  sidebarConfig: ICategoryMetadatasFile;
+  outDir: string;
+  sidebarConfig: Record<string, string>;
 }
 
 /**
  * @public
  */
-export const DEFAULT_PLUGIN_OPTIONS: Partial<IPluginOptions> = {
-  id: 'default',
+// eslint-disable-next-line @typescript-eslint/typedef
+export const DEFAULT_PLUGIN_OPTIONS = {
   docsRoot: 'docs',
   outDir: 'api',
   sidebarConfig: {
@@ -41,15 +47,20 @@ export const DEFAULT_PLUGIN_OPTIONS: Partial<IPluginOptions> = {
 
 /**
  * @public
- * @param opts - options passed in via docusaurus.config.js
+ * @param cliOptions - options passed in via docusaurus.config.js
  * @returns - all options with default values if they are not defined
  */
-export const getPluginOptions = (opts: IPluginOptions): IPluginOptions => {
-  const options: IPluginOptions = {
+export const getPluginOptions = (
+  cliOptions: ICLIOptions,
+  pluginOptions: IPluginOptions,
+  ctx: LoadContext
+): IMergedPluginOptions => {
+  return {
     ...DEFAULT_PLUGIN_OPTIONS,
-    ...opts
+    siteDir: ctx.siteDir,
+    ...cliOptions,
+    ...pluginOptions
   };
-  return options;
 };
 
 /**
@@ -59,7 +70,7 @@ export const getPluginOptions = (opts: IPluginOptions): IPluginOptions => {
  * @param opts - options defined in docusaurus.config.js plugins array.
  * @returns
  */
-export default function pluginDocusaurus(context: LoadContext): Plugin {
+export default function pluginDocusaurus(context: LoadContext, pluginOptions: IPluginOptions): Plugin {
   const projectFolder: string = process.cwd();
 
   return {
@@ -76,7 +87,7 @@ export default function pluginDocusaurus(context: LoadContext): Plugin {
           await exec(`${apiExtractor} init`);
           await fs.writeFile(
             path.join(process.cwd(), 'api-documenter.json'),
-            await fs.readFile('./api-documenter.json', 'utf-8')
+            await fs.readFile(path.resolve(__dirname, './api-documenter.json', 'utf-8'))
           );
         });
 
@@ -96,32 +107,23 @@ export default function pluginDocusaurus(context: LoadContext): Plugin {
           true
         )
         .option('--verbose', 'Enable verbose logging', false)
-        .action(
-          async (
-            options: IPluginOptions & {
-              verbose: boolean;
-              force: boolean;
-              local: boolean;
-            }
-          ) => {
-            const { siteDir } = context;
-            const config: IPluginOptions = getPluginOptions(options);
-            const outputDir: string = path.resolve(siteDir, config.docsRoot, config.outDir);
+        .action(async (options: ICLIOptions) => {
+          const config: IMergedPluginOptions = getPluginOptions(options, pluginOptions, context);
+          const outputDir: string = path.resolve(config.siteDir, config.docsRoot, config.outDir);
 
-            if (!existsSync(outputDir)) {
-              mkdirpSync(outputDir);
-            }
-            await generateDocs(
-              projectFolder,
-              options.srcDir,
-              outputDir,
-              config.sidebarConfig,
-              options.verbose,
-              options.force,
-              options.local
-            );
+          if (!existsSync(outputDir)) {
+            mkdirpSync(outputDir);
           }
-        );
+          await generateDocs(
+            projectFolder,
+            options.srcDir,
+            outputDir,
+            config.sidebarConfig,
+            options.verbose,
+            options.force,
+            options.local
+          );
+        });
     }
   };
 }

@@ -152,6 +152,11 @@ module.exports = (dir = 'api') => [
             label: 'sum',
             id: `${dir}/example-api.sum`,
           },
+          {
+            type: 'doc',
+            label: 'x',
+            id: `${dir}/example-api.x`,
+          },
         ],
       },
     ],

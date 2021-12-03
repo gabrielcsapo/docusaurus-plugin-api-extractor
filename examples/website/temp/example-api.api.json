@@ -639,6 +639,47 @@
             }
           ],
           "name": "sum"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "example-api!x:function(1)",
+          "docComment": "/**\n * creates a frozen Getter\n *\n * @returns \n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function x(): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Readonly",
+              "canonicalReference": "!Readonly:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Y",
+              "canonicalReference": "example-api!~Y:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [],
+          "name": "x"
         }
       ]
     }
