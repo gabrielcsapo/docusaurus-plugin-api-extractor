@@ -1,6 +1,17 @@
 # Change Log - docusaurus-plugin-api-extractor
 
-This log was last generated on Mon, 29 Nov 2021 20:37:21 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Dec 2021 19:30:43 GMT and should not be manually modified.
+
+## 0.4.0
+Fri, 03 Dec 2021 19:30:43 GMT
+
+### Minor changes
+
+- Adds siteDir support
+
+### Patches
+
+- Remove the postinstall script since its only for dev
 
 ## 0.3.1
 Mon, 29 Nov 2021 20:37:21 GMT
