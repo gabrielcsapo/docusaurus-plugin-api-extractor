@@ -11,7 +11,7 @@ volta install pnpm
 ```
 
 ```bash
-volta install rush
+volta install @microsoft/rush
 ```
 
 From the root of the repo run the following to bootstrap all the dependencies:
