@@ -2,6 +2,18 @@
   "name": "docusaurus-plugin-api-extractor-markdown-documenter",
   "entries": [
     {
+      "version": "0.3.3",
+      "tag": "docusaurus-plugin-api-extractor-markdown-documenter_v0.3.3",
+      "date": "Tue, 11 Jan 2022 17:37:28 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixes escaping of greater than and less than symbols"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.3.2",
       "tag": "docusaurus-plugin-api-extractor-markdown-documenter_v0.3.2",
       "date": "Fri, 03 Dec 2021 19:30:43 GMT",
