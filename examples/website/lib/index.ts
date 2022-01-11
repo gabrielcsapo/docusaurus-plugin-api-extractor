@@ -94,6 +94,7 @@ type Y = {}
  * creates a frozen Getter
  * @returns @public
  */
-export function x(): Readonly<Y> {
+export function x(y: Record<string, Record<string, unknown>>): Readonly<Y> {
+  console.log(y);
   return Object.freeze(new Get());
 }
