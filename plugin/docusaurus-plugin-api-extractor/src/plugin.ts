@@ -4,18 +4,33 @@ import { mkdirpSync } from 'fs-extra';
 import type { LoadContext, Plugin } from '@docusaurus/types';
 import { promisify } from 'util';
 import { exec as _exec } from 'child_process';
+import debugMessage from 'debug';
 
-import { generateDocs } from './generate-docs';
+import {
+  generateDocs,
+  generateMarkdownFiles,
+  generateTmpExtractorConfig,
+  prepareExtratorConfig
+} from './generate-docs';
+import { ExtractorConfig, ExtractorResult } from '@microsoft/api-extractor';
+import type { IConfigFile } from '@microsoft/api-extractor';
+import { parse } from 'comment-json';
+
+// eslint-disable-next-line @typescript-eslint/typedef
+const debug = debugMessage('docusaurus-api-extractor:plugin');
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const exec = promisify(_exec);
 
 export interface ICLIOptions {
   outDir: string;
-  srcDir: string;
   verbose?: boolean;
-  force?: boolean;
-  local?: boolean;
+  ci?: boolean;
+}
+
+interface IMaterializedCLIOptions extends ICLIOptions {
+  verbose: boolean;
+  ci: boolean;
 }
 
 /**
@@ -24,13 +39,17 @@ export interface ICLIOptions {
 export interface IPluginOptions {
   id: string;
   siteDir?: string;
+  entryPoints?: Record<string, string>;
 }
 
-interface IMergedPluginOptions extends IPluginOptions {
+interface IMergedPluginOptions {
   siteDir: string;
+  entryPoints: Record<string, string>;
   docsRoot: string;
   outDir: string;
   sidebarConfig: Record<string, string>;
+  ci: boolean;
+  verbose: boolean;
 }
 
 /**
@@ -47,20 +66,42 @@ export const DEFAULT_PLUGIN_OPTIONS = {
 
 /**
  * @public
- * @param cliOptions - options passed in via docusaurus.config.js
+ * @param cliOptions - options passed in via cli
+ * @param pluginOptions - options passed in via docusaurus.config.js
+ * @param ctx - docusaurus load context
+ * @param configFile - extractorconfig JSON
  * @returns - all options with default values if they are not defined
  */
-export const getPluginOptions = (
+export const getPluginOptions = async (
+  packageName: string,
+  siteDir: string,
   cliOptions: ICLIOptions,
   pluginOptions: IPluginOptions,
-  ctx: LoadContext
-): IMergedPluginOptions => {
-  return {
+  configFile: IConfigFile
+): Promise<IMergedPluginOptions> => {
+  const { outDir, ci, verbose } = cliOptions;
+
+  const materizedCLIOptions: IMaterializedCLIOptions = {
+    outDir,
+    ci: ci ? true : false,
+    verbose: verbose ? true : false
+  };
+
+  const config: IMergedPluginOptions = {
     ...DEFAULT_PLUGIN_OPTIONS,
-    siteDir: ctx.siteDir,
-    ...cliOptions,
+    siteDir,
+    entryPoints: {
+      [packageName]: configFile.mainEntryPointFilePath
+    },
+    ...materizedCLIOptions,
     ...pluginOptions
   };
+
+  const { outDir: mergedOutdir, docsRoot: mergedDocsRoot, siteDir: mergedSiteDir } = config;
+
+  config.outDir = path.resolve(mergedSiteDir, mergedDocsRoot, mergedOutdir);
+
+  return config;
 };
 
 /**
@@ -71,8 +112,6 @@ export const getPluginOptions = (
  * @returns
  */
 export default function pluginDocusaurus(context: LoadContext, pluginOptions: IPluginOptions): Plugin {
-  const projectFolder: string = process.cwd();
-
   return {
     name: 'docusaurus-plugin-api-extractor',
     // eslint-disable-next-line @typescript-eslint/typedef
@@ -94,36 +133,75 @@ export default function pluginDocusaurus(context: LoadContext, pluginOptions: IP
       cli
         .command('api-extractor:run')
         .description('Generate API documentation')
-        .option('-s, --srcDir <path>', 'Path to the sources files', 'src')
         .option(
           '-o, --outDir <name>',
           'Name of the directory that will be placed in the documentation root',
           'api'
         )
-        .option('--force', 'Skips caching and forces the docs to be rebuilt', false)
         .option(
-          '--local',
-          `Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine.`,
-          true
+          '--ci',
+          `Indicates that API Extractor is running in CI and makes sure the public API hasn't changed`
         )
-        .option('--verbose', 'Enable verbose logging', false)
+        .option('-v, --verbose', 'Enable verbose logging')
         .action(async (options: ICLIOptions) => {
-          const config: IMergedPluginOptions = getPluginOptions(options, pluginOptions, context);
-          const outputDir: string = path.resolve(config.siteDir, config.docsRoot, config.outDir);
+          const configFile: IConfigFile = parse(await fs.readFile('api-extractor.json', 'utf-8'));
+          const { siteDir: originalSiteDir } = context;
 
-          if (!existsSync(outputDir)) {
-            mkdirpSync(outputDir);
+          const packageName: string = JSON.parse(await fs.readFile('package.json', 'utf-8')).name;
+
+          const { ci, docsRoot, siteDir, outDir, entryPoints, verbose }: IMergedPluginOptions =
+            await getPluginOptions(packageName, originalSiteDir, options, pluginOptions, configFile);
+
+          if (!existsSync(outDir)) {
+            mkdirpSync(outDir);
           }
-          await generateDocs(
-            projectFolder,
-            options.srcDir,
-            outputDir,
-            config.sidebarConfig,
-            options.verbose,
-            options.force,
-            options.local
-          );
+
+          try {
+            for (const packageName in entryPoints) {
+              if (entryPoints.hasOwnProperty(packageName)) {
+                generateTmpExtractorConfig(configFile, packageName, entryPoints[packageName]);
+
+                console.log(`Extracing docs for "${packageName}"`);
+
+                const extractorConfig: ExtractorConfig = prepareExtratorConfig(
+                  packageName,
+                  path.resolve('api-extractor.tmp.json')
+                );
+
+                debug(`Generating docs: "${packageName}"`);
+                debug(`"${packageName}"'s entry ${entryPoints[packageName]}`);
+
+                const extractorResult: ExtractorResult = await generateDocs(extractorConfig, verbose, ci);
+
+                if (extractionFailed(extractorResult)) {
+                  return;
+                }
+              }
+            }
+
+            if (process.exitCode !== 1) {
+              await generateMarkdownFiles(process.cwd(), path.resolve(siteDir, docsRoot, outDir));
+            }
+          } catch (e) {
+            process.exitCode = 1;
+            console.error(e);
+          } finally {
+            await fs.unlink(path.resolve('api-extractor.tmp.json'));
+          }
         });
     }
   };
+}
+
+function extractionFailed(extractorResult: ExtractorResult): boolean {
+  if (!extractorResult.succeeded) {
+    console.error(
+      `API Extractor did with ${extractorResult?.errorCount} error(s)` +
+        ` and ${extractorResult?.warningCount} warning(s)`
+    );
+    process.exitCode = 1;
+    return true;
+  }
+
+  return false;
 }

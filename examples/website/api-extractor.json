@@ -3,7 +3,11 @@
  */
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "<projectFolder>/dist/index.d.ts",
+  "mainEntryPointFilePath": "<projectFolder>/dist/lib/index.d.ts",
+
+  "compiler": {
+    "tsconfigFilePath": "./tsconfig.base.json"
+  },
 
   "apiReport": {
     "enabled": true,

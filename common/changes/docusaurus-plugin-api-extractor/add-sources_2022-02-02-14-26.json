@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "docusaurus-plugin-api-extractor",
+      "comment": "Introduces entrypoints, removes --srcDir, --force, and --local from CLI",
+      "type": "major"
+    }
+  ],
+  "packageName": "docusaurus-plugin-api-extractor"
+}
