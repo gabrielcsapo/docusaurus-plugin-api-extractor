@@ -1,4 +1,5 @@
 {
+  "typescript.tsdk": "../common/temp/node_modules/typescript/lib",
   "search.exclude": {
     "**/lib/": true,
     "**/node_modules/": true

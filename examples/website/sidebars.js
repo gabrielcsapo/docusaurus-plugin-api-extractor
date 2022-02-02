@@ -1,4 +1,4 @@
-const apiSideBar = require('./docs/example-api/api-sidebar');
+const api = require('./docs/api/api-sidebar');
 /**
  * Creating a sidebar enables you to:
  - create an ordered group of docs
@@ -12,9 +12,7 @@ const apiSideBar = require('./docs/example-api/api-sidebar');
 
 module.exports = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
-  tutorialSidebar: ['intro'],
-
-  apiSideBar: apiSideBar('example-api')
+  apiSideBar: api()
 
   // But you can create a sidebar manually
   /*

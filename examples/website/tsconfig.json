@@ -1,32 +1,5 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "target": "es2019",
-    "baseUrl": ".",
-    "outDir": "./dist",
-    "rootDir": "./lib",
-    "strict": true,
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "experimentalDecorators": true,
-    "strictPropertyInitialization": true,
-    "noFallthroughCasesInSwitch": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "paths": {
-      "*": ["types/*"]
-    }
-  },
-  "include": ["./lib/*.ts"]
+  "files": [],
+  "include": [],
+  "references": [{ "path": "./lib" }, { "path": "./my-lib" }]
 }

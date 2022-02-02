@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.base.json",
+  "files": ["index.ts", "sum.ts"],
+  "compilerOptions": {
+    "lib": ["DOM", "ES2015"],
+    "skipLibCheck": true,
+    "outDir": "../dist",
+  },
+}

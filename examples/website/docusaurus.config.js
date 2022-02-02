@@ -11,7 +11,17 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'gabrielcsapo',
   projectName: 'docusaurus-plugin-api-extractor',
-  plugins: ['docusaurus-plugin-api-extractor'],
+  plugins: [
+    [
+      'docusaurus-plugin-api-extractor',
+      {
+        entryPoints: {
+          'my-lib': './dist/my-lib/index.d.ts',
+          lib: './dist/lib/index.d.ts'
+        }
+      }
+    ]
+  ],
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -43,13 +53,7 @@ module.exports = {
       items: [
         {
           type: 'doc',
-          docId: 'intro',
-          position: 'left',
-          label: 'Docs'
-        },
-        {
-          type: 'doc',
-          docId: 'example-api/index',
+          docId: 'api/index',
           position: 'left',
           label: 'API'
         },
@@ -64,15 +68,6 @@ module.exports = {
     footer: {
       style: 'dark',
       links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro'
-            }
-          ]
-        },
         {
           title: 'Community',
           items: [

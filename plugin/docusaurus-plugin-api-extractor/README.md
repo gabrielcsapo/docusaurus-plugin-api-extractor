@@ -45,13 +45,15 @@ Due to how Docusaurus plugins currently work, this command should always be ran 
 #### CLI Options
 
 ```
--s, --srcDir <path>  Path to the sources files (default: "src")
 -o, --outDir <name>  Name of the directory that will be placed in the documentation root (default: "api")
---force              Skips caching and forces the docs to be rebuilt (default: false)
---local              Indicates that API Extractor is running as part of a local build, e.g. on a developer's machine.
+--ci                 Indicates that API Extractor is running in CI and makes sure the public API hasn't changed
 --verbose            Enable verbose logging (default: false)
 -h, --help           display help for command
 ```
+
+## Running as a CI Job
+
+If you're running API documentation generation as part of a CI job, we recommend that you run `docusaurus api-extractor:run` with the `--ci` flag. Doing so will enable validation of the public API of your project. You can read more about the validation @microsoft/api-extractor [here](https://api-extractor.com/pages/overview/demo_api_report/).
 
 ### An example plugin configuration
 
@@ -64,10 +66,27 @@ module.exports = {
 
 **Advanced Usage**
 
+### `options.siteDir`
 If you have project where your documentation website doesn't sit in the root of the project you can specify an alternative site directory.
 
 ```js
 module.exports = {
-  plugins: ['docusaurus-plugin-api-extractor', { siteDir: 'my-site'}],
+  plugins: ['docusaurus-plugin-api-extractor', { siteDir: 'my-site' }],
+};
+```
+
+### `options.entryPoints`
+
+If you have multiple packages that you would like to generate you can use `entryPoints`. The plugin will generate temporary a [`api-extractor.json`](https://api-extractor.com/pages/configs/api-extractor_json) file for each entry and use that information to setup [`mainEntryPointFilePath`](https://api-extractor.com/pages/configs/api-extractor_json/#mainentrypointfilepath) and other path related options.
+
+```js
+module.exports = {
+  plugins: ['docusaurus-plugin-api-extractor', {
+    entryPoints: {
+      api: './dist/api/index.d.ts',
+      client: './dist/client/index.d.ts',
+      library: './node_modules/my-library/index.d.ts'
+    }
+  }],
 };
 ```
