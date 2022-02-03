@@ -1,6 +1,13 @@
 # Change Log - docusaurus-plugin-api-extractor
 
-This log was last generated on Tue, 11 Jan 2022 17:37:28 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Feb 2022 14:22:49 GMT and should not be manually modified.
+
+## 1.0.0
+Thu, 03 Feb 2022 14:22:49 GMT
+
+### Breaking changes
+
+- Introduces entrypoints, removes --srcDir, --force, and --local from CLI
 
 ## 0.4.3
 Tue, 11 Jan 2022 17:37:28 GMT

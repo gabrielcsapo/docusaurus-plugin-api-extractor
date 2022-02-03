@@ -2,6 +2,18 @@
   "name": "docusaurus-plugin-api-extractor",
   "entries": [
     {
+      "version": "1.0.0",
+      "tag": "docusaurus-plugin-api-extractor_v1.0.0",
+      "date": "Thu, 03 Feb 2022 14:22:49 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Introduces entrypoints, removes --srcDir, --force, and --local from CLI"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.4.3",
       "tag": "docusaurus-plugin-api-extractor_v0.4.3",
       "date": "Tue, 11 Jan 2022 17:37:28 GMT",
