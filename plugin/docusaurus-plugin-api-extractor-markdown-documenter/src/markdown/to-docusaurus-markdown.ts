@@ -1,4 +1,5 @@
 import remark from 'remark';
+import remarkGfm from 'remark-gfm';
 import remarkFrontmatter from 'remark-frontmatter';
 import { repairHeritageTypes } from './repair-heritage-types';
 import { emitDocusaurusFrontMatter } from './emit-docusaurus-front-matter';
@@ -13,6 +14,7 @@ import { replaceAll } from './replace-all';
 export const toDocusaurusMarkDown = (markdownString: string, id: string): string => {
   let out: string = remark()
     .use(remarkFrontmatter, ['yaml'])
+    .use(remarkGfm)
     .use(repairHeritageTypes)
     .use(repairEscaping)
     .use(emitDocusaurusFrontMatter, id)

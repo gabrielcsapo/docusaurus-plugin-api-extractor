@@ -30,7 +30,8 @@
     "remark": "^13.0.0",
     "remark-frontmatter": "^3.0.0",
     "unist-util-visit": "^2.0.3",
-    "@babel/core": "^7.0.0"
+    "@babel/core": "^7.0.0",
+    "remark-gfm": "~1.0.0"
   },
   "devDependencies": {
     "eslint": "^7.0.0",

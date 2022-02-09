@@ -7,8 +7,8 @@ hide_title: true
 custom_edit_url: null
 ---
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [myProperty](./myClass.myProperty.md) |  | 'number' \\| 'string' | A property that has a union type. |
+| Property                              | Modifiers | Type                 | Description                       |
+| ------------------------------------- | --------- | -------------------- | --------------------------------- |
+| [myProperty](./myClass.myProperty.md) |           | 'number' \\\\| 'string' | A property that has a union type. |
 "
 `;
