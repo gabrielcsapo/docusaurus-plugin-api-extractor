@@ -1,6 +1,13 @@
 # Change Log - docusaurus-plugin-api-extractor-markdown-documenter
 
-This log was last generated on Tue, 11 Jan 2022 17:37:28 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Feb 2022 08:10:35 GMT and should not be manually modified.
+
+## 0.3.4
+Thu, 10 Feb 2022 08:10:35 GMT
+
+### Patches
+
+- Add GitHub-flavored markdown support
 
 ## 0.3.3
 Tue, 11 Jan 2022 17:37:28 GMT
