@@ -2,6 +2,18 @@
   "name": "docusaurus-plugin-api-extractor-markdown-documenter",
   "entries": [
     {
+      "version": "0.3.4",
+      "tag": "docusaurus-plugin-api-extractor-markdown-documenter_v0.3.4",
+      "date": "Thu, 10 Feb 2022 08:10:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add GitHub-flavored markdown support"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.3.3",
       "tag": "docusaurus-plugin-api-extractor-markdown-documenter_v0.3.3",
       "date": "Tue, 11 Jan 2022 17:37:28 GMT",
