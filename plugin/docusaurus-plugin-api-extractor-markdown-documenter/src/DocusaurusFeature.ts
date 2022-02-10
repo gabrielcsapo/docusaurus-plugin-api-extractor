@@ -85,6 +85,9 @@ export function buildNavigation(
         parentNodes.push(navItem);
         buildNavigation(navItem.items, apiItem, documenter);
         break;
+      case 'EnumMember':
+        // Enum members don't have their own page, so skip them.
+        break;
       default:
         parentNodes.push({
           type: 'doc',
