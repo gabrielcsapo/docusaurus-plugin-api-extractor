@@ -536,6 +536,63 @@
             }
           ],
           "name": "sum"
+        },
+        {
+          "kind": "Enum",
+          "canonicalReference": "example-project!EnumeratedType:enum",
+          "docComment": "/**\n * An enumerated property.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare enum EnumeratedType"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EnumeratedType",
+          "members": [
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "example-project!EnumeratedType.FOO:member",
+              "docComment": "/**\n * Foo.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "FOO = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"foo\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "FOO",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "example-project!EnumeratedType.BAR:member",
+              "docComment": "/**\n * Bar.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "BAR = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"bar\""
+                }
+              ],
+              "releaseTag": "Public",
+              "name": "BAR",
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ]
         }
       ]
     }
