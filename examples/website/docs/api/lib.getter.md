@@ -21,6 +21,6 @@ export interface Getter
 
 ## Methods
 
-|  Method | Description |
-|  --- | --- |
-|  [get()](./lib.getter.get.md) |  |
+| Method                       | Description |
+| ---------------------------- | ----------- |
+| [get()](./lib.getter.get.md) |             |

@@ -21,6 +21,6 @@ export interface AnimalOptions
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [name](./lib.animaloptions.name.md) | string |  |
+| Property                            | Type   | Description |
+| ----------------------------------- | ------ | ----------- |
+| [name](./lib.animaloptions.name.md) | string |             |

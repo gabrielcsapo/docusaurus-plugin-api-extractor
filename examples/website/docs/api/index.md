@@ -14,7 +14,7 @@ slug: /
 
 ## Packages
 
-|  Package | Description |
-|  --- | --- |
-|  [lib](./lib.md) |  |
-|  [my-lib](./my-lib.md) |  |
+| Package               | Description |
+| --------------------- | ----------- |
+| [lib](./lib.md)       |             |
+| [my-lib](./my-lib.md) |             |

@@ -13,6 +13,6 @@ title: my-lib package
 
 ## Variables
 
-|  Variable | Description |
-|  --- | --- |
-|  [otherLib](./my-lib.otherlib.md) |  |
+| Variable                         | Description |
+| -------------------------------- | ----------- |
+| [otherLib](./my-lib.otherlib.md) |             |

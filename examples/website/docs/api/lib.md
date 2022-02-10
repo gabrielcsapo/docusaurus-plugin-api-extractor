@@ -13,30 +13,30 @@ title: lib package
 
 ## Classes
 
-|  Class | Description |
-|  --- | --- |
-|  [Bizz](./lib.bizz.md) |  |
-|  [Box](./lib.box.md) | Boxes an unknown value and unwraps it |
-|  [Get](./lib.get.md) | A Get class to get an empty string |
+| Class                 | Description                           |
+| --------------------- | ------------------------------------- |
+| [Bizz](./lib.bizz.md) |                                       |
+| [Box](./lib.box.md)   | Boxes an unknown value and unwraps it |
+| [Get](./lib.get.md)   | A Get class to get an empty string    |
 
 ## Functions
 
-|  Function | Description |
-|  --- | --- |
-|  [sum(a, b)](./lib.sum.md) | Sum two numbers |
-|  [x(y)](./lib.x.md) | creates a frozen Getter |
+| Function                  | Description             |
+| ------------------------- | ----------------------- |
+| [sum(a, b)](./lib.sum.md) | Sum two numbers         |
+| [x(y)](./lib.x.md)        | creates a frozen Getter |
 
 ## Interfaces
 
-|  Interface | Description |
-|  --- | --- |
-|  [Animal](./lib.animal.md) | An interface to define an animal |
-|  [AnimalOptions](./lib.animaloptions.md) | Constructor options for [Animal](./lib.animal.md) |
-|  [Getter](./lib.getter.md) | Gets a get |
+| Interface                               | Description                                       |
+| --------------------------------------- | ------------------------------------------------- |
+| [Animal](./lib.animal.md)               | An interface to define an animal                  |
+| [AnimalOptions](./lib.animaloptions.md) | Constructor options for [Animal](./lib.animal.md) |
+| [Getter](./lib.getter.md)               | Gets a get                                        |
 
 ## Variables
 
-|  Variable | Description |
-|  --- | --- |
-|  [bar](./lib.bar.md) |  |
-|  [foo](./lib.foo.md) |  |
+| Variable            | Description |
+| ------------------- | ----------- |
+| [bar](./lib.bar.md) |             |
+| [foo](./lib.foo.md) |             |

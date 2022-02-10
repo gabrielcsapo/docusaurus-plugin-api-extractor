@@ -19,18 +19,18 @@ export declare class Bizz
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(bar)](./lib.bizz._constructor_.md) |  | Constructs a new instance of the <code>Bizz</code> class |
+| Constructor                                       | Modifiers | Description                                              |
+| ------------------------------------------------- | --------- | -------------------------------------------------------- |
+| [(constructor)(bar)](./lib.bizz._constructor_.md) |           | Constructs a new instance of the <code>Bizz</code> class |
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [bar](./lib.bizz.bar.md) |  | string |  |
+| Property                 | Modifiers | Type   | Description |
+| ------------------------ | --------- | ------ | ----------- |
+| [bar](./lib.bizz.bar.md) |           | string |             |
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [foo()](./lib.bizz.foo.md) |  |  |
+| Method                     | Modifiers | Description |
+| -------------------------- | --------- | ----------- |
+| [foo()](./lib.bizz.foo.md) |           |             |

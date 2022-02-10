@@ -21,12 +21,12 @@ export declare class Box<T>
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(boxee)](./lib.box._constructor_.md) |  | Constructs a new instance of the <code>Box</code> class |
+| Constructor                                        | Modifiers | Description                                             |
+| -------------------------------------------------- | --------- | ------------------------------------------------------- |
+| [(constructor)(boxee)](./lib.box._constructor_.md) |           | Constructs a new instance of the <code>Box</code> class |
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [unwrap()](./lib.box.unwrap.md) |  | Returns the raw underlying value |
+| Method                          | Modifiers | Description                      |
+| ------------------------------- | --------- | -------------------------------- |
+| [unwrap()](./lib.box.unwrap.md) |           | Returns the raw underlying value |

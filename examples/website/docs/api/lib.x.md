@@ -21,9 +21,9 @@ export declare function x(y: Record<string, Record<string, unknown>>): Readonly<
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  y | Record&lt;string, Record&lt;string, unknown&gt;&gt; |  |
+| Parameter | Type                                    | Description |
+| --------- | --------------------------------------- | ----------- |
+| y         | Record<string, Record<string, unknown>> |             |
 
 <b>Returns:</b>
 

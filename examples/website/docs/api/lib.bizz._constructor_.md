@@ -21,6 +21,6 @@ constructor(bar?: string);
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  bar | string |  |
+| Parameter | Type   | Description |
+| --------- | ------ | ----------- |
+| bar       | string |             |

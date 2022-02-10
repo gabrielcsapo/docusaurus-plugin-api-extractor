@@ -23,6 +23,6 @@ export declare class Get implements Getter
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [get()](./lib.get.get.md) |  |  |
+| Method                    | Modifiers | Description |
+| ------------------------- | --------- | ----------- |
+| [get()](./lib.get.get.md) |           |             |

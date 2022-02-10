@@ -33,6 +33,6 @@ class Cow implements Animal {
 
 ## Methods
 
-|  Method | Description |
-|  --- | --- |
-|  [speak()](./lib.animal.speak.md) |  |
+| Method                           | Description |
+| -------------------------------- | ----------- |
+| [speak()](./lib.animal.speak.md) |             |

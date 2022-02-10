@@ -21,6 +21,6 @@ constructor(boxee: T);
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  boxee | T |  |
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| boxee     | T    |             |

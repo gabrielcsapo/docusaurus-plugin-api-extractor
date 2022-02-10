@@ -21,10 +21,10 @@ export declare function sum(a: number, b: number): number;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  a | number | a number to add |
-|  b | number | a number to add a to |
+| Parameter | Type   | Description          |
+| --------- | ------ | -------------------- |
+| a         | number | a number to add      |
+| b         | number | a number to add a to |
 
 <b>Returns:</b>
 
