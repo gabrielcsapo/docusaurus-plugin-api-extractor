@@ -15,8 +15,8 @@ import path from 'path';
 import { CustomDocNodes } from './nodes';
 import { StandardMarkdownEmitter } from './standard-markdown-emitter';
 import { BodyBuilder, createPageBuilder } from './builders';
-import { IBuilders } from './builders/interfaces';
 import { getFilenameForApiItem, getLinkFilenameForApiItem } from './builders/utils';
+import { ISections } from './builders/interfaces';
 
 export class Documenter {
   private _emitter: StandardMarkdownEmitter;
@@ -43,7 +43,7 @@ export class Documenter {
   }
 
   private _writeApiItemPage(apiItem: ApiItem): void {
-    const page: DocSection = this._pageBuilder((b: IBuilders): void => {
+    const page: DocSection = this._pageBuilder((b: ISections): void => {
       b.breadcrumb(this._apiModel);
       b.pageHeading(apiItem);
       b.betaWarning(apiItem);
