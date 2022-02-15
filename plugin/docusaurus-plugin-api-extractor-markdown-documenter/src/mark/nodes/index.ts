@@ -1,5 +1,6 @@
 import { DocNodeKind, TSDocConfiguration } from '@microsoft/tsdoc';
 import { DocEmphasisSpan } from './doc-emphasis-span';
+import { DocFrontmatter, ListContainer } from './doc-frontmatter';
 import { DocHeading } from './doc-heading';
 import { DocNoteBox } from './doc-notebox';
 import { DocTable } from './doc-table';
@@ -19,7 +20,18 @@ export class CustomDocNodes {
         { docNodeKind: CustomDocNodeKind.NoteBox, constructor: DocNoteBox },
         { docNodeKind: CustomDocNodeKind.Table, constructor: DocTable },
         { docNodeKind: CustomDocNodeKind.TableCell, constructor: DocTableCell },
-        { docNodeKind: CustomDocNodeKind.TableRow, constructor: DocTableRow }
+        { docNodeKind: CustomDocNodeKind.TableRow, constructor: DocTableRow },
+        { docNodeKind: CustomDocNodeKind.Frontmatter, constructor: DocFrontmatter },
+        { docNodeKind: CustomDocNodeKind.ListContainer, constructor: ListContainer }
+      ]);
+
+      configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.Frontmatter, [
+        CustomDocNodeKind.ListContainer
+      ]);
+
+      configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.ListContainer, [
+        DocNodeKind.PlainText,
+        CustomDocNodeKind.ListContainer
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.EmphasisSpan, [
@@ -30,7 +42,8 @@ export class CustomDocNodes {
       configuration.docNodeManager.registerAllowableChildren(DocNodeKind.Section, [
         CustomDocNodeKind.Heading,
         CustomDocNodeKind.NoteBox,
-        CustomDocNodeKind.Table
+        CustomDocNodeKind.Table,
+        CustomDocNodeKind.Frontmatter
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(DocNodeKind.Paragraph, [

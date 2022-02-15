@@ -30,6 +30,7 @@ export interface ISections {
   pageHeading: SectionBuilder<ApiItem>;
   betaWarning: SectionBuilder<ApiItem>;
   enumTable: SectionBuilder<ApiEnum>;
+  frontmatter: SectionBuilder<ApiItem>;
   parameterTable: SectionBuilder<ApiParameterListMixin>;
   throws: SectionBuilder<ApiItem>;
 }

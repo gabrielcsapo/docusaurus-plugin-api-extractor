@@ -4,5 +4,7 @@ export const enum CustomDocNodeKind {
   NoteBox = 'NoteBox',
   Table = 'Table',
   TableCell = 'TableCell',
-  TableRow = 'TableRow'
+  TableRow = 'TableRow',
+  Frontmatter = 'Frontmatter',
+  ListContainer = 'ListContainer'
 }

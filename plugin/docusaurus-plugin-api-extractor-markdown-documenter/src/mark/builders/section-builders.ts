@@ -18,29 +18,34 @@ import {
 } from '@microsoft/api-extractor-model';
 import { DocBlock, DocComment, DocParagraph, DocSection, StandardTags } from '@microsoft/tsdoc';
 import pluralize from 'pluralize';
+import { join, parse } from 'path';
 import { getConciseSignature, getParsedName } from '../file-naming';
+import { YamlList } from '../nodes/doc-frontmatter';
 import { DocHeading } from '../nodes/doc-heading';
 import { DocTable } from '../nodes/doc-table';
 import { DocTableRow } from '../nodes/doc-table-row';
 import { ISections, NextPage } from './interfaces';
 import { PrimitiveBuilders } from './primitive-builders';
-import { appendSection, extractTitle, getLinkFilenameForApiItem } from './utils';
+import { appendSection, extractTitle, getFilenameForApiItem, getLinkFilenameForApiItem } from './utils';
 
 export class SectionBuilders implements ISections {
   private _b: PrimitiveBuilders;
   private _section: DocSection;
   private _next: NextPage;
   private _apiModel: ApiModel;
+  private _outputFolder: string;
   public constructor(
     primitiveBuilders: PrimitiveBuilders,
     section: DocSection,
     apiModel: ApiModel,
+    outputFolder: string,
     next: NextPage
   ) {
     this._b = primitiveBuilders;
     this._section = section;
     this._apiModel = apiModel;
     this._next = next;
+    this._outputFolder = outputFolder;
   }
 
   public betaWarning(apiItem: ApiItem): void {
@@ -216,6 +221,26 @@ export class SectionBuilders implements ISections {
     }
   }
 
+  public frontmatter(apiItem: ApiItem): void {
+    const { _section: section, _b: b } = this;
+    const { name: id } = parse(join(this._outputFolder, getFilenameForApiItem(apiItem)));
+    const slug: string | undefined = id === 'index' ? '/' : undefined;
+
+    const list: YamlList = {
+      id,
+      hide_title: true,
+      title: this._pageHeadingText(apiItem),
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      custom_edit_url: null
+    };
+
+    if (slug) {
+      list.slug = slug;
+    }
+
+    section.appendNode(b.frontmatter(list));
+  }
+
   public heritageTypes(apiItem: ApiItem): void {
     const { _section: section, _b: b } = this;
     if (apiItem instanceof ApiDeclaredItem) {
@@ -380,7 +405,10 @@ export class SectionBuilders implements ISections {
 
   public pageHeading(apiItem: ApiItem): void {
     const { _section: section, _b: b } = this;
-    const scopedName: string = apiItem.getScopedNameWithinPackage();
+
+    const heading: string = this._pageHeadingText(apiItem);
+
+    section.appendNode(b.heading(heading));
 
     switch (apiItem.kind) {
       case ApiItemKind.Class:
@@ -390,38 +418,45 @@ export class SectionBuilders implements ISections {
       case ApiItemKind.TypeAlias:
         const modulePath: DocHeading | undefined = b.modulePathHeading(apiItem);
 
-        section.appendNode(b.frameworkItemTypeHeading(apiItem));
-
         if (modulePath) {
           section.appendNode(modulePath);
         }
 
         break;
+    }
+  }
+
+  private _pageHeadingText(apiItem: ApiItem): string {
+    const { _b: b } = this;
+    const scopedName: string = apiItem.getScopedNameWithinPackage();
+
+    switch (apiItem.kind) {
+      case ApiItemKind.Class:
+      case ApiItemKind.Enum:
+      case ApiItemKind.Interface:
+      case ApiItemKind.Function:
+      case ApiItemKind.TypeAlias:
+        return b.frameworkItemTypeHeading(apiItem).title;
       case ApiItemKind.Method:
       case ApiItemKind.MethodSignature:
-        section.appendNode(b.heading(`${scopedName} method`));
-        break;
+        return `${scopedName} method`;
       case ApiItemKind.Constructor:
       case ApiItemKind.ConstructSignature:
-        section.appendNode(b.heading(scopedName));
-        break;
+        return scopedName;
       case ApiItemKind.Model:
-        section.appendNode(b.heading(`API Reference`));
-        break;
+        return `API Reference`;
       case ApiItemKind.Namespace:
-        section.appendNode(b.heading(`${scopedName} namespace`));
-        break;
+        return `${scopedName} namespace`;
       case ApiItemKind.Package:
         const unscopedPackageName: string = getParsedName(apiItem.displayName).unscopedName;
-        section.appendNode(b.heading(`${unscopedPackageName} package`));
-        break;
+        return `${unscopedPackageName} package`;
       case ApiItemKind.Property:
       case ApiItemKind.PropertySignature:
-        section.appendNode(b.heading(`${scopedName} property`));
-        break;
+        return `${scopedName} property`;
       case ApiItemKind.Variable:
-        section.appendNode(b.heading(`${scopedName} variable`));
-        break;
+        return `${scopedName} variable`;
+      default:
+        throw new Error(`${apiItem.kind} does not have a supported title`);
     }
   }
 

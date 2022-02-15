@@ -25,6 +25,7 @@ import {
 } from '@microsoft/tsdoc';
 import { getConciseSignature } from '../file-naming';
 import { DocEmphasisSpan } from '../nodes/doc-emphasis-span';
+import { DocFrontmatter, YamlList } from '../nodes/doc-frontmatter';
 import { DocHeading } from '../nodes/doc-heading';
 import { DocNoteBox } from '../nodes/doc-notebox';
 import { DocTable } from '../nodes/doc-table';
@@ -39,6 +40,10 @@ export class PrimitiveBuilders {
   public constructor(configuration: TSDocConfiguration, apiModel: ApiModel) {
     this._config = configuration;
     this._apiModel = apiModel;
+  }
+
+  public code(code: string, language: string = 'typescript'): DocFencedCode {
+    return new DocFencedCode({ configuration: this._config, code, language });
   }
 
   public codeSpan(code: string): DocCodeSpan {
@@ -81,10 +86,6 @@ export class PrimitiveBuilders {
     return new DocEmphasisSpan({ configuration: this._config, ...options }, children);
   }
 
-  public code(code: string, language: string = 'typescript'): DocFencedCode {
-    return new DocFencedCode({ configuration: this._config, code, language });
-  }
-
   public excerpt(excerpt: Excerpt): DocParagraph {
     const paragraph: DocParagraph = new DocParagraph({ configuration: this._config });
 
@@ -111,6 +112,10 @@ export class PrimitiveBuilders {
     }
 
     return new DocHeading({ configuration: this._config, title: `${scopedName} ${title}` });
+  }
+
+  public frontmatter(list: YamlList): DocFrontmatter {
+    return new DocFrontmatter({ configuration: this._config }, list);
   }
 
   public heading(heading: string): DocHeading {
