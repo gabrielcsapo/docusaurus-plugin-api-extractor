@@ -12,6 +12,55 @@ module.exports = (dir = 'api') => [
       },
       {
         type: 'category',
+        label: 'addon',
+        collapsed: false,
+        items: [
+          {
+            type: 'doc',
+            label: 'Overview',
+            id: `${dir}/addon`
+          },
+          {
+            type: 'category',
+            label: 'Stepper',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/addon.stepper`
+              },
+              {
+                type: 'doc',
+                label: '(constructor)',
+                id: `${dir}/addon.stepper._constructor_`
+              },
+              {
+                type: 'doc',
+                label: 'args',
+                id: `${dir}/addon.stepper.args`
+              },
+              {
+                type: 'doc',
+                label: 'render',
+                id: `${dir}/addon.stepper.render`
+              }
+            ]
+          },
+          {
+            type: 'doc',
+            label: 'StepperSignature',
+            id: `${dir}/addon.steppersignature`
+          },
+          {
+            type: 'doc',
+            label: 'sum',
+            id: `${dir}/addon.sum`
+          }
+        ]
+      },
+      {
+        type: 'category',
         label: 'lib',
         collapsed: false,
         items: [

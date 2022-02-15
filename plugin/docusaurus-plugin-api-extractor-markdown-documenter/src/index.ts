@@ -1,5 +1,6 @@
 import { IApiDocumenterPluginManifest } from '@microsoft/api-documenter';
-import { DocusaurusFeature } from './DocusaurusFeature';
+import { newDefaultPlugin } from './DocusaurusFeature';
+export { newDocusaurusMarkdownPlugin } from './DocusaurusFeature';
 
 export const apiDocumenterPluginManifest: IApiDocumenterPluginManifest = {
   manifestVersion: 1000,
@@ -7,7 +8,7 @@ export const apiDocumenterPluginManifest: IApiDocumenterPluginManifest = {
     {
       featureName: 'docusaurus-plugin-api-extractor-markdown-documenter',
       kind: 'MarkdownDocumenterFeature',
-      subclass: DocusaurusFeature
+      subclass: newDefaultPlugin()
     }
   ]
 };

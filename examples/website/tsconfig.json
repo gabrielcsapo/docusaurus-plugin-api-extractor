@@ -1,5 +1,5 @@
 {
   "files": [],
   "include": [],
-  "references": [{ "path": "./lib" }, { "path": "./my-lib" }]
+  "references": [{ "path": "./lib" }, { "path": "./my-lib" }, { "path": "./addon" }]
 }
