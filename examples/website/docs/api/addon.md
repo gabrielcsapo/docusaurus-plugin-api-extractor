@@ -11,20 +11,14 @@ title: addon package
 
 ## addon package
 
-## Classes
+Some docs
 
-|  Class | Description |
+## Remarks
+
+This is a remarks section
+
+## Variables
+
+|  Variable | Description |
 |  --- | --- |
-|  [Stepper](./addon.stepper.md) |  |
-
-## Functions
-
-|  Function | Description |
-|  --- | --- |
-|  [sum(a, b)](./addon.sum.md) |  |
-
-## Type Aliases
-
-|  Type Alias | Description |
-|  --- | --- |
-|  [StepperSignature](./addon.steppersignature.md) |  |
+|  [a](./addon.a.md) |  |

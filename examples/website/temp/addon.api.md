@@ -5,27 +5,6 @@
 ```ts
 
 // @public (undocumented)
-export class Stepper<StepperSignature> {
-    constructor(args: StepperSignature);
-    // (undocumented)
-    args: StepperSignature;
-    // (undocumented)
-    render(): void;
-}
-
-// @public (undocumented)
-export type StepperSignature = {
-    Element: HTMLDivElement;
-    Blocks: {
-        default: unknown;
-    };
-    Arguments: {
-        name: string;
-        age: number;
-    };
-};
-
-// @public (undocumented)
-export function sum(a: number, b: number): number;
+export const a = "";
 
 ```

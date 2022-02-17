@@ -54,4 +54,8 @@ export class CustomDocNodes {
     }
     return CustomDocNodes._configuration;
   }
+
+  public static set configuration(config: TSDocConfiguration) {
+    CustomDocNodes._configuration = config;
+  }
 }

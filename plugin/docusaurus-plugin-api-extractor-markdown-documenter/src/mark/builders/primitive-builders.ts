@@ -23,16 +23,21 @@ import {
   DocSection,
   TSDocConfiguration
 } from '@microsoft/tsdoc';
-import { getConciseSignature } from '../file-naming';
 import { DocEmphasisSpan } from '../nodes/doc-emphasis-span';
-import { DocFrontmatter, YamlList } from '../nodes/doc-frontmatter';
+import { DocFrontmatter } from '../nodes/doc-frontmatter';
 import { DocHeading } from '../nodes/doc-heading';
 import { DocNoteBox } from '../nodes/doc-notebox';
 import { DocTable } from '../nodes/doc-table';
 import { DocTableCell } from '../nodes/doc-table-cell';
 import { DocTableRow } from '../nodes/doc-table-row';
-import { IEmphasisOptions } from './interfaces';
-import { appendAndMergeSection, extractModulePath, extractTitle, getLinkFilenameForApiItem } from './utils';
+import { IEmphasisOptions, YamlList } from '../interfaces';
+import {
+  appendAndMergeSection,
+  extractModulePath,
+  extractTitle,
+  getConciseSignature,
+  getLinkFilenameForApiItem
+} from './file-naming';
 
 export class PrimitiveBuilders {
   private _config: TSDocConfiguration;
@@ -240,7 +245,8 @@ export class PrimitiveBuilders {
     // Markdown doesn't provide a standardized syntax for hyperlinks inside code spans, so we will render
     // the type expression as DocPlainText.  Instead of creating multiple DocParagraphs, we can simply
     // discard any newlines and let the renderer do normal word-wrapping.
-    const unwrappedTokenText: string = token.text.replace(/[\r\n]+/g, ' ');
+    let unwrappedTokenText: string = token.text.replace(/[\r\n]+/g, ' ');
+    // unwrappedTokenText = unwrappedTokenText.replace(/</g, '\\<');
 
     // If it's hyperlinkable, then append a DocLinkTag
     if (token.kind === ExcerptTokenKind.Reference && token.canonicalReference) {

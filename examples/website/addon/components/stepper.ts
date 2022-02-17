@@ -1,9 +1,5 @@
-class Component<T> {
-  args: T;
-  constructor(args: T) {
-    this.args = args;
-  }
-}
+import { Component } from './component';
+
 /**
  * @public
  * @modulePath my-addon/components/stepper
@@ -20,8 +16,7 @@ export type StepperSignature = {
 
 /**
  * @public
- * @modulePath - my-addon/components/stepper
- * @frameworkItemType - Component
+ * @frameworkItemType Component
  */
 export default class Stepper extends Component<StepperSignature> {
   foo(): Record<string, unknown> {

@@ -5,5 +5,5 @@
     "skipLibCheck": true,
     "outDir": "../dist/"
   },
-  "files": ["index.ts", "components/stepper.ts", "helpers/sum.ts"]
+  "files": ["index.ts", "components/stepper.ts", "components/component.ts", "helpers/sum.ts"]
 }

@@ -1,15 +1,6 @@
 import { DocNodeContainer, DocPlainText, IDocNodeContainerParameters } from '@microsoft/tsdoc';
 import { CustomDocNodeKind } from './doc-types';
-
-export type YamlList =
-  | string
-  | number
-  | boolean
-  // eslint-disable-next-line @rushstack/no-new-null
-  | null
-  // eslint-disable-next-line @rushstack/no-new-null
-  | { [key: string]: null }
-  | { [key: string]: YamlList };
+import { YamlList } from '../interfaces';
 
 export class ListContainer extends DocNodeContainer {
   /** @override */

@@ -1,4 +1,4 @@
-import { ApiItem, ApiModel, IResolveDeclarationReferenceResult } from '@microsoft/api-extractor-model';
+import { IResolveDeclarationReferenceResult } from '@microsoft/api-extractor-model';
 import {
   DocBlockTag,
   DocCodeSpan,
@@ -15,7 +15,8 @@ import {
   DocSection,
   StringBuilder
 } from '@microsoft/tsdoc';
-import { IndentedWriter } from './indented-builder';
+import { IndentedWriter } from './builders/indented-builder';
+import { IEmitterContext, IEmitterOptions, IInternalDocumenterDelegate } from './interfaces';
 import { DocEmphasisSpan } from './nodes/doc-emphasis-span';
 import { DocFrontmatter, ListContainer } from './nodes/doc-frontmatter';
 import { DocHeading } from './nodes/doc-heading';
@@ -24,25 +25,10 @@ import { DocTable } from './nodes/doc-table';
 import { DocTableCell } from './nodes/doc-table-cell';
 import { CustomDocNodeKind } from './nodes/doc-types';
 
-interface IEmitterContext {
-  writer: IndentedWriter;
-  insideTable: boolean;
-  boldRequested: boolean;
-  italicRequested: boolean;
-  writingBold: boolean;
-  writingItalic: boolean;
-  options: IEmitterOptions;
-}
-
-export interface IEmitterOptions {
-  contextApiItem: ApiItem | undefined;
-  onGetFilenameForApiItem: (apiItem: ApiItem) => string | undefined;
-}
-
 export class StandardMarkdownEmitter {
-  private _apiModel: ApiModel;
-  public constructor(apiModel: ApiModel) {
-    this._apiModel = apiModel;
+  private _delegate: IInternalDocumenterDelegate;
+  public constructor(delegate: IInternalDocumenterDelegate) {
+    this._delegate = delegate;
   }
 
   public emit(docNode: DocNode, stringBuilder: StringBuilder, options: IEmitterOptions): string {
@@ -298,20 +284,26 @@ export class StandardMarkdownEmitter {
         }
         break;
       }
+
       case DocNodeKind.EscapedText: {
         const docEscapedText: DocEscapedText = docNode as DocEscapedText;
         this.writePlainText(docEscapedText.decodedText, context);
         break;
       }
       default:
-        throw new Error('Unsupported DocNodeKind kind: ' + docNode.kind);
+        this._delegate.writeNode({
+          docNode,
+          context,
+          docNodeSiblings,
+          writeNode: this.writeNode.bind(this)
+        });
     }
   }
 
   protected writeLinkTagWithCodeDestination(docLinkTag: DocLinkTag, context: IEmitterContext): void {
     const options: IEmitterOptions = context.options;
 
-    const result: IResolveDeclarationReferenceResult = this._apiModel.resolveDeclarationReference(
+    const result: IResolveDeclarationReferenceResult = this._delegate.apiModel.resolveDeclarationReference(
       docLinkTag.codeDestination!,
       options.contextApiItem
     );

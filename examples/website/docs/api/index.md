@@ -16,6 +16,6 @@ slug: /
 
 |  Package | Description |
 |  --- | --- |
-|  [addon](./addon.md) |  |
+|  [addon](./addon.md) | Some docs |
 |  [lib](./lib.md) |  |
 |  [my-lib](./my-lib.md) |  |

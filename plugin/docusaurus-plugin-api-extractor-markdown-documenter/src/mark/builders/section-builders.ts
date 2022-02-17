@@ -3,10 +3,8 @@ import {
   ApiDeclaredItem,
   ApiDocumentedItem,
   ApiEnum,
-  ApiInterface,
   ApiItem,
   ApiItemKind,
-  ApiModel,
   ApiNamespace,
   ApiPackage,
   ApiParameterListMixin,
@@ -16,40 +14,45 @@ import {
   Excerpt,
   ReleaseTag
 } from '@microsoft/api-extractor-model';
-import { DocBlock, DocComment, DocParagraph, DocSection, StandardTags } from '@microsoft/tsdoc';
+import { DocBlock, DocComment, DocNode, DocParagraph, DocSection, StandardTags } from '@microsoft/tsdoc';
 import pluralize from 'pluralize';
-import { join, parse } from 'path';
-import { getConciseSignature, getParsedName } from '../file-naming';
-import { YamlList } from '../nodes/doc-frontmatter';
+import { join } from 'path';
 import { DocHeading } from '../nodes/doc-heading';
 import { DocTable } from '../nodes/doc-table';
 import { DocTableRow } from '../nodes/doc-table-row';
-import { ISections, NextPage } from './interfaces';
+import { IInternalDocumenterDelegate, NextPage } from '../interfaces';
 import { PrimitiveBuilders } from './primitive-builders';
-import { appendSection, extractTitle, getFilenameForApiItem, getLinkFilenameForApiItem } from './utils';
+import {
+  getConciseSignature,
+  getParsedName,
+  extractTitle,
+  getFilenameForApiItem,
+  getLinkFilenameForApiItem
+} from './file-naming';
+import { YamlList } from '../interfaces';
 
-export class SectionBuilders implements ISections {
+export class SectionBuilders {
   private _b: PrimitiveBuilders;
   private _section: DocSection;
   private _next: NextPage;
-  private _apiModel: ApiModel;
-  private _outputFolder: string;
+  private _apiItem: ApiItem;
+  private _delegate: IInternalDocumenterDelegate;
   public constructor(
     primitiveBuilders: PrimitiveBuilders,
     section: DocSection,
-    apiModel: ApiModel,
-    outputFolder: string,
+    delegate: IInternalDocumenterDelegate,
+    apiItem: ApiItem,
     next: NextPage
   ) {
     this._b = primitiveBuilders;
     this._section = section;
-    this._apiModel = apiModel;
     this._next = next;
-    this._outputFolder = outputFolder;
+    this._delegate = delegate;
+    this._apiItem = apiItem;
   }
 
-  public betaWarning(apiItem: ApiItem): void {
-    const { _b: b } = this;
+  public betaWarning(): void {
+    const { _b: b, _apiItem: apiItem } = this;
     if (ApiReleaseTagMixin.isBaseClassOf(apiItem)) {
       if (apiItem.releaseTag === ReleaseTag.Beta) {
         const betaWarning: string =
@@ -61,9 +64,9 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public breadcrumb(apiItem: ApiItem): void {
-    const { _section: section, _b: b } = this;
-    section.appendNodeInParagraph(b.link('Home', getLinkFilenameForApiItem(this._apiModel)));
+  public breadcrumb(): void {
+    const { _section: section, _b: b, _apiItem: apiItem, _delegate: delegate } = this;
+    section.appendNodeInParagraph(b.link('Home', getLinkFilenameForApiItem(delegate.apiModel)));
 
     for (const hierarchyItem of apiItem.getHierarchy()) {
       switch (hierarchyItem.kind) {
@@ -75,15 +78,15 @@ export class SectionBuilders implements ISections {
           break;
         default:
           section.appendNodesInParagraph([
-            b.text(' &gte; '),
+            b.text(' > '),
             b.link(hierarchyItem.displayName, getLinkFilenameForApiItem(hierarchyItem))
           ]);
       }
     }
   }
 
-  public classTable(apiClass: ApiClass): void {
-    const { _section: section, _b: b, _next: next } = this;
+  public classTable(): void {
+    const { _section: section, _b: b, _next: next, _apiItem: apiClass } = this;
     const eventsTable: DocTable = b.table(['Property', 'Modifiers', 'Type', 'Description']);
 
     const constructorsTable: DocTable = b.table(['Constructor', 'Modifiers', 'Description']);
@@ -158,8 +161,8 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public decorators(apiItem: ApiItem): void {
-    const { _section: section, _b: b } = this;
+  public decorators(): void {
+    const { _section: section, _b: b, _apiItem: apiItem } = this;
     const decoratorBlocks: DocBlock[] = [];
     if (apiItem instanceof ApiDocumentedItem) {
       const tsdocComment: DocComment | undefined = apiItem.tsdocComment;
@@ -181,8 +184,8 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public deprecated(apiItem: ApiItem): void {
-    const { _section: section, _b: b } = this;
+  public deprecated(): void {
+    const { _section: section, _b: b, _apiItem: apiItem } = this;
     if (apiItem instanceof ApiDocumentedItem) {
       const tsdocComment: DocComment | undefined = apiItem.tsdocComment;
 
@@ -201,48 +204,40 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public enumTable(apiEnum: ApiEnum): void {
-    const { _section: section, _b: b } = this;
+  public enumTable(): void {
+    const { _section: section, _b: b, _apiItem: apiEnum } = this;
     const enumMembersTable: DocTable = b.table(['Member', 'Value', 'Description']);
 
-    for (const apiEnumMember of apiEnum.members) {
-      enumMembersTable.addRow(
-        b.tableRow([
-          b.tableCell([b.paragraph([b.text(getConciseSignature(apiEnumMember))])]),
-          b.tableCell([b.paragraph([b.codeSpan(apiEnumMember.initializerExcerpt.text)])]),
-          b.descriptionCell(apiEnumMember)
-        ])
-      );
-    }
+    if (apiEnum instanceof ApiEnum) {
+      for (const apiEnumMember of apiEnum.members) {
+        enumMembersTable.addRow(
+          b.tableRow([
+            b.tableCell([b.paragraph([b.text(getConciseSignature(apiEnumMember))])]),
+            b.tableCell([b.paragraph([b.codeSpan(apiEnumMember.initializerExcerpt.text)])]),
+            b.descriptionCell(apiEnumMember)
+          ])
+        );
+      }
 
-    if (enumMembersTable.rows.length > 0) {
-      section.appendNode(b.heading('Enumeration Members'));
-      section.appendNode(enumMembersTable);
+      if (enumMembersTable.rows.length > 0) {
+        section.appendNode(b.heading('Enumeration Members'));
+        section.appendNode(enumMembersTable);
+      }
     }
   }
 
-  public frontmatter(apiItem: ApiItem): void {
-    const { _section: section, _b: b } = this;
-    const { name: id } = parse(join(this._outputFolder, getFilenameForApiItem(apiItem)));
-    const slug: string | undefined = id === 'index' ? '/' : undefined;
+  public frontmatter(): void {
+    const { _section: section, _b: b, _apiItem: apiItem, _delegate: delegate } = this;
 
-    const list: YamlList = {
-      id,
-      hide_title: true,
-      title: this._pageHeadingText(apiItem),
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      custom_edit_url: null
-    };
+    const outputFilename: string = join(delegate.outputFolder, getFilenameForApiItem(apiItem));
 
-    if (slug) {
-      list.slug = slug;
-    }
+    const list: YamlList = this._delegate.prepareFrontmatter(outputFilename, this._pageHeadingText(apiItem));
 
     section.appendNode(b.frontmatter(list));
   }
 
-  public heritageTypes(apiItem: ApiItem): void {
-    const { _section: section, _b: b } = this;
+  public heritageTypes(): void {
+    const { _section: section, _b: b, _apiItem: apiItem } = this;
     if (apiItem instanceof ApiDeclaredItem) {
       if (apiItem.excerpt.text.length > 0) {
         section.appendNode(b.paragraph([b.emphasis({ bold: true }, [b.text('Signature:')])]));
@@ -286,12 +281,12 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public interfaceTable(apiInterface: ApiInterface): void {
-    const { _section: section, _b: b, _next: next } = this;
+  public interfaceTable(): void {
+    const { _section: section, _b: b, _next: next, _apiItem: apiItem } = this;
     const eventsTable: DocTable = b.table(['Property', 'Type', 'Description']);
     const propertiesTable: DocTable = b.table(['Property', 'Type', 'Description']);
     const methodsTable: DocTable = b.table(['Method', 'Description']);
-    for (const apiMember of apiInterface.members) {
+    for (const apiMember of apiItem.members) {
       switch (apiMember.kind) {
         case ApiItemKind.ConstructSignature:
         case ApiItemKind.MethodSignature: {
@@ -342,11 +337,11 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public modelTable(apiModel: ApiModel): void {
-    const { _section: section, _b: b, _next: next } = this;
+  public modelTable(): void {
+    const { _section: section, _b: b, _next: next, _delegate: delegate } = this;
     const packagesTable: DocTable = b.table(['Package', 'Description']);
 
-    for (const apiMember of apiModel.members) {
+    for (const apiMember of delegate.apiModel.members) {
       const row: DocTableRow = b.tableRow([b.titleCell(apiMember), b.descriptionCell(apiMember)]);
 
       switch (apiMember.kind) {
@@ -363,8 +358,8 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public packageOrNamespace(apiContainer: ApiPackage | ApiNamespace): void {
-    const { _section: section, _b: b, _next: next } = this;
+  public packageOrNamespace(): void {
+    const { _section: section, _b: b, _next: next, _apiItem: apiContainer } = this;
 
     const typeTables: Record<string, DocTable> = {};
 
@@ -403,8 +398,8 @@ export class SectionBuilders implements ISections {
     });
   }
 
-  public pageHeading(apiItem: ApiItem): void {
-    const { _section: section, _b: b } = this;
+  public pageHeading(): void {
+    const { _section: section, _b: b, _apiItem: apiItem } = this;
 
     const heading: string = this._pageHeadingText(apiItem);
 
@@ -460,10 +455,11 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public parameterTable(apiParameterListMixin: ApiParameterListMixin): void {
-    const { _section: section, _b: b } = this;
+  public parameterTable(): void {
+    const { _section: section, _b: b, _apiItem: apiParameterListMixin } = this;
     const parametersTable: DocTable = b.table(['Parameter', 'Type', 'Description']);
-    for (const apiParameter of apiParameterListMixin.parameters) {
+
+    for (const apiParameter of (apiParameterListMixin as ApiParameterListMixin).parameters) {
       const parameterDescription: DocSection = b.section();
       if (apiParameter.tsdocParamBlock) {
         appendSection(parameterDescription, apiParameter.tsdocParamBlock.content);
@@ -496,8 +492,8 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public remarks(apiItem: ApiItem): void {
-    const { _section: section, _b: b } = this;
+  public remarks(): void {
+    const { _section: section, _b: b, _apiItem: apiItem } = this;
     if (apiItem instanceof ApiDocumentedItem) {
       const tsdocComment: DocComment | undefined = apiItem.tsdocComment;
 
@@ -527,8 +523,8 @@ export class SectionBuilders implements ISections {
     }
   }
 
-  public throws(apiItem: ApiItem): void {
-    const { _section: section, _b: b } = this;
+  public throws(): void {
+    const { _section: section, _b: b, _apiItem: apiItem } = this;
     if (apiItem instanceof ApiDocumentedItem) {
       const tsdocComment: DocComment | undefined = apiItem.tsdocComment;
 
@@ -548,5 +544,11 @@ export class SectionBuilders implements ISections {
         }
       }
     }
+  }
+}
+
+export function appendSection(output: DocSection, docSection: DocSection): void {
+  for (const node of docSection.nodes) {
+    output.appendNode(node);
   }
 }
