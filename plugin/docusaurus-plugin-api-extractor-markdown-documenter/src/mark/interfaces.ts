@@ -92,43 +92,171 @@ export interface IMarkdownDelegateContext {
  * @public
  */
 export interface IPrimitiveBuilders {
+  /**
+   * Creates a node represented a fenced off snippet of code
+   * @param code a code snippet that will be in the fenced output
+   * @param language the name of the langauge for the code snippet
+   */
   code(code: string, language: string): DocFencedCode;
+  /**
+   * Creates a node for an inline snippet of code
+   * @param code code snippet that will be inlined
+   */
   codeSpan(code: string): DocCodeSpan;
+  /**
+   * Creates a table cell node specifically for the description of a member of a class or interface
+   * @param apiItem {@link @microsoft/api-extractor-model#ApiItem | ApiItem}
+   */
   descriptionCell(apiItem: ApiItem): DocTableCell;
+  /**
+   * Creates a node that represents either bold or italic text
+   * @param options
+   * @param children
+   */
   emphasis(options: IEmphasisOptions, children: DocNode[]): DocEmphasisSpan;
+
+  /**
+   * Creates a paragraph node that contains linked references to other objects and interfaces
+   * @param excerpt
+   */
   excerpt(excerpt: Excerpt): DocParagraph;
+
+  /**
+   * Creates a heading based on the "@framworkItemType" annotation
+   * @param apiItem {@link @microsoft/api-extractor-model#ApiItem | ApiItem}
+   */
   frameworkItemTypeHeading(apiItem: ApiItem): DocHeading;
+  /**
+   * Creates a node that represents frontmatter written in YAML
+   * @param list
+   */
   frontmatter(list: YamlList): DocFrontmatter;
+  /**
+   * Creates a heading node for the passed string
+   * @param heading
+   */
   heading(heading: string): DocHeading;
+  /**
+   * Creates a link to a specific destination. Links will be made relative to the outputFolder
+   * @param linkText
+   * @param destination
+   */
   link(linkText: string, destination: string): DocLinkTag;
+  /**
+   * Generates a table cell for a typescript modifier e.g. public / static / protected etc
+   * @param apiItem {@link @microsoft/api-extractor-model#ApiItem | ApiItem}
+   */
   modiferCell(apiItem: ApiItem): DocTableCell;
+  /**
+   * Creates a table cell based on the contents of the "@modulePath" annotation
+   * @param apiItem {@link @microsoft/api-extractor-model#ApiItem | ApiItem}
+   */
   modulePathCell(apiItem: ApiItem): DocTableCell;
+  /**
+   * Returns a level 2 heading based on the contents of the "@modulePath" annotation
+   * @param apiItem {@link @microsoft/api-extractor-model#ApiItem | ApiItem}
+   */
   modulePathHeading(apiItem: ApiItem): DocHeading | undefined;
+  /**
+   * Creates a node which will be a callout box in markdown
+   * @param children
+   */
   noteBox(children: DocNode[]): DocNoteBox;
+  /**
+   * Creates a node that represents a paragraph
+   * @param children
+   */
   paragraph(children: DocNode[]): DocParagraph;
+  /**
+   * Generates a table cell for a specific property of a class or interface
+   * @param apiItem {@link @microsoft/api-extractor-model#ApiItem | ApiItem}
+   */
   propertyTypeCell(apiItem: ApiItem): DocTableCell;
+  /**
+   * Creates a new section node
+   */
   section(): DocSection;
+  /**
+   * Creates a node representing a table cell
+   * @param children
+   */
   tableCell(children: DocNode[]): DocTableCell;
+  /**
+   * Creates a node representing a table row
+   * @param children
+   */
   tableRow(children: DocTableCell[]): DocTableRow;
+  /**
+   * Creates a table with headings
+   * @param headings
+   */
   table(headings: string[]): DocTable;
+  /**
+   * Creates a node represting a chunk of plain text.
+   * @param text
+   */
   text(text: string): DocPlainText;
-  titleCell(apiItem: ApiItem): DocTableCell;
 }
 
 export interface ISectionBuilders {
+  /**
+   * Appends a table to the current section that will contain all the information about the class that is currently being documented
+   */
   classTable: SectionBuilder;
+  /**
+   * Appends a table that will contain all the information about the interface that is currently being documented
+   */
   interfaceTable: SectionBuilder;
+  /**
+   * Appends a section that contains all the heritage types for the given object currently being documented
+   */
   heritageTypes: SectionBuilder;
+  /**
+   * Appends a table that contains all the information about the packages
+   */
   modelTable: SectionBuilder;
+  /**
+   * Appends a section containing information about any decorators attached to a class
+   */
   decorators: SectionBuilder;
+  /**
+   * Appends a section containing information about deprecated items for the object currently being documented
+   */
   deprecated: SectionBuilder;
+  /**
+   * Appends a section containing the contents of the "@remarks" block associated with the object currently being documented
+   */
   remarks: SectionBuilder;
+  /**
+   * Appends a section containing all members of a package or namespace
+   */
   packageOrNamespace: SectionBuilder;
+  /**
+   * Appends the breadcrumb trail
+   */
   breadcrumb: SectionBuilder;
+  /**
+   * Appends a heading for the object currently being documented
+   */
   pageHeading: SectionBuilder;
+  /**
+   * Appends any warnings regarding APIs that have been annotated with "@\beta"
+   */
   betaWarning: SectionBuilder;
+  /**
+   * Appends a table containing all the members of an enum
+   */
   enumTable: SectionBuilder;
+  /**
+   * Appends frontmatter to the section
+   */
   frontmatter: SectionBuilder;
+  /**
+   * Appends a table containing all the information about the parameters for the object currently being documented
+   */
   parameterTable: SectionBuilder;
+  /**
+   * Appends information about errors that will be thrown by the object currently being documented
+   */
   throws: SectionBuilder;
 }

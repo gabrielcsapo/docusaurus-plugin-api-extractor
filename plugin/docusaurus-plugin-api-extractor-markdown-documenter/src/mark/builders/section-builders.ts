@@ -14,7 +14,7 @@ import {
   Excerpt,
   ReleaseTag
 } from '@microsoft/api-extractor-model';
-import { DocBlock, DocComment, DocNode, DocParagraph, DocSection, StandardTags } from '@microsoft/tsdoc';
+import { DocBlock, DocComment, DocParagraph, DocSection, StandardTags } from '@microsoft/tsdoc';
 import pluralize from 'pluralize';
 import { join } from 'path';
 import { DocHeading } from '../nodes/doc-heading';

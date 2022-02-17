@@ -245,8 +245,7 @@ export class PrimitiveBuilders {
     // Markdown doesn't provide a standardized syntax for hyperlinks inside code spans, so we will render
     // the type expression as DocPlainText.  Instead of creating multiple DocParagraphs, we can simply
     // discard any newlines and let the renderer do normal word-wrapping.
-    let unwrappedTokenText: string = token.text.replace(/[\r\n]+/g, ' ');
-    // unwrappedTokenText = unwrappedTokenText.replace(/</g, '\\<');
+    const unwrappedTokenText: string = token.text.replace(/[\r\n]+/g, ' ');
 
     // If it's hyperlinkable, then append a DocLinkTag
     if (token.kind === ExcerptTokenKind.Reference && token.canonicalReference) {

@@ -1,21 +1,21 @@
 import { ApiItem, ApiModel } from '@microsoft/api-extractor-model';
-import { StringBuilder, DocSection } from '@microsoft/tsdoc';
+import { StringBuilder, DocSection, TSDocConfiguration, DocNode } from '@microsoft/tsdoc';
 import path from 'path';
 
 import { CustomDocNodes } from './nodes';
 import { StandardMarkdownEmitter } from './standard-markdown-emitter';
-import { PageBuilder, createPage } from './builders/create-page';
 import { getFilenameForApiItem, getLinkFilenameForApiItem } from './builders/file-naming';
 import { IDocumenterDelegate, IInternalDocumenterDelegate } from './interfaces';
 import { promises as fs } from 'fs';
 import { InternalDelegate } from './default-delegate';
+import { PrimitiveBuilders } from './builders/primitive-builders';
+import { SectionBuilders } from './builders/section-builders';
 
 export class StandardMarkdownDocumenter {
   private _emitter: StandardMarkdownEmitter;
-  private _apiModel: ApiModel;
-  private _outputFolder: string;
   private _pages: Record<string, string> = {};
-  private _pageBuilder: PageBuilder;
+  private _configuration: TSDocConfiguration;
+  private _delegate: IInternalDocumenterDelegate;
 
   public constructor(delegate: IDocumenterDelegate);
   public constructor(apiModel: ApiModel, outputPath: string);
@@ -33,17 +33,14 @@ export class StandardMarkdownDocumenter {
       throw new Error(`You must pass either a custom delegate or the APIModel and outputFolder`);
     }
 
-    this._apiModel = delegate.apiModel;
-    this._outputFolder = delegate.outputFolder;
+    this._delegate = delegate;
     this._emitter = new StandardMarkdownEmitter(delegate);
     CustomDocNodes.configuration = delegate.configureTSDoc(CustomDocNodes.configuration);
-    this._pageBuilder = createPage(CustomDocNodes.configuration, delegate, (apiItem: ApiItem) => {
-      this._writeApiItemPage(apiItem);
-    });
+    this._configuration = CustomDocNodes.configuration;
   }
 
   public async generate(): Promise<Record<string, string>> {
-    this._writeApiItemPage(this._apiModel);
+    this._writeApiItemPage(this._delegate.apiModel);
     const pages: Record<string, string> = this._pages;
     this._pages = {};
     return pages;
@@ -56,13 +53,37 @@ export class StandardMarkdownDocumenter {
   }
 
   private _writeApiItemPage(apiItem: ApiItem): void {
-    const page: DocSection = this._pageBuilder(apiItem);
+    const { _configuration: configuration, _delegate: delegate } = this;
+    const primitiveBuilders: PrimitiveBuilders = new PrimitiveBuilders(configuration, delegate.apiModel);
+    const section: DocSection = primitiveBuilders.section();
 
-    const filename: string = path.join(this._outputFolder, getFilenameForApiItem(apiItem));
+    const sectionBuilders: SectionBuilders = new SectionBuilders(
+      primitiveBuilders,
+      section,
+      delegate,
+      apiItem,
+      this._writeApiItemPage.bind(this)
+    );
+
+    delegate.writePage({
+      currentPage: section,
+      apiItem,
+      tsDocConfiguration: configuration,
+      append(docNode: DocNode): void {
+        section.appendNode(docNode);
+      },
+      next: (apiItem: ApiItem) => {
+        this._writeApiItemPage(apiItem);
+      },
+      primitives: primitiveBuilders,
+      sections: sectionBuilders
+    });
+
+    const filename: string = path.join(this._delegate.outputFolder, getFilenameForApiItem(apiItem));
 
     const builder: StringBuilder = new StringBuilder();
 
-    this._pages[filename] = this._emitter.emit(page, builder, {
+    this._pages[filename] = this._emitter.emit(section, builder, {
       contextApiItem: apiItem,
       onGetFilenameForApiItem: (apiItemForFilename: ApiItem) => {
         return getLinkFilenameForApiItem(apiItemForFilename);

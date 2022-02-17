@@ -1,4 +1,4 @@
-import { ApiItem, ApiItemKind, ApiModel } from '@microsoft/api-extractor-model';
+import { ApiItemKind, ApiModel } from '@microsoft/api-extractor-model';
 import { TSDocConfiguration } from '@microsoft/tsdoc';
 import { parse } from 'path';
 import {
