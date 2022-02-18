@@ -1,4 +1,26 @@
-import { ApiItem, ApiModel, Excerpt } from '@microsoft/api-extractor-model';
+import {
+  ApiCallSignature,
+  ApiClass,
+  ApiConstructor,
+  ApiConstructSignature,
+  ApiEnum,
+  ApiEnumMember,
+  ApiFunction,
+  ApiIndexSignature,
+  ApiInterface,
+  ApiItem,
+  ApiItemKind,
+  ApiMethod,
+  ApiMethodSignature,
+  ApiModel,
+  ApiNamespace,
+  ApiPackage,
+  ApiProperty,
+  ApiPropertySignature,
+  ApiTypeAlias,
+  ApiVariable,
+  Excerpt
+} from '@microsoft/api-extractor-model';
 import {
   DocCodeSpan,
   DocFencedCode,
@@ -17,6 +39,66 @@ import { DocNoteBox } from './nodes/doc-notebox';
 import { DocTable } from './nodes/doc-table';
 import { DocTableCell } from './nodes/doc-table-cell';
 import { DocTableRow } from './nodes/doc-table-row';
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type ParentNode = {
+  label: string;
+  items: ParentNode[] | ChildNode[];
+  [key: string]: unknown;
+};
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type ChildNode = {
+  label: string;
+  [key: string]: unknown;
+};
+
+export interface IVisitMeta {
+  id: string;
+  type: string;
+}
+
+type Visit<K, T> = (apiItem: K, meta: IVisitMeta) => T;
+type VisitChild<T> = Visit<T, ChildNode>;
+type VisitParent<T> = Visit<T, ParentNode>;
+
+export type IInternalChildVisitors = {
+  [k in keyof ChildVisitors]: (item: ApiItem) => void;
+};
+
+export type IInternalParentVisitors = {
+  [k in keyof ParentVisitors]: (item: ApiItem) => void;
+};
+
+export type IInternalVisitor = IInternalChildVisitors & IInternalParentVisitors;
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type ChildVisitors = {
+  [ApiItemKind.CallSignature]: VisitChild<ApiCallSignature>;
+  [ApiItemKind.Constructor]: VisitChild<ApiConstructor>;
+  [ApiItemKind.ConstructSignature]: VisitChild<ApiConstructSignature>;
+  [ApiItemKind.Enum]: VisitChild<ApiEnum>;
+  [ApiItemKind.EnumMember]: VisitChild<ApiEnumMember>;
+  [ApiItemKind.Function]: VisitChild<ApiFunction>;
+  [ApiItemKind.IndexSignature]: VisitChild<ApiIndexSignature>;
+  [ApiItemKind.Method]: VisitChild<ApiMethod>;
+  [ApiItemKind.MethodSignature]: VisitChild<ApiMethodSignature>;
+  [ApiItemKind.Property]: VisitChild<ApiProperty>;
+  [ApiItemKind.PropertySignature]: VisitChild<ApiPropertySignature>;
+  [ApiItemKind.TypeAlias]: VisitChild<ApiTypeAlias>;
+  [ApiItemKind.Variable]: VisitChild<ApiVariable>;
+};
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type ParentVisitors = {
+  [ApiItemKind.Class]: VisitParent<ApiClass>;
+  [ApiItemKind.Interface]: VisitParent<ApiInterface>;
+  [ApiItemKind.Model]: VisitParent<ApiModel>;
+  [ApiItemKind.Namespace]: VisitParent<ApiNamespace>;
+  [ApiItemKind.Package]: VisitParent<ApiPackage>;
+};
+
+export type Visitor = ParentVisitors & ChildVisitors;
 
 export interface IEmphasisOptions {
   bold?: boolean;
@@ -42,13 +124,44 @@ export type YamlList =
   | { [key: string]: null }
   | { [key: string]: YamlList };
 
+/**
+ * A delegate that can be used to participate in the creation of each markdown document
+ * @public
+ */
 export interface IDocumenterDelegate {
+  /**
+   * The folder where we are going to write the documents to. All links will be relative to this folder.
+   */
   outputFolder: string;
+  /**
+   * The {@link @microsoft/api-extractor-model#ApiModel | ApiModel} that we derive documentation from
+   */
   apiModel: ApiModel;
+
+  /**
+   * Allows you to add your own custom tsdoc configuration. see {@link https://github.com/microsoft/tsdoc/blob/bab67532f80d731087eb167c586943e946dc8b11/tsdoc/src/configuration/TSDocConfiguration.ts#L11 | TSDocConfiguration}
+   * @param configuration
+   */
   configureTSDoc?(configuration: TSDocConfiguration): TSDocConfiguration;
+
+  /**
+   * Allows the implementer to handle any custom tsdoc nodes that were registered in configureTSDoc
+   * @param writeCtx
+   */
   writeNode?(writeCtx: IWriteNodeContext): void;
+
+  /**
+   * Used to define frontmatter for a markdown document. It is called for each new document.
+   * @param fileName the name of the file being created
+   * @param pageTitle the title of page being created
+   */
   prepareFrontmatter?(fileName: string, pageTitle: string): YamlList;
-  writePage?(b: IMarkdownDelegateContext): void;
+
+  /**
+   * Called to generate a markdown document. You are provided access to all the markdown buillders
+   * @param pageContext
+   */
+  writePage?(pageContext: IMarkdownDelegateContext): void;
 }
 
 export interface IEmitterContext {

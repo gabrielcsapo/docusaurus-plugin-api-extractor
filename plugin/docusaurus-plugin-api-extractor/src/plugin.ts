@@ -180,7 +180,7 @@ export default function pluginDocusaurus(context: LoadContext, pluginOptions: IP
             }
 
             if (process.exitCode !== 1) {
-              await generateMarkdownFiles(process.cwd(), path.resolve(siteDir, docsRoot, outDir));
+              await generateMarkdownFiles(process.cwd(), path.resolve(siteDir, docsRoot, outDir), configFile);
             }
           } catch (e) {
             process.exitCode = 1;

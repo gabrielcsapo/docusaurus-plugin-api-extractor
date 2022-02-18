@@ -6,8 +6,8 @@
       "request": "launch",
       "name": "Run in specified folder",
       "runtimeExecutable": "pnpm",
-      "cwd": "${workspaceFolder}/examples/website",
-      "args": ["run", "api-extractor"],
+      "cwd": "${workspaceFolder}/plugin/standard-markdown-documenter",
+      "args": ["run", "test:update"],
       "sourceMaps": true,
       "console": "integratedTerminal"
     }

@@ -1,5 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`can generate a sidebar default 1`] = `
+Array [
+  Object {
+    "items": Array [
+      Object {
+        "label": "Overview",
+      },
+    ],
+    "label": "Packages",
+  },
+  Object {
+    "label": "Overview",
+  },
+  Object {
+    "label": "Overview",
+  },
+  Object {
+    "label": "Overview",
+  },
+  Object {
+    "label": "(constructor)",
+  },
+  Object {
+    "label": "args",
+  },
+]
+`;
+
 exports[`delegate can be used to customize frontmatter 1`] = `
 Object {
   "foo/addon.component._constructor_.md": "---
@@ -269,7 +297,7 @@ Object {
 }
 `;
 
-exports[`delegate can be used to register custom nodes 2`] = `
+exports[`delegate can be used to register custom nodes that require recursion 1`] = `
 Object {
   "foo/index.md": " 🎉 FUN 🎉 🎉 TIME 🎉 🎉 CONTAINER 🎉 🎉 CHILDREN 🎉
 ",

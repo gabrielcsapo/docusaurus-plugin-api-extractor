@@ -1,7 +1,7 @@
 {
-  "name": "docusaurus-plugin-api-extractor-markdown-documenter",
-  "version": "0.3.4",
-  "description": "API Documenter plugin used with the docusaurus-plugin-api-extractor",
+  "name": "standard-markdown-documenter",
+  "version": "0.1.0",
+  "description": "Standard markdown generator that API Documenter ",
   "private": false,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -18,8 +18,7 @@
     "test:update": "heft test --clean -u && cp ./src/*.ejs ./dist"
   },
   "dependencies": {
-    "@microsoft/api-documenter": "^7.13.68",
-    "@microsoft/api-extractor-model": "^7.13.16",
+    "@microsoft/api-extractor-model": "^7.15.3",
     "@microsoft/tsdoc": "^0.13.2",
     "@types/pluralize": "^0.0.29",
     "pluralize": "^8.0.0",
@@ -30,11 +29,15 @@
     "ejs": "^3.1.6",
     "fs-extra": "^10.0.0",
     "prettier": "^2.4.1",
+<<<<<<< HEAD:plugin/docusaurus-plugin-api-extractor-markdown-documenter/package.json
     "remark": "^13.0.0",
     "remark-frontmatter": "^3.0.0",
     "unist-util-visit": "^2.0.3",
     "@babel/core": "^7.0.0",
     "remark-gfm": "~1.0.0"
+=======
+    "@babel/core": "^7.0.0"
+>>>>>>> moving stuff:plugin/standard-markdown-documenter/package.json
   },
   "devDependencies": {
     "eslint": "^7.0.0",

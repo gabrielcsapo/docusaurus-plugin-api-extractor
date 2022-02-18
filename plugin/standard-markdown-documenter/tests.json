@@ -1,0 +1,87 @@
+[
+  {
+    "type": "category",
+    "label": "Packages",
+    "items": [
+      {
+        "type": "doc",
+        "label": "Overview",
+        "id": "index"
+      },
+      {
+        "type": "category",
+        "label": "addon",
+        "collapsed": false,
+        "items": [
+          {
+            "type": "doc",
+            "label": "Overview",
+            "id": "addon"
+          },
+          {
+            "type": "category",
+            "label": "Component",
+            "collapsed": true,
+            "items": [
+              {
+                "type": "doc",
+                "label": "Overview",
+                "id": "addon.component"
+              },
+              {
+                "type": "doc",
+                "label": "(constructor)",
+                "id": "addon.component._constructor_"
+              },
+              {
+                "type": "doc",
+                "label": "args",
+                "id": "addon.component.args"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "label": "Stepper",
+            "collapsed": true,
+            "items": [
+              {
+                "type": "doc",
+                "label": "Overview",
+                "id": "addon.stepper"
+              },
+              {
+                "type": "doc",
+                "label": "foo",
+                "id": "addon.stepper.foo"
+              },
+              {
+                "type": "doc",
+                "label": "render",
+                "id": "addon.stepper.render"
+              }
+            ]
+          },
+          {
+            "type": "doc",
+            "label": "StepperSignature",
+            "id": "addon.steppersignature"
+          },
+          {
+            "type": "category",
+            "label": "sum",
+            "collapsed": false,
+            "items": [
+              {
+                "type": "doc",
+                "label": "Overview",
+                "id": "addon.sum"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "collapsed": false
+  }
+]

@@ -28,23 +28,25 @@
     "!dist/test/*"
   ],
   "peerDependencies": {
-    "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
-    "@microsoft/api-documenter": ">= 7.13.68 < 7.14.0",
-    "@microsoft/api-extractor": ">= 7.18.16 < 7.19.0"
+    "standard-markdown-documenter": "workspace:*",
+    "@microsoft/api-extractor": ">= 7.19.4 < 7.20.0",
+    "@microsoft/api-extractor-model": ">= 7.15.3 < 7.16.0"
   },
   "dependencies": {
     "@docusaurus/types": "^2.0.0-beta.6",
     "@types/debug": "^4.1.7",
+    "@types/glob": "^7.2.0",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.10.2",
     "debug": "^2.6.9",
     "fs-extra": "^10.0.0",
+    "glob": "^7.2.0",
     "comment-json": "^4.1.1"
   },
   "devDependencies": {
-    "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
-    "@microsoft/api-documenter": "^7.13.68",
-    "@microsoft/api-extractor": "^7.18.16",
+    "standard-markdown-documenter": "workspace:*",
+    "@microsoft/api-extractor": "^7.19.4",
+    "@microsoft/api-extractor-model": "^7.15.3",
     "glob": "^7.2.0",
     "eslint": "^7.0.0",
     "@rushstack/eslint-config": "^2.4.5",

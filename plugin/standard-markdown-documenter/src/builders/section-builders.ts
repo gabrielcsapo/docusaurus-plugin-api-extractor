@@ -31,6 +31,8 @@ import {
 } from './file-naming';
 import { YamlList } from '../interfaces';
 
+export const API_ITEM_TO_FRAMEWORK_ITEM_TYPE: WeakMap<ApiItem, string> = new WeakMap();
+
 export class SectionBuilders {
   private _b: PrimitiveBuilders;
   private _section: DocSection;
@@ -431,7 +433,9 @@ export class SectionBuilders {
       case ApiItemKind.Interface:
       case ApiItemKind.Function:
       case ApiItemKind.TypeAlias:
-        return b.frameworkItemTypeHeading(apiItem).title;
+        const title: string = b.frameworkItemTypeHeading(apiItem).title;
+        API_ITEM_TO_FRAMEWORK_ITEM_TYPE.set(apiItem, title);
+        return title;
       case ApiItemKind.Method:
       case ApiItemKind.MethodSignature:
         return `${scopedName} method`;

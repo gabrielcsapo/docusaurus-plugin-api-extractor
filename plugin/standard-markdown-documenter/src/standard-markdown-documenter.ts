@@ -1,16 +1,36 @@
-import { ApiItem, ApiModel } from '@microsoft/api-extractor-model';
+import { ApiItem, ApiItemKind, ApiModel } from '@microsoft/api-extractor-model';
 import { StringBuilder, DocSection, TSDocConfiguration, DocNode } from '@microsoft/tsdoc';
 import path from 'path';
 
 import { CustomDocNodes } from './nodes';
 import { StandardMarkdownEmitter } from './standard-markdown-emitter';
 import { getFilenameForApiItem, getLinkFilenameForApiItem } from './builders/file-naming';
-import { IDocumenterDelegate, IInternalDocumenterDelegate } from './interfaces';
+import { IDocumenterDelegate, IInternalDocumenterDelegate, ParentNode, Visitor } from './interfaces';
 import { promises as fs } from 'fs';
 import { InternalDelegate } from './default-delegate';
 import { PrimitiveBuilders } from './builders/primitive-builders';
 import { SectionBuilders } from './builders/section-builders';
+import { SidebarVisitor } from './visitor';
 
+/**
+ * Responsible for taking an {@link @microsoft/api-extractor-model#ApiModel} and producing standard markdown from it
+ *
+ * @example
+ * ```ts
+ * import { ApiModel } from '@microsoft/api-extractor-model';
+ * import { StandardMarkdownDocumenter } from 'standard-markdown-documenter';
+ *
+ * const model = new ApiModel();
+ *
+ * model.loadPackage(join(__dirname, './my.api.json'));
+ *
+ * const documenter = new StandardMarkdownDocumenter(model, './out');
+ *
+ * await documenter.generateFiles();
+ * ```
+ *
+ * @public
+ */
 export class StandardMarkdownDocumenter {
   private _emitter: StandardMarkdownEmitter;
   private _pages: Record<string, string> = {};
@@ -50,6 +70,26 @@ export class StandardMarkdownDocumenter {
     Object.entries(await this.generate()).forEach(async ([filePath, content]) => {
       await fs.writeFile(filePath, content);
     });
+  }
+
+  public async generateSidebar(visitor: Partial<Visitor> = {}): Promise<ParentNode[]> {
+    const internalVisitor: SidebarVisitor = new SidebarVisitor(visitor);
+    const apiModel: ApiModel = this._delegate.apiModel;
+    internalVisitor[ApiItemKind.Model](apiModel);
+    this._visit(apiModel, internalVisitor);
+    return internalVisitor.finalize();
+  }
+
+  private _visit(apiItem: ApiItem, visitor: SidebarVisitor): void {
+    for (const item of apiItem.members) {
+      if (item.kind !== 'EntryPoint' && item.kind !== 'None') {
+        visitor[item.kind](item);
+      }
+
+      if (item.members.length > 0) {
+        this._visit(item, visitor);
+      }
+    }
   }
 
   private _writeApiItemPage(apiItem: ApiItem): void {

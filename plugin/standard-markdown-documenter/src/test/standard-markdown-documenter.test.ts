@@ -7,6 +7,7 @@ import {
   IDocPlainTextParameters,
   TSDocConfiguration
 } from '@microsoft/tsdoc';
+import fs from 'fs';
 import { join } from 'path';
 import {
   IDocumenterDelegate,
@@ -14,7 +15,7 @@ import {
   IWriteNodeContext,
   StandardMarkdownDocumenter,
   YamlList
-} from '../mark';
+} from '../';
 
 it('kitchen sink', async () => {
   const model = new ApiModel();
@@ -124,7 +125,6 @@ it('delegate can be used to register custom nodes', async () => {
     }
 
     public writePage(ctx: IMarkdownDelegateContext): void {
-      console.log(ctx.tsDocConfiguration.docNodeManager.isAllowedChild(DocNodeKind.Section, 'FunTime'));
       ctx.append(new FuntimeNode({ configuration: ctx.tsDocConfiguration, text: 'NEAT' }));
     }
 
@@ -180,9 +180,6 @@ it('delegate can be used to register custom nodes that require recursion', async
     }
 
     public writePage(ctx: IMarkdownDelegateContext): void {
-      console.log(
-        ctx.tsDocConfiguration.docNodeManager.isAllowedChild(DocNodeKind.Section, 'FunTimeContainer')
-      );
       ctx.append(new FuntimeContainerNode({ configuration: ctx.tsDocConfiguration }));
     }
 
@@ -210,4 +207,15 @@ it('delegate can be used to register custom nodes that require recursion', async
   const documenter = new StandardMarkdownDocumenter(new Delegate(model, 'foo'));
 
   expect(await documenter.generate()).toMatchSnapshot();
+});
+
+it('can generate a sidebar default', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.custom-types.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  const sidebar = await documenter.generateSidebar();
+  expect(sidebar).toMatchSnapshot();
+
+  fs.writeFileSync('./tests-1.json', JSON.stringify(sidebar, null, 2));
 });
