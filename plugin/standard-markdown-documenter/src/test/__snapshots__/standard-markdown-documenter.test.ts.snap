@@ -10,17 +10,21 @@ Array [
       Object {
         "items": Array [
           Object {
+            "id": "index",
             "label": "Overview",
           },
           Object {
             "items": Array [
               Object {
+                "id": "addon",
                 "label": "Overview",
               },
               Object {
+                "id": "addon.component",
                 "label": "(constructor)",
               },
               Object {
+                "id": "addon.component",
                 "label": "args",
               },
             ],
@@ -29,21 +33,26 @@ Array [
           Object {
             "items": Array [
               Object {
+                "id": "addon",
                 "label": "Overview",
               },
               Object {
+                "id": "addon.stepper",
                 "label": "foo",
               },
               Object {
+                "id": "addon.stepper",
                 "label": "render",
               },
             ],
             "label": "Stepper",
           },
           Object {
+            "id": "addon",
             "label": "StepperSignature",
           },
           Object {
+            "id": "addon",
             "label": "sum",
           },
         ],

@@ -41,14 +41,14 @@ import { DocTableCell } from './nodes/doc-table-cell';
 import { DocTableRow } from './nodes/doc-table-row';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type ParentNode = {
+export type ContainerNode = {
   label: string;
-  items: ParentNode[] | ChildNode[];
+  items: unknown[];
   [key: string]: unknown;
 };
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type ChildNode = {
+export type TerminalNode = {
   label: string;
   [key: string]: unknown;
 };
@@ -59,8 +59,8 @@ export interface IVisitMeta {
 }
 
 type Visit<K, T> = (apiItem: K, meta: IVisitMeta) => T;
-type VisitChild<T> = Visit<T, ChildNode>;
-type VisitParent<T> = Visit<T, ParentNode>;
+type VisitTeminalNode<T> = Visit<T, TerminalNode>;
+type VisitContainerNode<T> = Visit<T, ContainerNode>;
 
 export type IInternalChildVisitors = {
   [k in keyof ChildVisitors]: (item: ApiItem) => void;
@@ -74,28 +74,28 @@ export type IInternalParentVisitors = {
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ChildVisitors = {
-  [ApiItemKind.CallSignature]: VisitChild<ApiCallSignature>;
-  [ApiItemKind.Constructor]: VisitChild<ApiConstructor>;
-  [ApiItemKind.ConstructSignature]: VisitChild<ApiConstructSignature>;
-  [ApiItemKind.Enum]: VisitChild<ApiEnum>;
-  [ApiItemKind.EnumMember]: VisitChild<ApiEnumMember>;
-  [ApiItemKind.Function]: VisitChild<ApiFunction>;
-  [ApiItemKind.IndexSignature]: VisitChild<ApiIndexSignature>;
-  [ApiItemKind.Method]: VisitChild<ApiMethod>;
-  [ApiItemKind.MethodSignature]: VisitChild<ApiMethodSignature>;
-  [ApiItemKind.Property]: VisitChild<ApiProperty>;
-  [ApiItemKind.PropertySignature]: VisitChild<ApiPropertySignature>;
-  [ApiItemKind.TypeAlias]: VisitChild<ApiTypeAlias>;
-  [ApiItemKind.Variable]: VisitChild<ApiVariable>;
+  [ApiItemKind.CallSignature]: VisitTeminalNode<ApiCallSignature>;
+  [ApiItemKind.Constructor]: VisitTeminalNode<ApiConstructor>;
+  [ApiItemKind.ConstructSignature]: VisitTeminalNode<ApiConstructSignature>;
+  [ApiItemKind.Enum]: VisitTeminalNode<ApiEnum>;
+  [ApiItemKind.EnumMember]: VisitTeminalNode<ApiEnumMember>;
+  [ApiItemKind.Function]: VisitTeminalNode<ApiFunction>;
+  [ApiItemKind.IndexSignature]: VisitTeminalNode<ApiIndexSignature>;
+  [ApiItemKind.Method]: VisitTeminalNode<ApiMethod>;
+  [ApiItemKind.MethodSignature]: VisitTeminalNode<ApiMethodSignature>;
+  [ApiItemKind.Property]: VisitTeminalNode<ApiProperty>;
+  [ApiItemKind.PropertySignature]: VisitTeminalNode<ApiPropertySignature>;
+  [ApiItemKind.TypeAlias]: VisitTeminalNode<ApiTypeAlias>;
+  [ApiItemKind.Variable]: VisitTeminalNode<ApiVariable>;
 };
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ParentVisitors = {
-  [ApiItemKind.Class]: VisitParent<ApiClass>;
-  [ApiItemKind.Interface]: VisitParent<ApiInterface>;
-  [ApiItemKind.Model]: VisitParent<ApiModel>;
-  [ApiItemKind.Namespace]: VisitParent<ApiNamespace>;
-  [ApiItemKind.Package]: VisitParent<ApiPackage>;
+  [ApiItemKind.Class]: VisitContainerNode<ApiClass>;
+  [ApiItemKind.Interface]: VisitContainerNode<ApiInterface>;
+  [ApiItemKind.Model]: VisitContainerNode<ApiModel>;
+  [ApiItemKind.Namespace]: VisitContainerNode<ApiNamespace>;
+  [ApiItemKind.Package]: VisitContainerNode<ApiPackage>;
 };
 
 export type Visitor = ParentVisitors & ChildVisitors;

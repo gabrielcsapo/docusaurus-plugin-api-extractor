@@ -9,8 +9,9 @@ import {
   IDocumenterDelegate,
   IInternalDocumenterDelegate,
   IVisitMeta,
-  ParentNode,
-  Visitor
+  ContainerNode,
+  Visitor,
+  TerminalNode
 } from './interfaces';
 import { promises as fs } from 'fs';
 import { InternalDelegate } from './default-delegate';
@@ -78,29 +79,18 @@ export class StandardMarkdownDocumenter {
     });
   }
 
-  public async generateSidebar(visitor: Partial<Visitor> = {}): Promise<ParentNode[]> {
+  public async generateSidebar(visitor: Partial<Visitor> = {}): Promise<ContainerNode[]> {
     const internalVisitor: SidebarVisitor = new SidebarVisitor(visitor);
     const apiModel: ApiModel = this._delegate.apiModel;
-    const output = [];
-    const modelNode = {
-      label: 'Packages',
-      items: [
-        {
-          label: 'Overview'
-        }
-      ]
-    };
-
+    const output: ContainerNode[] = [];
+    const modelNode: ContainerNode = internalVisitor.Model(apiModel, this._metaFor(apiModel));
     output.push(modelNode);
 
-    // internalVisitor[ApiItemKind.Model](apiModel);
-
-    // this._visit(apiModel, internalVisitor);
     this._myVisit(modelNode.items, apiModel, internalVisitor);
     return output;
   }
 
-  private _myVisit(output: unknown[], apiItem: ApiItem, visitor: SidebarVisitor) {
+  private _myVisit(output: unknown[], apiItem: ApiItem, visitor: SidebarVisitor): void {
     if (!apiItem.members) return;
     for (const item of apiItem.members) {
       switch (item.kind) {
@@ -112,26 +102,15 @@ export class StandardMarkdownDocumenter {
         case ApiItemKind.Interface:
         case ApiItemKind.Package:
         case ApiItemKind.Namespace:
-          const containerNode = visitor[item.kind](item, this._metaFor(apiItem));
+          const containerNode: ContainerNode = visitor[item.kind](item, this._metaFor(apiItem));
           output.push(containerNode);
           this._myVisit(containerNode.items, item, visitor);
           break;
         default:
-          const terminalNode = visitor[item.kind](item, this._metaFor(apiItem));
+          const terminalNode: TerminalNode = visitor[item.kind](item, this._metaFor(apiItem));
           output.push(terminalNode);
           this._myVisit(output, item, visitor);
       }
-    }
-  }
-
-  private _visit(apiItem: ApiItem, visitor: SidebarVisitor): void {
-    if (apiItem.members.length === 0) return;
-    for (const item of apiItem.members) {
-      if (item.kind !== 'EntryPoint' && item.kind !== 'None') {
-        visitor[item.kind](item, this._metaFor(item));
-      }
-
-      this._visit(item, visitor);
     }
   }
 

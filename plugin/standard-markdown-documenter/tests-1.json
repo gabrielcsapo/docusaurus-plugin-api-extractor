@@ -9,18 +9,22 @@
         "label": "addon",
         "items": [
           {
-            "label": "Overview"
+            "label": "Overview",
+            "id": "index"
           },
           {
             "label": "Component",
             "items": [
               {
-                "label": "Overview"
+                "label": "Overview",
+                "id": "addon"
               },
               {
+                "id": "addon.component",
                 "label": "(constructor)"
               },
               {
+                "id": "addon.component",
                 "label": "args"
               }
             ]
@@ -29,20 +33,25 @@
             "label": "Stepper",
             "items": [
               {
-                "label": "Overview"
+                "label": "Overview",
+                "id": "addon"
               },
               {
+                "id": "addon.stepper",
                 "label": "foo"
               },
               {
+                "id": "addon.stepper",
                 "label": "render"
               }
             ]
           },
           {
+            "id": "addon",
             "label": "StepperSignature"
           },
           {
+            "id": "addon",
             "label": "sum"
           }
         ]
