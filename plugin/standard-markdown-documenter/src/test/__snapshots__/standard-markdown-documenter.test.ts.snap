@@ -18,13 +18,13 @@ Array [
                 "label": "Overview",
               },
               Object {
-                "label": "Component",
+                "label": "(constructor)",
               },
               Object {
-                "label": "Component",
+                "label": "args",
               },
             ],
-            "label": "",
+            "label": "Component",
           },
           Object {
             "items": Array [
@@ -32,22 +32,22 @@ Array [
                 "label": "Overview",
               },
               Object {
-                "label": "Stepper",
+                "label": "foo",
               },
               Object {
-                "label": "Stepper",
+                "label": "render",
               },
             ],
-            "label": "",
+            "label": "Stepper",
           },
           Object {
-            "label": "",
+            "label": "StepperSignature",
           },
           Object {
-            "label": "",
+            "label": "sum",
           },
         ],
-        "label": "(model)",
+        "label": "addon",
       },
     ],
     "label": "Packages",

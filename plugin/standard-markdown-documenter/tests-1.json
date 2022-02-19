@@ -6,44 +6,44 @@
         "label": "Overview"
       },
       {
-        "label": "(model)",
+        "label": "addon",
         "items": [
           {
             "label": "Overview"
           },
           {
-            "label": "",
+            "label": "Component",
             "items": [
               {
                 "label": "Overview"
               },
               {
-                "label": "Component"
+                "label": "(constructor)"
               },
               {
-                "label": "Component"
+                "label": "args"
               }
             ]
           },
           {
-            "label": "",
+            "label": "Stepper",
             "items": [
               {
                 "label": "Overview"
               },
               {
-                "label": "Stepper"
+                "label": "foo"
               },
               {
-                "label": "Stepper"
+                "label": "render"
               }
             ]
           },
           {
-            "label": ""
+            "label": "StepperSignature"
           },
           {
-            "label": ""
+            "label": "sum"
           }
         ]
       }

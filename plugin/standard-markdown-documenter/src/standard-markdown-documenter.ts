@@ -112,12 +112,12 @@ export class StandardMarkdownDocumenter {
         case ApiItemKind.Interface:
         case ApiItemKind.Package:
         case ApiItemKind.Namespace:
-          const containerNode = visitor[item.kind](apiItem, this._metaFor(apiItem));
+          const containerNode = visitor[item.kind](item, this._metaFor(apiItem));
           output.push(containerNode);
           this._myVisit(containerNode.items, item, visitor);
           break;
         default:
-          const terminalNode = visitor[item.kind](apiItem, this._metaFor(apiItem));
+          const terminalNode = visitor[item.kind](item, this._metaFor(apiItem));
           output.push(terminalNode);
           this._myVisit(output, item, visitor);
       }
