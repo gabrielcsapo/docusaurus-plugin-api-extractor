@@ -5,11 +5,17 @@ import path from 'path';
 import { CustomDocNodes } from './nodes';
 import { StandardMarkdownEmitter } from './standard-markdown-emitter';
 import { getFilenameForApiItem, getLinkFilenameForApiItem } from './builders/file-naming';
-import { IDocumenterDelegate, IInternalDocumenterDelegate, ParentNode, Visitor } from './interfaces';
+import {
+  IDocumenterDelegate,
+  IInternalDocumenterDelegate,
+  IVisitMeta,
+  ParentNode,
+  Visitor
+} from './interfaces';
 import { promises as fs } from 'fs';
 import { InternalDelegate } from './default-delegate';
 import { PrimitiveBuilders } from './builders/primitive-builders';
-import { SectionBuilders } from './builders/section-builders';
+import { API_ITEM_TO_FRAMEWORK_ITEM_TYPE, SectionBuilders } from './builders/section-builders';
 import { SidebarVisitor } from './visitor';
 
 /**
@@ -75,21 +81,66 @@ export class StandardMarkdownDocumenter {
   public async generateSidebar(visitor: Partial<Visitor> = {}): Promise<ParentNode[]> {
     const internalVisitor: SidebarVisitor = new SidebarVisitor(visitor);
     const apiModel: ApiModel = this._delegate.apiModel;
-    internalVisitor[ApiItemKind.Model](apiModel);
-    this._visit(apiModel, internalVisitor);
-    return internalVisitor.finalize();
+    const output = [];
+    const modelNode = {
+      label: 'Packages',
+      items: [
+        {
+          label: 'Overview'
+        }
+      ]
+    };
+
+    output.push(modelNode);
+
+    // internalVisitor[ApiItemKind.Model](apiModel);
+
+    // this._visit(apiModel, internalVisitor);
+    this._myVisit(modelNode.items, apiModel, internalVisitor);
+    return output;
+  }
+
+  private _myVisit(output: unknown[], apiItem: ApiItem, visitor: SidebarVisitor) {
+    if (!apiItem.members) return;
+    for (const item of apiItem.members) {
+      switch (item.kind) {
+        case ApiItemKind.None:
+        case ApiItemKind.EntryPoint:
+          this._myVisit(output, item, visitor);
+          break;
+        case ApiItemKind.Class:
+        case ApiItemKind.Interface:
+        case ApiItemKind.Package:
+        case ApiItemKind.Namespace:
+          const containerNode = visitor[item.kind](apiItem, this._metaFor(apiItem));
+          output.push(containerNode);
+          this._myVisit(containerNode.items, item, visitor);
+          break;
+        default:
+          const terminalNode = visitor[item.kind](apiItem, this._metaFor(apiItem));
+          output.push(terminalNode);
+          this._myVisit(output, item, visitor);
+      }
+    }
   }
 
   private _visit(apiItem: ApiItem, visitor: SidebarVisitor): void {
+    if (apiItem.members.length === 0) return;
     for (const item of apiItem.members) {
       if (item.kind !== 'EntryPoint' && item.kind !== 'None') {
-        visitor[item.kind](item);
+        visitor[item.kind](item, this._metaFor(item));
       }
 
-      if (item.members.length > 0) {
-        this._visit(item, visitor);
-      }
+      this._visit(item, visitor);
     }
+  }
+
+  private _metaFor(apiItem: ApiItem): IVisitMeta {
+    const id: string = `${getLinkFilenameForApiItem(apiItem).replace('./', '').replace('.md', '')}`;
+
+    const type: string = API_ITEM_TO_FRAMEWORK_ITEM_TYPE.get(apiItem) || apiItem.displayName;
+
+    return { id, type };
   }
 
   private _writeApiItemPage(apiItem: ApiItem): void {

@@ -70,7 +70,7 @@ export type IInternalParentVisitors = {
   [k in keyof ParentVisitors]: (item: ApiItem) => void;
 };
 
-export type IInternalVisitor = IInternalChildVisitors & IInternalParentVisitors;
+// export type IInternalVisitor = IInternalChildVisitors & IInternalParentVisitors;
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ChildVisitors = {

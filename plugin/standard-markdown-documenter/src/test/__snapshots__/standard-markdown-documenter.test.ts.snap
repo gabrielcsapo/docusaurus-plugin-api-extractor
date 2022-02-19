@@ -7,23 +7,50 @@ Array [
       Object {
         "label": "Overview",
       },
+      Object {
+        "items": Array [
+          Object {
+            "label": "Overview",
+          },
+          Object {
+            "items": Array [
+              Object {
+                "label": "Overview",
+              },
+              Object {
+                "label": "Component",
+              },
+              Object {
+                "label": "Component",
+              },
+            ],
+            "label": "",
+          },
+          Object {
+            "items": Array [
+              Object {
+                "label": "Overview",
+              },
+              Object {
+                "label": "Stepper",
+              },
+              Object {
+                "label": "Stepper",
+              },
+            ],
+            "label": "",
+          },
+          Object {
+            "label": "",
+          },
+          Object {
+            "label": "",
+          },
+        ],
+        "label": "(model)",
+      },
     ],
     "label": "Packages",
-  },
-  Object {
-    "label": "Overview",
-  },
-  Object {
-    "label": "Overview",
-  },
-  Object {
-    "label": "Overview",
-  },
-  Object {
-    "label": "(constructor)",
-  },
-  Object {
-    "label": "args",
   },
 ]
 `;
