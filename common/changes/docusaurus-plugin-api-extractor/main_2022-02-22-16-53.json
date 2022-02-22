@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "docusaurus-plugin-api-extractor",
+      "comment": "Remove logging",
+      "type": "patch"
+    }
+  ],
+  "packageName": "docusaurus-plugin-api-extractor"
+}
