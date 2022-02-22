@@ -58,8 +58,6 @@ export interface IVisitMeta {
 }
 
 type Visit<K, T> = (apiItem: K, meta: IVisitMeta) => T;
-type VisitTeminalNode<T> = Visit<T, TerminalNode>;
-type VisitContainerNode<T> = Visit<T, ContainerNode>;
 
 export type IInternalChildVisitors = {
   [k in keyof ChildVisitors]: (item: ApiItem) => void;
@@ -70,32 +68,37 @@ export type IInternalParentVisitors = {
 };
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type ChildVisitors = {
-  [ApiItemKind.CallSignature]: VisitTeminalNode<ApiCallSignature>;
-  [ApiItemKind.Constructor]: VisitTeminalNode<ApiConstructor>;
-  [ApiItemKind.ConstructSignature]: VisitTeminalNode<ApiConstructSignature>;
-  [ApiItemKind.Enum]: VisitTeminalNode<ApiEnum>;
-  [ApiItemKind.EnumMember]: VisitTeminalNode<ApiEnumMember>;
-  [ApiItemKind.Function]: VisitTeminalNode<ApiFunction>;
-  [ApiItemKind.IndexSignature]: VisitTeminalNode<ApiIndexSignature>;
-  [ApiItemKind.Method]: VisitTeminalNode<ApiMethod>;
-  [ApiItemKind.MethodSignature]: VisitTeminalNode<ApiMethodSignature>;
-  [ApiItemKind.Property]: VisitTeminalNode<ApiProperty>;
-  [ApiItemKind.PropertySignature]: VisitTeminalNode<ApiPropertySignature>;
-  [ApiItemKind.TypeAlias]: VisitTeminalNode<ApiTypeAlias>;
-  [ApiItemKind.Variable]: VisitTeminalNode<ApiVariable>;
+export type ChildVisitors<NodeType = TerminalNode> = {
+  [ApiItemKind.CallSignature]: Visit<ApiCallSignature, NodeType>;
+  [ApiItemKind.Constructor]: Visit<ApiConstructor, NodeType>;
+  [ApiItemKind.ConstructSignature]: Visit<ApiConstructSignature, NodeType>;
+  [ApiItemKind.Enum]: Visit<ApiEnum, NodeType>;
+  [ApiItemKind.EnumMember]: Visit<ApiEnumMember, NodeType>;
+  [ApiItemKind.Function]: Visit<ApiFunction, NodeType>;
+  [ApiItemKind.IndexSignature]: Visit<ApiIndexSignature, NodeType>;
+  [ApiItemKind.Method]: Visit<ApiMethod, NodeType>;
+  [ApiItemKind.MethodSignature]: Visit<ApiMethodSignature, NodeType>;
+  [ApiItemKind.Property]: Visit<ApiProperty, NodeType>;
+  [ApiItemKind.PropertySignature]: Visit<ApiPropertySignature, NodeType>;
+  [ApiItemKind.TypeAlias]: Visit<ApiTypeAlias, NodeType>;
+  [ApiItemKind.Variable]: Visit<ApiVariable, NodeType>;
 };
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type ParentVisitors = {
-  [ApiItemKind.Class]: VisitContainerNode<ApiClass>;
-  [ApiItemKind.Interface]: VisitContainerNode<ApiInterface>;
-  [ApiItemKind.Model]: VisitContainerNode<ApiModel>;
-  [ApiItemKind.Namespace]: VisitContainerNode<ApiNamespace>;
-  [ApiItemKind.Package]: VisitContainerNode<ApiPackage>;
+export type ParentVisitors<NodeType = ContainerNode> = {
+  [ApiItemKind.Class]: Visit<ApiClass, NodeType>;
+  [ApiItemKind.Interface]: Visit<ApiInterface, NodeType>;
+  [ApiItemKind.Model]: Visit<ApiModel, NodeType>;
+  [ApiItemKind.Namespace]: Visit<ApiNamespace, NodeType>;
+  [ApiItemKind.Package]: Visit<ApiPackage, NodeType>;
 };
 
-export type Visitor = ParentVisitors & ChildVisitors;
+export type PublicVisitor<ContainerNode, TerminalNode> = Partial<Visit<ContainerNode, TerminalNode>>;
+
+export type Visitor<
+  Container extends ContainerNode = ContainerNode,
+  Terminal extends TerminalNode = TerminalNode
+> = ParentVisitors<Container> & ChildVisitors<Terminal>;
 
 export interface IEmphasisOptions {
   bold?: boolean;

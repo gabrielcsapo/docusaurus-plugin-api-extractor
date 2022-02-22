@@ -90,7 +90,7 @@ export class StandardMarkdownDocumenter {
 
   /**
    * Generates an object that can be used for sidebars. It optionally takes a visitor to participate in the generation
-   * @param visitor A {@link Vistor} that can participate in the sidebar creation
+   * @param visitor A {@link SidebarVisitor} that can participate in the sidebar creation
    * @returns
    */
   public async generateSidebar(visitor: Partial<Visitor> = {}): Promise<ContainerNode[]> {
@@ -100,17 +100,17 @@ export class StandardMarkdownDocumenter {
     const modelNode = internalVisitor.Model(apiModel, this._metaFor(apiModel));
     output.push(modelNode);
 
-    this._myVisit(modelNode.items, apiModel, internalVisitor);
+    this._visit(modelNode.items, apiModel, internalVisitor);
     return output;
   }
 
-  private _myVisit(output: unknown[], apiItem: ApiItem, visitor: SidebarVisitor): void {
+  private _visit(output: unknown[], apiItem: ApiItem, visitor: SidebarVisitor): void {
     if (!apiItem.members) return;
     for (const item of apiItem.members) {
       switch (item.kind) {
         case ApiItemKind.None:
         case ApiItemKind.EntryPoint:
-          this._myVisit(output, item, visitor);
+          this._visit(output, item, visitor);
           break;
         case ApiItemKind.Class:
         case ApiItemKind.Interface:
@@ -118,12 +118,12 @@ export class StandardMarkdownDocumenter {
         case ApiItemKind.Namespace:
           const containerNode = visitor[item.kind](item, this._metaFor(item));
           output.push(containerNode);
-          this._myVisit(containerNode.items, item, visitor);
+          this._visit(containerNode.items, item, visitor);
           break;
         default:
           const terminalNode = visitor[item.kind](item, this._metaFor(item)) as TerminalNode;
           output.push(terminalNode);
-          this._myVisit(output, item, visitor);
+          this._visit(output, item, visitor);
       }
     }
   }

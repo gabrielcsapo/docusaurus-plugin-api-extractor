@@ -1943,6 +1943,7 @@ Array [
             "label": "StepperSignature",
           },
           Object {
+            "id": "thing",
             "label": "sum",
             "thinging": "thing",
           },

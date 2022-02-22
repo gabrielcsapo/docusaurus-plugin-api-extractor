@@ -1,4 +1,3 @@
-import { Visitor as FullVisitor } from './interfaces';
 export { StandardMarkdownDocumenter } from './standard-markdown-documenter';
 export {
   IDocumenterDelegate,
@@ -7,7 +6,6 @@ export {
   IWriteNodeContext,
   TerminalNode,
   ContainerNode,
-  IVisitMeta
+  IVisitMeta,
+  PublicVisitor as Visitor
 } from './interfaces';
-
-export type Visitor = Partial<FullVisitor>;

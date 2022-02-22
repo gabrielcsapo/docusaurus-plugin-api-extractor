@@ -14,6 +14,8 @@ model.loadPackage(join(__dirname, './my.api.json'));
 
 const documenter = new StandardMarkdownDocumenter(model, './out');
 await documenter.generateFiles();
+const sidebarData = await documenter.generateSidebar();
+// Do something with the sidebarData
 ```
 
 ## Custom Delegate
@@ -79,3 +81,7 @@ Would produce something like:
 |  --- | --- | --- |
 |  [render()](./my.myclass.render.md) |  |  |
 ```
+
+## Custom Sidebar Visitor
+
+By default `generateSidebar()` is going to create a hierarchical JSON object that could be used to generate a sidebar based on the contents of the APIModel. To participate in the creation of the sidebar, you can pass a custom visitor to `generateSidebar` and generate your own custom nodes. Please see the [docusaurus visitor](https://github.com/gabrielcsapo/docusaurus-plugin-api-extractor/blob/main/plugin/docusaurus-plugin-api-extractor/src/sidebar-visitor.ts) as a reference implementation.

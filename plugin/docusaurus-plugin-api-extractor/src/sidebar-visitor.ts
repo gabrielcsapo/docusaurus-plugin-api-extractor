@@ -1,8 +1,18 @@
 import { ApiItem, ApiItemKind } from '@microsoft/api-extractor-model';
-import { Visitor } from 'standard-markdown-documenter';
-import { ContainerNode, TerminalNode, IVisitMeta } from 'standard-markdown-documenter/dist/interfaces';
+import { Visitor, ContainerNode, TerminalNode, IVisitMeta } from 'standard-markdown-documenter';
 
-export const VISITOR: Visitor = {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface DocusaurusContainerNode extends ContainerNode {
+  type: string;
+  collapsed: boolean;
+}
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface DocusaurusTerminalNode extends TerminalNode {
+  type: string;
+}
+
+export const SIDEBAR_VISITOR: Visitor<DocusaurusContainerNode, DocusaurusTerminalNode> = {
   [ApiItemKind.Package](apiItem: ApiItem, meta: IVisitMeta) {
     return containerNode(apiItem, meta);
   },
@@ -78,7 +88,7 @@ export const VISITOR: Visitor = {
   }
 };
 
-function containerNode(apiItem: ApiItem, meta: IVisitMeta): ContainerNode {
+function containerNode(apiItem: ApiItem, meta: IVisitMeta): DocusaurusContainerNode {
   return {
     type: 'category',
     label: apiItem.displayName,
@@ -87,7 +97,7 @@ function containerNode(apiItem: ApiItem, meta: IVisitMeta): ContainerNode {
   };
 }
 
-function terminalNode(displayName: string, id: string): TerminalNode {
+function terminalNode(displayName: string, id: string): DocusaurusTerminalNode {
   return {
     type: 'doc',
     label: displayName,

@@ -9,7 +9,7 @@ import type { ExtractorResult, IConfigFile } from '@microsoft/api-extractor';
 import { ApiModel } from '@microsoft/api-extractor-model';
 import { StandardMarkdownDocumenter } from 'standard-markdown-documenter';
 import { ContainerNode } from 'standard-markdown-documenter/dist/interfaces';
-import { VISITOR } from './sidebar-visitor';
+import { SIDEBAR_VISITOR } from './sidebar-visitor';
 import fs from 'fs';
 import ejs from 'ejs';
 import prettier from 'prettier';
@@ -153,7 +153,7 @@ export async function generateMarkdownFiles(
     const documenter = new StandardMarkdownDocumenter(model, outDir);
 
     await documenter.generateFiles();
-    const sidebarNodes: ContainerNode[] = await documenter.generateSidebar(VISITOR);
+    const sidebarNodes = await documenter.generateSidebar(SIDEBAR_VISITOR);
 
     const sidebarFile = prettier.format(
       sidebarTmpl({
