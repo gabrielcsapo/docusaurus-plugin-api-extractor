@@ -9,14 +9,12 @@ export class IndentedWriter {
   private _builder: StringBuilder;
   public defaultIndentPrefix: string = '  ';
 
-  private _previousLineIsBlank: boolean;
   private _currentLineIsBlank: boolean;
   public trimLeadingSpaces: boolean = false;
   public constructor(stringBuilder: StringBuilder) {
     this._builder = stringBuilder;
     this._latestChunk = undefined;
     this._previousChunk = undefined;
-    this._previousLineIsBlank = true;
     this._currentLineIsBlank = true;
   }
 

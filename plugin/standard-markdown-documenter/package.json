@@ -14,30 +14,17 @@
     "!dist/test/*"
   ],
   "scripts": {
-    "build": "heft test --clean && cp ./src/*.ejs ./dist",
-    "test:update": "heft test --clean -u && cp ./src/*.ejs ./dist"
+    "build": "heft test --clean",
+    "test:update": "heft test --clean -u"
   },
   "dependencies": {
     "@microsoft/api-extractor-model": "^7.15.3",
     "@microsoft/tsdoc": "^0.13.2",
     "@types/pluralize": "^0.0.29",
     "pluralize": "^8.0.0",
-    "@types/prettier": "^2.4.1",
     "@types/debug": "^4.1.7",
-    "@types/ejs": "^3.1.0",
     "@types/unist": "^2.0.6",
-    "ejs": "^3.1.6",
-    "fs-extra": "^10.0.0",
-    "prettier": "^2.4.1",
-<<<<<<< HEAD:plugin/docusaurus-plugin-api-extractor-markdown-documenter/package.json
-    "remark": "^13.0.0",
-    "remark-frontmatter": "^3.0.0",
-    "unist-util-visit": "^2.0.3",
-    "@babel/core": "^7.0.0",
-    "remark-gfm": "~1.0.0"
-=======
-    "@babel/core": "^7.0.0"
->>>>>>> moving stuff:plugin/standard-markdown-documenter/package.json
+    "fs-extra": "^10.0.0"
   },
   "devDependencies": {
     "eslint": "^7.0.0",

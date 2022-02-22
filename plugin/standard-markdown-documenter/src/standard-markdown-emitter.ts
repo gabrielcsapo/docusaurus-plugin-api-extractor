@@ -25,6 +25,9 @@ import { DocTable } from './nodes/doc-table';
 import { DocTableCell } from './nodes/doc-table-cell';
 import { CustomDocNodeKind } from './nodes/doc-types';
 
+/**
+ * Largely borrowed from here but we've built in extensibility in via delegate. Also fixes some issues regarding the markdown we emit https://github.com/microsoft/rushstack/blob/bc8eb7b3963445c3c3a3736030d7186ea6e5b318/apps/api-documenter/src/markdown/MarkdownEmitter.ts
+ */
 export class StandardMarkdownEmitter {
   private _delegate: IInternalDocumenterDelegate;
   public constructor(delegate: IInternalDocumenterDelegate) {

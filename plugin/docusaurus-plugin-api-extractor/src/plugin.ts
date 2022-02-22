@@ -125,8 +125,8 @@ export default function pluginDocusaurus(context: LoadContext, pluginOptions: IP
           );
           await exec(`${apiExtractor} init`);
           await fs.writeFile(
-            path.join(process.cwd(), 'api-documenter.json'),
-            await fs.readFile(path.resolve(__dirname, './api-documenter.json'), 'utf-8')
+            path.join(process.cwd(), 'tsdoc.json'),
+            await fs.readFile(path.resolve(__dirname, './tsdoc.json'), 'utf-8')
           );
         });
 

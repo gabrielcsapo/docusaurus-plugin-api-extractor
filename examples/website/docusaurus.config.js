@@ -16,7 +16,9 @@ module.exports = {
       'docusaurus-plugin-api-extractor',
       {
         entryPoints: {
-          addon: './dist/addon/index.d.ts'
+          addon: './dist/addon/index.d.ts',
+          lib: './dist/lib/index.d.ts',
+          'my-lib': './dist/lib/index.d.ts'
         }
       }
     ]

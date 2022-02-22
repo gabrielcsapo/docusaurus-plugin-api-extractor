@@ -21,9 +21,58 @@ module.exports = (dir = 'api') => [
             id: `${dir}/addon`
           },
           {
+            type: 'category',
+            label: 'Component',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/addon.component`
+              },
+              {
+                type: 'doc',
+                label: '(constructor)',
+                id: `${dir}/addon.component._constructor_`
+              },
+              {
+                type: 'doc',
+                label: 'args',
+                id: `${dir}/addon.component.args`
+              }
+            ]
+          },
+          {
+            type: 'category',
+            label: 'Stepper',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/addon.stepper`
+              },
+              {
+                type: 'doc',
+                label: 'foo',
+                id: `${dir}/addon.stepper.foo`
+              },
+              {
+                type: 'doc',
+                label: 'render',
+                id: `${dir}/addon.stepper.render`
+              }
+            ]
+          },
+          {
             type: 'doc',
-            label: 'a',
-            id: `${dir}/addon.a`
+            label: 'StepperSignature',
+            id: `${dir}/addon.steppersignature`
+          },
+          {
+            type: 'doc',
+            label: 'sum',
+            id: `${dir}/addon.sum`
           }
         ]
       },
@@ -187,9 +236,141 @@ module.exports = (dir = 'api') => [
             id: `${dir}/my-lib`
           },
           {
+            type: 'category',
+            label: 'Animal',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/my-lib.animal`
+              },
+              {
+                type: 'doc',
+                label: 'speak',
+                id: `${dir}/my-lib.animal.speak`
+              }
+            ]
+          },
+          {
+            type: 'category',
+            label: 'AnimalOptions',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/my-lib.animaloptions`
+              },
+              {
+                type: 'doc',
+                label: 'name',
+                id: `${dir}/my-lib.animaloptions.name`
+              }
+            ]
+          },
+          {
             type: 'doc',
-            label: 'otherLib',
-            id: `${dir}/my-lib.otherlib`
+            label: 'bar',
+            id: `${dir}/my-lib.bar`
+          },
+          {
+            type: 'category',
+            label: 'Bizz',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/my-lib.bizz`
+              },
+              {
+                type: 'doc',
+                label: '(constructor)',
+                id: `${dir}/my-lib.bizz._constructor_`
+              },
+              {
+                type: 'doc',
+                label: 'bar',
+                id: `${dir}/my-lib.bizz.bar`
+              },
+              {
+                type: 'doc',
+                label: 'foo',
+                id: `${dir}/my-lib.bizz.foo`
+              }
+            ]
+          },
+          {
+            type: 'category',
+            label: 'Box',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/my-lib.box`
+              },
+              {
+                type: 'doc',
+                label: '(constructor)',
+                id: `${dir}/my-lib.box._constructor_`
+              },
+              {
+                type: 'doc',
+                label: 'unwrap',
+                id: `${dir}/my-lib.box.unwrap`
+              }
+            ]
+          },
+          {
+            type: 'doc',
+            label: 'foo',
+            id: `${dir}/my-lib.foo`
+          },
+          {
+            type: 'category',
+            label: 'Get',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/my-lib.get`
+              },
+              {
+                type: 'doc',
+                label: 'get',
+                id: `${dir}/my-lib.get.get`
+              }
+            ]
+          },
+          {
+            type: 'category',
+            label: 'Getter',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: 'Overview',
+                id: `${dir}/my-lib.getter`
+              },
+              {
+                type: 'doc',
+                label: 'get',
+                id: `${dir}/my-lib.getter.get`
+              }
+            ]
+          },
+          {
+            type: 'doc',
+            label: 'sum',
+            id: `${dir}/my-lib.sum`
+          },
+          {
+            type: 'doc',
+            label: 'x',
+            id: `${dir}/my-lib.x`
           }
         ]
       }

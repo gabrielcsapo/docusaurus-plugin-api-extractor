@@ -6,7 +6,7 @@
   "types": "dist/plugin.d.ts",
   "private": false,
   "scripts": {
-    "build": "node ./scripts/patch-fs-tree-diff.js && heft test --clean && cp ./src/api-documenter.json ./dist"
+    "build": "node ./scripts/patch-fs-tree-diff.js && heft test --clean && cp ./src/tsdoc.json ./dist &&  cp ./src/*.ejs ./dist"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,8 @@
     "@microsoft/api-extractor-model": ">= 7.15.3 < 7.16.0"
   },
   "dependencies": {
+    "@types/ejs": "^3.1.0",
+    "@types/prettier": "^2.4.4",
     "@docusaurus/types": "^2.0.0-beta.6",
     "@types/debug": "^4.1.7",
     "@types/glob": "^7.2.0",
@@ -41,7 +43,10 @@
     "debug": "^2.6.9",
     "fs-extra": "^10.0.0",
     "glob": "^7.2.0",
-    "comment-json": "^4.1.1"
+    "comment-json": "^4.1.1",
+    "ejs": "^3.1.6",
+    "prettier": "^2.5.1",
+    "@babel/core": "^7.0.0"
   },
   "devDependencies": {
     "standard-markdown-documenter": "workspace:*",

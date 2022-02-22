@@ -5,6 +5,35 @@
 ```ts
 
 // @public (undocumented)
-export const a = "";
+export class Component<T> {
+    constructor(args: T);
+    // (undocumented)
+    args: T;
+}
+
+// @public (undocumented)
+export class Stepper extends Component<StepperSignature> {
+    // (undocumented)
+    foo(): Record<string, unknown>;
+    // (undocumented)
+    render(): void;
+}
+
+// @public (undocumented)
+export type StepperSignature = {
+    Element: HTMLDivElement;
+    Blocks: {
+        default: unknown;
+    };
+    Arguments: {
+        name: string;
+        age: number;
+    };
+};
+
+// @public (undocumented)
+export function sum(a: number, b: number): number;
+
+// (No @packageDocumentation comment for this package)
 
 ```

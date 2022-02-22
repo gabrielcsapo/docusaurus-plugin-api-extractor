@@ -66,6 +66,11 @@ export class StandardMarkdownDocumenter {
     this._configuration = CustomDocNodes.configuration;
   }
 
+  /**
+   * Generates an object of markdown files based on the ApiModel
+   * @returns An object of markdown files
+   * @public
+   */
   public async generate(): Promise<Record<string, string>> {
     this._writeApiItemPage(this._delegate.apiModel);
     const pages: Record<string, string> = this._pages;
@@ -73,12 +78,21 @@ export class StandardMarkdownDocumenter {
     return pages;
   }
 
+  /**
+   * Generates markdown files based on the ApiModel
+   * @public
+   */
   public async generateFiles(): Promise<void> {
     Object.entries(await this.generate()).forEach(async ([filePath, content]) => {
       await fs.writeFile(filePath, content);
     });
   }
 
+  /**
+   * Generates an object that can be used for sidebars. It optionally takes a visitor to participate in the generation
+   * @param visitor A {@link Vistor} that can participate in the sidebar creation
+   * @returns
+   */
   public async generateSidebar(visitor: Partial<Visitor> = {}): Promise<ContainerNode[]> {
     const internalVisitor: SidebarVisitor = new SidebarVisitor(visitor);
     const apiModel: ApiModel = this._delegate.apiModel;
@@ -102,12 +116,12 @@ export class StandardMarkdownDocumenter {
         case ApiItemKind.Interface:
         case ApiItemKind.Package:
         case ApiItemKind.Namespace:
-          const containerNode: ContainerNode = visitor[item.kind](item, this._metaFor(apiItem));
+          const containerNode: ContainerNode = visitor[item.kind](item, this._metaFor(item));
           output.push(containerNode);
           this._myVisit(containerNode.items, item, visitor);
           break;
         default:
-          const terminalNode: TerminalNode = visitor[item.kind](item, this._metaFor(apiItem));
+          const terminalNode: TerminalNode = visitor[item.kind](item, this._metaFor(item));
           output.push(terminalNode);
           this._myVisit(output, item, visitor);
       }

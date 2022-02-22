@@ -1,4 +1,4 @@
-import { ApiItemKind, ApiModel } from '@microsoft/api-extractor-model';
+import { ApiClass, ApiFunction, ApiItemKind, ApiModel } from '@microsoft/api-extractor-model';
 import {
   DocNodeContainer,
   DocNodeKind,
@@ -7,7 +7,6 @@ import {
   IDocPlainTextParameters,
   TSDocConfiguration
 } from '@microsoft/tsdoc';
-import fs from 'fs';
 import { join } from 'path';
 import {
   IDocumenterDelegate,
@@ -19,7 +18,71 @@ import {
 
 it('kitchen sink', async () => {
   const model = new ApiModel();
-  model.loadPackage(join(__dirname, './fixtures/api-model.custom-types.json'));
+  model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  expect(await documenter.generate()).toMatchSnapshot();
+});
+
+it('packageDocumentation', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.packageDocumentation.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  expect(await documenter.generate()).toMatchSnapshot();
+});
+
+it('functions', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.function.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  expect(await documenter.generate()).toMatchSnapshot();
+});
+
+it('interfaces', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.interfaces.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  expect(await documenter.generate()).toMatchSnapshot();
+});
+
+it('classes', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.class.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  expect(await documenter.generate()).toMatchSnapshot();
+});
+
+it('type alias', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.type-alias.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  expect(await documenter.generate()).toMatchSnapshot();
+});
+
+it('variable', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.variable.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  expect(await documenter.generate()).toMatchSnapshot();
+});
+
+it('frameworkItemType', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.frameworkItemType.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  expect(await documenter.generate()).toMatchSnapshot();
+});
+
+it('modulePath', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.modulePath.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
   expect(await documenter.generate()).toMatchSnapshot();
@@ -27,7 +90,7 @@ it('kitchen sink', async () => {
 
 it('it defaults to built in delegate', async () => {
   const model = new ApiModel();
-  model.loadPackage(join(__dirname, './fixtures/api-model.custom-types.json'));
+  model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
 
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
@@ -36,7 +99,7 @@ it('it defaults to built in delegate', async () => {
 
 it('if a custom delegate is passed with only the required fields the default implementation runs for the methods', async () => {
   const model = new ApiModel();
-  model.loadPackage(join(__dirname, './fixtures/api-model.custom-types.json'));
+  model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
 
   class Delegate implements IDocumenterDelegate {
     public apiModel: ApiModel;
@@ -54,7 +117,7 @@ it('if a custom delegate is passed with only the required fields the default imp
 
 it('delegate can be used to customize frontmatter', async () => {
   const model = new ApiModel();
-  model.loadPackage(join(__dirname, './fixtures/api-model.custom-types.json'));
+  model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
 
   class Delegate implements IDocumenterDelegate {
     public apiModel: ApiModel;
@@ -79,7 +142,7 @@ it('delegate can be used to customize frontmatter', async () => {
 
 it('delegate can be used to customize the page', async () => {
   const model = new ApiModel();
-  model.loadPackage(join(__dirname, './fixtures/api-model.custom-types.json'));
+  model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
 
   class Delegate implements IDocumenterDelegate {
     public apiModel: ApiModel;
@@ -103,7 +166,7 @@ it('delegate can be used to customize the page', async () => {
 
 it('delegate can be used to register custom nodes', async () => {
   const model = new ApiModel();
-  model.loadPackage(join(__dirname, './fixtures/api-model.custom-types.json'));
+  model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
 
   class FuntimeNode extends DocPlainText {
     public constructor(configurgation: IDocPlainTextParameters) {
@@ -156,7 +219,7 @@ it('delegate can be used to register custom nodes', async () => {
 
 it('delegate can be used to register custom nodes that require recursion', async () => {
   const model = new ApiModel();
-  model.loadPackage(join(__dirname, './fixtures/api-model.custom-types.json'));
+  model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
 
   class FuntimeContainerNode extends DocNodeContainer {
     public get kind(): string {
@@ -209,13 +272,38 @@ it('delegate can be used to register custom nodes that require recursion', async
   expect(await documenter.generate()).toMatchSnapshot();
 });
 
-it('can generate a sidebar default', async () => {
+it('can generate a sidebar by default', async () => {
   const model = new ApiModel();
-  model.loadPackage(join(__dirname, './fixtures/api-model.custom-types.json'));
+  model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
   const sidebar = await documenter.generateSidebar();
   expect(sidebar).toMatchSnapshot();
+});
 
-  fs.writeFileSync('./tests-1.json', JSON.stringify(sidebar, null, 2));
+it('retains custom information on nodes given a visitor', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  const sidebar = await documenter.generateSidebar({
+    [ApiItemKind.Function](apiItem: ApiFunction) {
+      return {
+        label: apiItem.displayName,
+        thinging: 'thing'
+      };
+    },
+    [ApiItemKind.Class](apiItem: ApiClass) {
+      return {
+        label: apiItem.displayName,
+        collapsed: false,
+        items: [
+          {
+            label: 'Summary'
+          }
+        ]
+      };
+    }
+  });
+  expect(sidebar).toMatchSnapshot();
 });

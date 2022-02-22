@@ -8,6 +8,19 @@ import { Extractor, ExtractorConfig, ExtractorLogLevel } from '@microsoft/api-ex
 import type { ExtractorResult, IConfigFile } from '@microsoft/api-extractor';
 import { ApiModel } from '@microsoft/api-extractor-model';
 import { StandardMarkdownDocumenter } from 'standard-markdown-documenter';
+import { ContainerNode } from 'standard-markdown-documenter/dist/interfaces';
+import { VISITOR } from './sidebar-visitor';
+import fs from 'fs';
+import ejs from 'ejs';
+import prettier from 'prettier';
+
+const sidebar: string = fs.readFileSync(join(__dirname, './api-sidebar.ejs'), 'utf-8');
+const tree: string = fs.readFileSync(join(__dirname, './api-sidebar-tree.ejs'), 'utf-8');
+
+// eslint-disable-next-line @typescript-eslint/typedef
+const sidebarTmpl = ejs.compile(sidebar);
+// eslint-disable-next-line @typescript-eslint/typedef
+const treeTmpl = ejs.compile(tree);
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const debug = debugMessage('docusaurus-api-extractor:generate');
@@ -128,10 +141,12 @@ export async function generateMarkdownFiles(
 
     const model: ApiModel = new ApiModel();
     const modelDir: string = config.docModel?.apiJsonFilePath
-      ? dirname(config.docModel?.apiJsonFilePath)
+      ? dirname(config.docModel?.apiJsonFilePath).replace('<projectFolder>', projectFolder)
       : join(projectFolder, 'temp');
 
     const globs: string[] = glob(`${modelDir}/*.json`);
+
+    console.log(globs, modelDir);
 
     for (const resolvedPath of globs) {
       model.loadPackage(resolvedPath);
@@ -140,8 +155,25 @@ export async function generateMarkdownFiles(
     const documenter: StandardMarkdownDocumenter = new StandardMarkdownDocumenter(model, outDir);
 
     await documenter.generateFiles();
+    const sidebarNodes: ContainerNode[] = await documenter.generateSidebar(VISITOR);
+
+    const sidebarFile: string = prettier.format(
+      sidebarTmpl({
+        sideBarItems: sidebarNodes,
+        dir: 'api',
+        isSideBarItem,
+        tree: treeTmpl
+      }),
+      { parser: 'babel', singleQuote: true }
+    );
+
+    writeFileSync(join(outDir, 'api-sidebar.js'), sidebarFile);
   } catch (e) {
     console.error(e);
     process.exitCode = 1;
   }
+}
+
+function isSideBarItem(items: string[] | ContainerNode[]): boolean {
+  return Array.isArray(items) && typeof items[0] === 'object' && items[0] !== null && 'type' in items[0];
 }
