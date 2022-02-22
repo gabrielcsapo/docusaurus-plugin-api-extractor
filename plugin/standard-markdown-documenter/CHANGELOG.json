@@ -1,0 +1,17 @@
+{
+  "name": "standard-markdown-documenter",
+  "entries": [
+    {
+      "version": "0.2.0",
+      "tag": "standard-markdown-documenter_v0.2.0",
+      "date": "Tue, 22 Feb 2022 16:19:15 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "API for generating documentation from api-extractor-model"
+          }
+        ]
+      }
+    }
+  ]
+}
