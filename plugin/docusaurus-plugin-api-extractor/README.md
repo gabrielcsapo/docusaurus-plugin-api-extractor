@@ -5,7 +5,7 @@
 ## Installation
 
 ```
-npm install @microsoft/api-extractor @microsoft/api-documenter docusaurus-plugin-api-extractor docusaurus-plugin-api-extractor-markdown-documenter --save-dev
+npm install @microsoft/api-extractor docusaurus-plugin-api-extractor --save-dev
 ```
 
 ## Usage

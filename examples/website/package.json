@@ -8,7 +8,7 @@
     "start": "docusaurus start",
     "api-extractor": "pnpm run compile && docusaurus api-extractor:run -o api",
     "api-extractor:ci": "pnpm run compile && docusaurus api-extractor:run --ci",
-    "c": "pnpm run api-extractor && docusaurus build",
+    "build": "pnpm run api-extractor && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
