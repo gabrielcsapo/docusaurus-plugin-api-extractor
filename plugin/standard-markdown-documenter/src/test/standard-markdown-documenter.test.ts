@@ -127,10 +127,11 @@ it('delegate can be used to customize frontmatter', async () => {
       this.outputFolder = outputFolder;
     }
 
-    public prepareFrontmatter(filePath: string, title: string): YamlList {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    public prepareFrontmatter(_filePath: string, title: string): YamlList {
       return {
         basicallyAnything: 'can go here',
-        title: `${title} -- CUSTOM THINGY ${filePath}`
+        title: `${title} -- CUSTOM THINGY`
       };
     }
   }
