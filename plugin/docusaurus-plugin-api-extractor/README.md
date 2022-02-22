@@ -5,7 +5,7 @@
 ## Installation
 
 ```
-npm install @microsoft/api-extractor @microsoft/api-documenter docusaurus-plugin-api-extractor docusaurus-plugin-api-extractor-markdown-documenter --save-dev
+npm install @microsoft/api-extractor docusaurus-plugin-api-extractor --save-dev
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ This plugin extends Docusaurus' command line by adding the following commands.
 docusaurus api-extractor:init
 ```
 
-Use this command when setting up API Extractor for a new project. It writes an api-extractor.json and api-documenter.json file. The api-extractor.json config file template with code comments that describe all the settings. These files will be written in the current directory.
+Use this command when setting up API Extractor for a new project. It writes an api-extractor.json and tsdoc.json file. The api-extractor.json config file template with code comments that describe all the settings. These files will be written in the current directory.
 
 #### CLI Options
 
@@ -55,7 +55,7 @@ Due to how Docusaurus plugins currently work, this command should always be ran 
 
 If you're running API documentation generation as part of a CI job, we recommend that you run `docusaurus api-extractor:run` with the `--ci` flag. Doing so will enable validation of the public API of your project. You can read more about the validation @microsoft/api-extractor [here](https://api-extractor.com/pages/overview/demo_api_report/).
 
-### An example plugin configuration
+## An example plugin configuration
 
 **Basic Usage**
 ```js
@@ -89,4 +89,61 @@ module.exports = {
     }
   }],
 };
+```
+
+## Custom TSDoc Annotations
+
+When using this plugin we add TSDoc definitions to the project that allow you to annotate items in way that might make more sense for a specific framework.
+
+### `@frameworkItemType`
+By default API Extractor will categorize items in your project as primitive types e.g. class, function, interface etc. If you would like to refer to these items in a more framework centric way you can annotate them as such. Please see the following example.
+
+**Given**
+
+```ts
+
+/**
+ * @frameworkItemType Hook
+ * @public
+ */
+export default function useQuery(): unknown { /*... */ }
+```
+
+**Output**
+
+```md
+# useQuery() Hook
+
+**Signature:**
+
+\`\`\`typescript
+export default function useQuery(): unknown;
+\`\`\`
+```
+
+### `@modulePath`
+Currently API Extractor is not aware NodeJS' [export's map](https://nodejs.org/api/packages.html#package-entry-points) that allow you to define deeply nested import paths. As an interim solution we have added the `@modulePath` annotation which allows an import path to be emitted into the generated documentation. For example:
+
+**Given:**
+```ts
+/**
+ * @frameworkItemType Helper
+ * @modulePath my-addon/helpers/sum
+ * @public
+ */
+export default function sum(a: number, b: number): number { /*... */ }
+```
+
+**Output:**
+
+```md
+# sum() Helper
+
+## Import Path: my-addon/helpers/sum
+
+**Signature:**
+
+\`\`\`typescript
+export default function sum(a: number, b: number): number;
+\`\`\`
 ```

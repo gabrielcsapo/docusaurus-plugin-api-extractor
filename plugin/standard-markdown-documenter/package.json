@@ -1,0 +1,39 @@
+{
+  "name": "standard-markdown-documenter",
+  "version": "0.1.0",
+  "description": "Standard markdown generator that API Documenter ",
+  "private": false,
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist/**/*.ejs",
+    "dist/**/*.js*",
+    "dist/**/*.d.ts*",
+    "!dist/test/*"
+  ],
+  "scripts": {
+    "build": "heft test --clean",
+    "test:update": "heft test --clean -u"
+  },
+  "dependencies": {
+    "@microsoft/api-extractor-model": "^7.15.3",
+    "@microsoft/tsdoc": "^0.13.2",
+    "@types/pluralize": "^0.0.29",
+    "pluralize": "^8.0.0",
+    "@types/debug": "^4.1.7",
+    "@types/unist": "^2.0.6",
+    "fs-extra": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "@rushstack/eslint-config": "^2.4.5",
+    "@rushstack/eslint-plugin": "^0.8.3",
+    "@types/node": "^16.10.2",
+    "typescript": "^4.5.5",
+    "@rushstack/heft-jest-plugin": "~0.1.46",
+    "@rushstack/heft": "~0.42.2",
+    "@types/heft-jest": "1.0.2"
+  }
+}

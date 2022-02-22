@@ -6,7 +6,7 @@
   "types": "dist/plugin.d.ts",
   "private": false,
   "scripts": {
-    "build": "node ./scripts/patch-fs-tree-diff.js && heft test --clean && cp ./src/api-documenter.json ./dist"
+    "build": "node ./scripts/patch-fs-tree-diff.js && heft test --clean && cp ./src/tsdoc.json ./dist &&  cp ./src/*.ejs ./dist"
   },
   "repository": {
     "type": "git",
@@ -28,29 +28,35 @@
     "!dist/test/*"
   ],
   "peerDependencies": {
-    "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
-    "@microsoft/api-documenter": ">= 7.13.68 < 7.14.0",
-    "@microsoft/api-extractor": ">= 7.18.16 < 7.19.0"
+    "@microsoft/api-extractor": ">= 7.19.4 < 7.20.0",
+    "@microsoft/api-extractor-model": ">= 7.15.3 < 7.16.0"
   },
   "dependencies": {
+    "@types/ejs": "^3.1.0",
+    "@types/prettier": "^2.4.4",
     "@docusaurus/types": "^2.0.0-beta.6",
     "@types/debug": "^4.1.7",
+    "@types/glob": "^7.2.0",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.10.2",
     "debug": "^2.6.9",
     "fs-extra": "^10.0.0",
-    "comment-json": "^4.1.1"
+    "glob": "^7.2.0",
+    "comment-json": "^4.1.1",
+    "ejs": "^3.1.6",
+    "prettier": "^2.5.1",
+    "@babel/core": "^7.0.0",
+    "standard-markdown-documenter": "workspace:*"
   },
   "devDependencies": {
-    "docusaurus-plugin-api-extractor-markdown-documenter": "workspace:*",
-    "@microsoft/api-documenter": "^7.13.68",
-    "@microsoft/api-extractor": "^7.18.16",
+    "@microsoft/api-extractor": "^7.19.4",
+    "@microsoft/api-extractor-model": "^7.15.3",
     "glob": "^7.2.0",
     "eslint": "^7.0.0",
     "@rushstack/eslint-config": "^2.4.5",
     "@rushstack/eslint-plugin": "^0.8.3",
     "fixturify": "^2.1.1",
-    "typescript": "^4.4.2",
+    "typescript": "^4.5.5",
     "@rushstack/heft-jest-plugin": "~0.1.46",
     "@rushstack/heft": "~0.42.2",
     "@types/heft-jest": "1.0.2"

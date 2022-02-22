@@ -385,8 +385,8 @@
    */
   "projects": [
     {
-      "packageName": "docusaurus-plugin-api-extractor-markdown-documenter",
-      "projectFolder": "plugin/docusaurus-plugin-api-extractor-markdown-documenter",
+      "packageName": "standard-markdown-documenter",
+      "projectFolder": "plugin/standard-markdown-documenter",
       "shouldPublish": true
     },
     {

@@ -1,18 +1,29 @@
-import util from 'util';
 import { dirname, join, resolve } from 'path';
 import { existsSync } from 'fs';
 import { mkdirpSync } from 'fs-extra';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
-import child_process from 'child_process';
+import { sync as glob } from 'glob';
 import debugMessage from 'debug';
 import { Extractor, ExtractorConfig, ExtractorLogLevel } from '@microsoft/api-extractor';
 import type { ExtractorResult, IConfigFile } from '@microsoft/api-extractor';
+import { ApiModel } from '@microsoft/api-extractor-model';
+import { StandardMarkdownDocumenter } from 'standard-markdown-documenter';
+import { ContainerNode } from 'standard-markdown-documenter/dist/interfaces';
+import { SIDEBAR_VISITOR } from './sidebar-visitor';
+import fs from 'fs';
+import ejs from 'ejs';
+import prettier from 'prettier';
+
+const sidebar: string = fs.readFileSync(join(__dirname, './api-sidebar.ejs'), 'utf-8');
+const tree: string = fs.readFileSync(join(__dirname, './api-sidebar-tree.ejs'), 'utf-8');
+
+// eslint-disable-next-line @typescript-eslint/typedef
+const sidebarTmpl = ejs.compile(sidebar);
+// eslint-disable-next-line @typescript-eslint/typedef
+const treeTmpl = ejs.compile(tree);
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const debug = debugMessage('docusaurus-api-extractor:generate');
-
-// eslint-disable-next-line @typescript-eslint/typedef
-const exec = util.promisify(child_process.exec);
 
 // TODO: we should use the right type for this, copied from https://github.com/facebook/docusaurus/blob/8d92e9bcf5cf533719b07b17db73facea788fac1/packages/docusaurus-plugin-content-docs/src/sidebars/generator.ts#L30
 export interface ICategoryMetadatasFile {
@@ -30,7 +41,7 @@ export function generateTmpExtractorConfig(
   root: string = ''
 ): void {
   configFile.mainEntryPointFilePath = entryPoint;
-  const safeName: string = name.replace('/', '.');
+  const safeName = name.replace('/', '.');
   const { apiReport, docModel, dtsRollup } = configFile;
 
   if (apiReport) {
@@ -38,13 +49,13 @@ export function generateTmpExtractorConfig(
   }
 
   if (docModel && docModel.apiJsonFilePath) {
-    const parts: string[] = docModel.apiJsonFilePath.split('/');
+    const parts = docModel.apiJsonFilePath.split('/');
     parts[parts.length - 1] = `${safeName}.api.json`;
     docModel.apiJsonFilePath = parts.join('/');
   }
 
   if (dtsRollup && dtsRollup.untrimmedFilePath) {
-    const parts: string[] = dtsRollup.untrimmedFilePath.split('/');
+    const parts = dtsRollup.untrimmedFilePath.split('/');
     parts[parts.length - 1] = `${safeName}.d.ts`;
     dtsRollup.untrimmedFilePath = parts.join('/');
   }
@@ -53,7 +64,7 @@ export function generateTmpExtractorConfig(
 }
 
 export function prepareExtratorConfig(name: string, configPath: string): ExtractorConfig {
-  const configFile: IConfigFile = ExtractorConfig.loadFile(configPath);
+  const configFile = ExtractorConfig.loadFile(configPath);
   return ExtractorConfig.prepare({
     configObject: configFile,
     configObjectFullPath: configPath,
@@ -79,8 +90,8 @@ export async function generateDocs(
   verbose: boolean,
   inCI: boolean
 ): Promise<ExtractorResult> {
-  const reportDir: string = dirname(extractorConfig.reportFilePath);
-  const tempReportDir: string = dirname(extractorConfig.reportTempFilePath);
+  const reportDir = dirname(extractorConfig.reportFilePath);
+  const tempReportDir = dirname(extractorConfig.reportTempFilePath);
 
   if (!existsSync(reportDir)) {
     mkdirpSync(reportDir);
@@ -100,7 +111,7 @@ async function generate(
   verbose: boolean,
   inCI: boolean
 ): Promise<ExtractorResult> {
-  const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
+  const extractorResult = Extractor.invoke(extractorConfig, {
     typescriptCompilerFolder: join(extractorConfig.projectFolder, 'node_modules', 'typescript'),
     localBuild: !inCI,
     showVerboseMessages: verbose,
@@ -120,25 +131,47 @@ async function generate(
   return extractorResult;
 }
 
-export async function generateMarkdownFiles(projectFolder: string, outDir: string): Promise<void> {
+export async function generateMarkdownFiles(
+  projectFolder: string,
+  outDir: string,
+  config: IConfigFile
+): Promise<void> {
   try {
     ensureDirSync(outDir);
 
-    const apiDocumenter: string = require.resolve(join(process.cwd(), `./node_modules/.bin/api-documenter`));
+    const model = new ApiModel();
+    const modelDir = config.docModel?.apiJsonFilePath
+      ? dirname(config.docModel?.apiJsonFilePath).replace('<projectFolder>', projectFolder)
+      : join(projectFolder, 'temp');
 
-    const cmd: string = `${apiDocumenter} generate -i ${resolve(projectFolder, 'temp')} -o ${outDir}`;
+    const globs = glob(`${modelDir}/*.json`);
 
-    debug('documeter cmd: %s', cmd);
-
-    const { stdout, stderr } = await exec(cmd);
-
-    console.log(stdout);
-
-    if (stderr) {
-      throw stderr;
+    for (const resolvedPath of globs) {
+      model.loadPackage(resolvedPath);
     }
+
+    const documenter = new StandardMarkdownDocumenter(model, outDir);
+
+    await documenter.generateFiles();
+    const sidebarNodes = await documenter.generateSidebar(SIDEBAR_VISITOR);
+
+    const sidebarFile = prettier.format(
+      sidebarTmpl({
+        sideBarItems: sidebarNodes,
+        dir: 'api',
+        isSideBarItem,
+        tree: treeTmpl
+      }),
+      { parser: 'babel', singleQuote: true }
+    );
+
+    writeFileSync(join(outDir, 'api-sidebar.js'), sidebarFile);
   } catch (e) {
     console.error(e);
     process.exitCode = 1;
   }
+}
+
+function isSideBarItem(items: string[] | ContainerNode[]): boolean {
+  return Array.isArray(items) && typeof items[0] === 'object' && items[0] !== null && 'type' in items[0];
 }
