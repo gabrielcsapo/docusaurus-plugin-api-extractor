@@ -22,6 +22,7 @@
     "node": ">=14.0.0"
   },
   "files": [
+    "dist/**/*.ejs",
     "dist/**/*.json",
     "dist/**/*.js*",
     "dist/**/*.d.ts*",
