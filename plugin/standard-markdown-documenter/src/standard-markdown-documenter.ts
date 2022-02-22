@@ -124,6 +124,9 @@ export class StandardMarkdownDocumenter {
           output.push(containerNode);
           this._visit(containerNode.items, item, visitor);
           break;
+        case ApiItemKind.EnumMember:
+          // Enum members don't have their own page, so skip them.
+          break;
         default:
           const terminalNode = visitor[item.kind](item, this._metaFor(item)) as TerminalNode;
           output.push(terminalNode);
