@@ -1,5 +1,5 @@
 /**
- * @public
+ * @internal
  */
 export class Component<T> {
   args: T;

@@ -1,4 +1,6 @@
 /**
+ * A helper that adds two numbers
+ *
  * @frameworkItemType - Helper
  * @modulePath - addon/helpers/sum
  * @public

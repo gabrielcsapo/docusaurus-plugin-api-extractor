@@ -13,7 +13,7 @@ A Get class to get an empty string
 **Signature:**
 
 ```typescript
-export declare class Get implements Getter
+export declare class Get implements Getter 
 ```
 **Implements:** [Getter](./lib.getter.md)
 

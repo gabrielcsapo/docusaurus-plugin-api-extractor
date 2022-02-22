@@ -21,26 +21,9 @@ module.exports = (dir = 'api') => [
             id: `${dir}/addon`
           },
           {
-            type: 'category',
-            label: 'Component',
-            collapsed: true,
-            items: [
-              {
-                type: 'doc',
-                label: 'Overview',
-                id: `${dir}/addon.component`
-              },
-              {
-                type: 'doc',
-                label: '(constructor)',
-                id: `${dir}/addon.component._constructor_`
-              },
-              {
-                type: 'doc',
-                label: 'args',
-                id: `${dir}/addon.component.args`
-              }
-            ]
+            type: 'doc',
+            label: 'obj',
+            id: `${dir}/addon.obj`
           },
           {
             type: 'category',

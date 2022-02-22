@@ -15,7 +15,10 @@ export type StepperSignature = {
 };
 
 /**
+ * A component that makes a wizard
+ *
  * @public
+ * @modulePath my-addon/components/stepper
  * @frameworkItemType Component
  */
 export default class Stepper extends Component<StepperSignature> {

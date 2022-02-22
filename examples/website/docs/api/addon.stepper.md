@@ -8,12 +8,16 @@ title: Stepper Component
 
 ## Stepper Component
 
+### Import Path: my-addon/components/stepper
+
+A component that makes a wizard
+
 **Signature:**
 
 ```typescript
 export default class Stepper extends Component<StepperSignature> 
 ```
-**Extends:** [Component](./addon.component.md)<!-- -->&lt;[StepperSignature](./addon.steppersignature.md)<!-- -->&gt;
+**Extends:** Component&lt;[StepperSignature](./addon.steppersignature.md)<!-- -->&gt;
 
 ## Methods
 

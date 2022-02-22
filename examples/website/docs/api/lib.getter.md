@@ -13,7 +13,7 @@ Gets a get
 **Signature:**
 
 ```typescript
-export interface Getter
+export interface Getter 
 ```
 
 ## Methods

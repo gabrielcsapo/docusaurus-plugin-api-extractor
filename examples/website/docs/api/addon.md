@@ -8,27 +8,21 @@ title: addon package
 
 ## addon package
 
-## Classes
+## Helpers
 
-|  Classes | Description | Import Path |
+|  Helpers | Description | Import Path |
 |  --- | --- | --- |
-|  [Component](./addon.component.md) |  |  |
+|  [sum(a, b)](./addon.sum.md) | A helper that adds two numbers | addon/helpers/sum |
 
 ## Components
 
 |  Components | Description | Import Path |
 |  --- | --- | --- |
-|  [Stepper](./addon.stepper.md) |  |  |
+|  [Stepper](./addon.stepper.md) | A component that makes a wizard | my-addon/components/stepper |
 
 ## Component Signatures
 
 |  Component Signatures | Description | Import Path |
 |  --- | --- | --- |
 |  [StepperSignature](./addon.steppersignature.md) |  | my-addon/components/stepper |
-
-## Helpers
-
-|  Helpers | Description | Import Path |
-|  --- | --- | --- |
-|  [sum(a, b)](./addon.sum.md) |  | addon/helpers/sum |
 

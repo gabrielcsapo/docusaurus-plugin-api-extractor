@@ -12,7 +12,7 @@ title: Bizz class
 **Signature:**
 
 ```typescript
-export declare class Bizz
+export declare class Bizz 
 ```
 
 ## Constructors

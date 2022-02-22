@@ -13,7 +13,7 @@ An interface to define an animal
 **Signature:**
 
 ```typescript
-export interface Animal
+export interface Animal 
 ```
 
 ## Example

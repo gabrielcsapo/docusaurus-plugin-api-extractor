@@ -13,7 +13,7 @@ Boxes an unknown value and unwraps it
 **Signature:**
 
 ```typescript
-export declare class Box<T>
+export declare class Box<T> 
 ```
 
 ## Constructors

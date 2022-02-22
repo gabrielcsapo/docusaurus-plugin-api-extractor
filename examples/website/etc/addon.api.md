@@ -4,14 +4,12 @@
 
 ```ts
 
-// @public (undocumented)
-export class Component<T> {
-    constructor(args: T);
-    // (undocumented)
-    args: T;
-}
+// @public
+export function obj(a: unknown): Record<string, unknown>;
 
-// @public (undocumented)
+// Warning: (ae-forgotten-export) The symbol "Component" needs to be exported by the entry point index.d.ts
+//
+// @public
 export class Stepper extends Component<StepperSignature> {
     // (undocumented)
     foo(): Record<string, unknown>;
@@ -31,7 +29,7 @@ export type StepperSignature = {
     };
 };
 
-// @public (undocumented)
+// @public
 export function sum(a: number, b: number): number;
 
 // (No @packageDocumentation comment for this package)

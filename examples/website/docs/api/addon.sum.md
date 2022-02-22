@@ -10,6 +10,8 @@ title: sum() Helper
 
 ### Import Path: addon/helpers/sum
 
+A helper that adds two numbers
+
 **Signature:**
 
 ```typescript

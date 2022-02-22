@@ -13,7 +13,7 @@ Constructor options for [Animal](./lib.animal.md)
 **Signature:**
 
 ```typescript
-export interface AnimalOptions
+export interface AnimalOptions 
 ```
 
 ## Properties
