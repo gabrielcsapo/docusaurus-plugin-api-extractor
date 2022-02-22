@@ -1,5 +1,5 @@
 import { ApiItem, ApiItemKind, ApiModel } from '@microsoft/api-extractor-model';
-import { StringBuilder, DocSection, TSDocConfiguration, DocNode } from '@microsoft/tsdoc';
+import { StringBuilder, TSDocConfiguration, DocNode } from '@microsoft/tsdoc';
 import path from 'path';
 
 import { CustomDocNodes } from './nodes';
@@ -73,7 +73,7 @@ export class StandardMarkdownDocumenter {
    */
   public async generate(): Promise<Record<string, string>> {
     this._writeApiItemPage(this._delegate.apiModel);
-    const pages: Record<string, string> = this._pages;
+    const pages = this._pages;
     this._pages = {};
     return pages;
   }
@@ -94,10 +94,10 @@ export class StandardMarkdownDocumenter {
    * @returns
    */
   public async generateSidebar(visitor: Partial<Visitor> = {}): Promise<ContainerNode[]> {
-    const internalVisitor: SidebarVisitor = new SidebarVisitor(visitor);
-    const apiModel: ApiModel = this._delegate.apiModel;
+    const internalVisitor = new SidebarVisitor(visitor);
+    const apiModel = this._delegate.apiModel;
     const output: ContainerNode[] = [];
-    const modelNode: ContainerNode = internalVisitor.Model(apiModel, this._metaFor(apiModel));
+    const modelNode = internalVisitor.Model(apiModel, this._metaFor(apiModel));
     output.push(modelNode);
 
     this._myVisit(modelNode.items, apiModel, internalVisitor);
@@ -116,12 +116,12 @@ export class StandardMarkdownDocumenter {
         case ApiItemKind.Interface:
         case ApiItemKind.Package:
         case ApiItemKind.Namespace:
-          const containerNode: ContainerNode = visitor[item.kind](item, this._metaFor(item));
+          const containerNode = visitor[item.kind](item, this._metaFor(item));
           output.push(containerNode);
           this._myVisit(containerNode.items, item, visitor);
           break;
         default:
-          const terminalNode: TerminalNode = visitor[item.kind](item, this._metaFor(item));
+          const terminalNode = visitor[item.kind](item, this._metaFor(item)) as TerminalNode;
           output.push(terminalNode);
           this._myVisit(output, item, visitor);
       }
@@ -129,19 +129,19 @@ export class StandardMarkdownDocumenter {
   }
 
   private _metaFor(apiItem: ApiItem): IVisitMeta {
-    const id: string = `${getLinkFilenameForApiItem(apiItem).replace('./', '').replace('.md', '')}`;
+    const id = `${getLinkFilenameForApiItem(apiItem).replace('./', '').replace('.md', '')}`;
 
-    const type: string = API_ITEM_TO_FRAMEWORK_ITEM_TYPE.get(apiItem) || apiItem.displayName;
+    const type = API_ITEM_TO_FRAMEWORK_ITEM_TYPE.get(apiItem) || apiItem.displayName;
 
     return { id, type };
   }
 
   private _writeApiItemPage(apiItem: ApiItem): void {
     const { _configuration: configuration, _delegate: delegate } = this;
-    const primitiveBuilders: PrimitiveBuilders = new PrimitiveBuilders(configuration, delegate.apiModel);
-    const section: DocSection = primitiveBuilders.section();
+    const primitiveBuilders = new PrimitiveBuilders(configuration, delegate.apiModel);
+    const section = primitiveBuilders.section();
 
-    const sectionBuilders: SectionBuilders = new SectionBuilders(
+    const sectionBuilders = new SectionBuilders(
       primitiveBuilders,
       section,
       delegate,
@@ -163,9 +163,9 @@ export class StandardMarkdownDocumenter {
       sections: sectionBuilders
     });
 
-    const filename: string = path.join(this._delegate.outputFolder, getFilenameForApiItem(apiItem));
+    const filename = path.join(this._delegate.outputFolder, getFilenameForApiItem(apiItem));
 
-    const builder: StringBuilder = new StringBuilder();
+    const builder = new StringBuilder();
 
     this._pages[filename] = this._emitter.emit(section, builder, {
       contextApiItem: apiItem,

@@ -26,7 +26,7 @@ export class DocFrontmatter extends DocNodeContainer {
 
     Object.entries(list).forEach(([key, value]) => {
       if (typeof value === 'object') {
-        const childContainer: ListContainer = new ListContainer(parameters);
+        const childContainer = new ListContainer(parameters);
         this._writeList(value, parameters, childContainer);
         container.appendNode(childContainer);
       } else {

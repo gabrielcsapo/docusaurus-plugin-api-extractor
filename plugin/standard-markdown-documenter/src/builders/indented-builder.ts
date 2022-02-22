@@ -23,14 +23,14 @@ export class IndentedWriter {
       this._writeNewLine();
     }
 
-    const secondLastCharacter: string = this.peekSecondLastCharacter();
+    const secondLastCharacter = this.peekSecondLastCharacter();
     if (secondLastCharacter !== '\n' && secondLastCharacter !== '') {
       this._writeNewLine();
     }
   }
 
   public ensureNewLine(): void {
-    const lastCharacter: string = this.peekLastCharacter();
+    const lastCharacter = this.peekLastCharacter();
     if (lastCharacter !== '\n' && lastCharacter !== '') {
       this._writeNewLine();
     }
@@ -84,7 +84,7 @@ export class IndentedWriter {
     }
 
     // Otherwise split the lines and write each one individually
-    let first: boolean = true;
+    let first = true;
     for (const linePart of message.split('\n')) {
       if (!first) {
         this._writeNewLine();
@@ -102,7 +102,7 @@ export class IndentedWriter {
   }
 
   private _writeLinePart(message: string): void {
-    let trimmedMessage: string = message;
+    let trimmedMessage = message;
 
     if (this.trimLeadingSpaces && this._atStartOfLine) {
       trimmedMessage = message.replace(/^ +/, '');

@@ -40,18 +40,17 @@ import { DocTable } from './nodes/doc-table';
 import { DocTableCell } from './nodes/doc-table-cell';
 import { DocTableRow } from './nodes/doc-table-row';
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type ContainerNode = {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export interface ContainerNode {
   label: string;
   items: unknown[];
-  [key: string]: unknown;
-};
+}
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type TerminalNode = {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export interface TerminalNode {
   label: string;
-  [key: string]: unknown;
-};
+  id: string;
+}
 
 export interface IVisitMeta {
   id: string;
@@ -69,8 +68,6 @@ export type IInternalChildVisitors = {
 export type IInternalParentVisitors = {
   [k in keyof ParentVisitors]: (item: ApiItem) => void;
 };
-
-// export type IInternalVisitor = IInternalChildVisitors & IInternalParentVisitors;
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ChildVisitors = {

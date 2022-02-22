@@ -41,7 +41,7 @@ export function generateTmpExtractorConfig(
   root: string = ''
 ): void {
   configFile.mainEntryPointFilePath = entryPoint;
-  const safeName: string = name.replace('/', '.');
+  const safeName = name.replace('/', '.');
   const { apiReport, docModel, dtsRollup } = configFile;
 
   if (apiReport) {
@@ -49,13 +49,13 @@ export function generateTmpExtractorConfig(
   }
 
   if (docModel && docModel.apiJsonFilePath) {
-    const parts: string[] = docModel.apiJsonFilePath.split('/');
+    const parts = docModel.apiJsonFilePath.split('/');
     parts[parts.length - 1] = `${safeName}.api.json`;
     docModel.apiJsonFilePath = parts.join('/');
   }
 
   if (dtsRollup && dtsRollup.untrimmedFilePath) {
-    const parts: string[] = dtsRollup.untrimmedFilePath.split('/');
+    const parts = dtsRollup.untrimmedFilePath.split('/');
     parts[parts.length - 1] = `${safeName}.d.ts`;
     dtsRollup.untrimmedFilePath = parts.join('/');
   }
@@ -64,7 +64,7 @@ export function generateTmpExtractorConfig(
 }
 
 export function prepareExtratorConfig(name: string, configPath: string): ExtractorConfig {
-  const configFile: IConfigFile = ExtractorConfig.loadFile(configPath);
+  const configFile = ExtractorConfig.loadFile(configPath);
   return ExtractorConfig.prepare({
     configObject: configFile,
     configObjectFullPath: configPath,
@@ -90,8 +90,8 @@ export async function generateDocs(
   verbose: boolean,
   inCI: boolean
 ): Promise<ExtractorResult> {
-  const reportDir: string = dirname(extractorConfig.reportFilePath);
-  const tempReportDir: string = dirname(extractorConfig.reportTempFilePath);
+  const reportDir = dirname(extractorConfig.reportFilePath);
+  const tempReportDir = dirname(extractorConfig.reportTempFilePath);
 
   if (!existsSync(reportDir)) {
     mkdirpSync(reportDir);
@@ -111,7 +111,7 @@ async function generate(
   verbose: boolean,
   inCI: boolean
 ): Promise<ExtractorResult> {
-  const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
+  const extractorResult = Extractor.invoke(extractorConfig, {
     typescriptCompilerFolder: join(extractorConfig.projectFolder, 'node_modules', 'typescript'),
     localBuild: !inCI,
     showVerboseMessages: verbose,
@@ -139,25 +139,23 @@ export async function generateMarkdownFiles(
   try {
     ensureDirSync(outDir);
 
-    const model: ApiModel = new ApiModel();
-    const modelDir: string = config.docModel?.apiJsonFilePath
+    const model = new ApiModel();
+    const modelDir = config.docModel?.apiJsonFilePath
       ? dirname(config.docModel?.apiJsonFilePath).replace('<projectFolder>', projectFolder)
       : join(projectFolder, 'temp');
 
-    const globs: string[] = glob(`${modelDir}/*.json`);
-
-    console.log(globs, modelDir);
+    const globs = glob(`${modelDir}/*.json`);
 
     for (const resolvedPath of globs) {
       model.loadPackage(resolvedPath);
     }
 
-    const documenter: StandardMarkdownDocumenter = new StandardMarkdownDocumenter(model, outDir);
+    const documenter = new StandardMarkdownDocumenter(model, outDir);
 
     await documenter.generateFiles();
     const sidebarNodes: ContainerNode[] = await documenter.generateSidebar(VISITOR);
 
-    const sidebarFile: string = prettier.format(
+    const sidebarFile = prettier.format(
       sidebarTmpl({
         sideBarItems: sidebarNodes,
         dir: 'api',

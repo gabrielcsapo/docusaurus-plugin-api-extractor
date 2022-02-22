@@ -28,7 +28,6 @@
     "!dist/test/*"
   ],
   "peerDependencies": {
-    "standard-markdown-documenter": "workspace:*",
     "@microsoft/api-extractor": ">= 7.19.4 < 7.20.0",
     "@microsoft/api-extractor-model": ">= 7.15.3 < 7.16.0"
   },
@@ -46,10 +45,10 @@
     "comment-json": "^4.1.1",
     "ejs": "^3.1.6",
     "prettier": "^2.5.1",
-    "@babel/core": "^7.0.0"
+    "@babel/core": "^7.0.0",
+    "standard-markdown-documenter": "workspace:*"
   },
   "devDependencies": {
-    "standard-markdown-documenter": "workspace:*",
     "@microsoft/api-extractor": "^7.19.4",
     "@microsoft/api-extractor-model": "^7.15.3",
     "glob": "^7.2.0",

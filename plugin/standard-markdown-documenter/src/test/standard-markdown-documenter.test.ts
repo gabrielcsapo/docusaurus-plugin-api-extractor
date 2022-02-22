@@ -290,7 +290,8 @@ it('retains custom information on nodes given a visitor', async () => {
     [ApiItemKind.Function](apiItem: ApiFunction) {
       return {
         label: apiItem.displayName,
-        thinging: 'thing'
+        thinging: 'thing',
+        id: 'thing'
       };
     },
     [ApiItemKind.Class](apiItem: ApiClass) {

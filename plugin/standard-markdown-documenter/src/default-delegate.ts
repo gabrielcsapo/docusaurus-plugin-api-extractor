@@ -33,7 +33,7 @@ export class InternalDelegate implements IInternalDocumenterDelegate {
       return this._delegate.prepareFrontmatter(fileName, pageTitle);
     }
     const { name: id } = parse(fileName);
-    const slug: string | undefined = id === 'index' ? '/' : undefined;
+    const slug = id === 'index' ? '/' : undefined;
 
     const list: YamlList = {
       id,
@@ -71,7 +71,7 @@ export class InternalDelegate implements IInternalDocumenterDelegate {
       b.decorators();
       b.heritageTypes();
 
-      let appendRemarks: boolean = true;
+      let appendRemarks = true;
 
       switch (apiItem.kind) {
         case ApiItemKind.Class:
@@ -125,34 +125,5 @@ export class InternalDelegate implements IInternalDocumenterDelegate {
         b.remarks();
       }
     }
-  }
-}
-
-export class DefaultDelegate implements IDocumenterDelegate {
-  public apiModel: ApiModel;
-  public outputFolder: string;
-
-  public constructor(apiModel: ApiModel, oututPath: string) {
-    this.apiModel = apiModel;
-    this.outputFolder = oututPath;
-  }
-
-  public prepareFrontmatter(fileName: string, pageTitle: string): YamlList {
-    const { name: id } = parse(fileName);
-    const slug: string | undefined = id === 'index' ? '/' : undefined;
-
-    const list: YamlList = {
-      id,
-      hide_title: true,
-      title: pageTitle,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      custom_edit_url: null
-    };
-
-    if (slug) {
-      list.slug = slug;
-    }
-
-    return list;
   }
 }

@@ -12,14 +12,11 @@ import {
   generateTmpExtractorConfig,
   prepareExtratorConfig
 } from './generate-docs';
-import { ExtractorConfig, ExtractorResult } from '@microsoft/api-extractor';
+import { ExtractorResult } from '@microsoft/api-extractor';
 import type { IConfigFile } from '@microsoft/api-extractor';
 import { parse } from 'comment-json';
 
-// eslint-disable-next-line @typescript-eslint/typedef
 const debug = debugMessage('docusaurus-api-extractor:plugin');
-
-// eslint-disable-next-line @typescript-eslint/typedef
 const exec = promisify(_exec);
 
 export interface ICLIOptions {
@@ -55,7 +52,6 @@ interface IMergedPluginOptions {
 /**
  * @public
  */
-// eslint-disable-next-line @typescript-eslint/typedef
 export const DEFAULT_PLUGIN_OPTIONS = {
   docsRoot: 'docs',
   outDir: 'api',
@@ -120,9 +116,7 @@ export default function pluginDocusaurus(context: LoadContext, pluginOptions: IP
         .command('api-extractor:init')
         .description('Initializes api-extractor for the project')
         .action(async () => {
-          const apiExtractor: string = require.resolve(
-            path.join(process.cwd(), `./node_modules/.bin/api-extractor`)
-          );
+          const apiExtractor = require.resolve(path.join(process.cwd(), `./node_modules/.bin/api-extractor`));
           await exec(`${apiExtractor} init`);
           await fs.writeFile(
             path.join(process.cwd(), 'tsdoc.json'),
@@ -147,10 +141,15 @@ export default function pluginDocusaurus(context: LoadContext, pluginOptions: IP
           const configFile: IConfigFile = parse(await fs.readFile('api-extractor.json', 'utf-8'));
           const { siteDir: originalSiteDir } = context;
 
-          const packageName: string = JSON.parse(await fs.readFile('package.json', 'utf-8')).name;
+          const packageName = JSON.parse(await fs.readFile('package.json', 'utf-8')).name;
 
-          const { ci, docsRoot, siteDir, outDir, entryPoints, verbose }: IMergedPluginOptions =
-            await getPluginOptions(packageName, originalSiteDir, options, pluginOptions, configFile);
+          const { ci, docsRoot, siteDir, outDir, entryPoints, verbose } = await getPluginOptions(
+            packageName,
+            originalSiteDir,
+            options,
+            pluginOptions,
+            configFile
+          );
 
           if (!existsSync(outDir)) {
             mkdirpSync(outDir);
@@ -163,7 +162,7 @@ export default function pluginDocusaurus(context: LoadContext, pluginOptions: IP
 
                 console.log(`Extracing docs for "${packageName}"`);
 
-                const extractorConfig: ExtractorConfig = prepareExtratorConfig(
+                const extractorConfig = prepareExtratorConfig(
                   packageName,
                   path.resolve('api-extractor.tmp.json')
                 );
@@ -171,7 +170,7 @@ export default function pluginDocusaurus(context: LoadContext, pluginOptions: IP
                 debug(`Generating docs: "${packageName}"`);
                 debug(`"${packageName}"'s entry ${entryPoints[packageName]}`);
 
-                const extractorResult: ExtractorResult = await generateDocs(extractorConfig, verbose, ci);
+                const extractorResult = await generateDocs(extractorConfig, verbose, ci);
 
                 if (extractionFailed(extractorResult)) {
                   return;

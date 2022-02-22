@@ -56,7 +56,7 @@ export class PrimitiveBuilders {
   }
 
   public descriptionCell(apiItem: ApiItem): DocTableCell {
-    const section: DocSection = new DocSection({ configuration: this._config });
+    const section = new DocSection({ configuration: this._config });
 
     if (ApiReleaseTagMixin.isBaseClassOf(apiItem)) {
       if (apiItem.releaseTag === ReleaseTag.Beta) {
@@ -92,7 +92,7 @@ export class PrimitiveBuilders {
   }
 
   public excerpt(excerpt: Excerpt): DocParagraph {
-    const paragraph: DocParagraph = new DocParagraph({ configuration: this._config });
+    const paragraph = new DocParagraph({ configuration: this._config });
 
     if (!excerpt.text.trim()) {
       paragraph.appendNode(new DocPlainText({ configuration: this._config, text: '(not declared)' }));
@@ -104,9 +104,9 @@ export class PrimitiveBuilders {
   }
 
   public frameworkItemTypeHeading(apiItem: ApiItem): DocHeading {
-    let title: string = apiItem.kind.toLocaleLowerCase();
+    let title = apiItem.kind.toLocaleLowerCase();
 
-    const scopedName: string = apiItem.getScopedNameWithinPackage();
+    const scopedName = apiItem.getScopedNameWithinPackage();
 
     if (title === 'typealias') {
       title = 'type alias';
@@ -137,7 +137,7 @@ export class PrimitiveBuilders {
   }
 
   public modiferCell(apiItem: ApiItem): DocTableCell {
-    const section: DocSection = new DocSection({ configuration: this._config });
+    const section = new DocSection({ configuration: this._config });
 
     if (ApiStaticMixin.isBaseClassOf(apiItem)) {
       if (apiItem.isStatic) {
@@ -149,7 +149,7 @@ export class PrimitiveBuilders {
   }
 
   public modulePathCell(apiItem: ApiItem): DocTableCell {
-    const section: DocSection = new DocSection({ configuration: this._config });
+    const section = new DocSection({ configuration: this._config });
     if (apiItem instanceof ApiDocumentedItem) {
       const modulePath: string = extractModulePath(apiItem) ?? '';
       section.appendNodesInParagraph([new DocPlainText({ configuration: this._config, text: modulePath })]);
@@ -182,7 +182,7 @@ export class PrimitiveBuilders {
   }
 
   public propertyTypeCell(apiItem: ApiItem): DocTableCell {
-    const section: DocSection = new DocSection({ configuration: this._config });
+    const section = new DocSection({ configuration: this._config });
 
     if (apiItem instanceof ApiPropertyItem) {
       section.appendNode(this.excerpt(apiItem.propertyTypeExcerpt));
@@ -218,7 +218,7 @@ export class PrimitiveBuilders {
   }
 
   public titleCell(apiItem: ApiItem): DocTableCell {
-    let linkText: string = getConciseSignature(apiItem);
+    let linkText = getConciseSignature(apiItem);
     if (ApiOptionalMixin.isBaseClassOf(apiItem) && apiItem.isOptional) {
       linkText += '?';
     }
@@ -245,7 +245,7 @@ export class PrimitiveBuilders {
     // Markdown doesn't provide a standardized syntax for hyperlinks inside code spans, so we will render
     // the type expression as DocPlainText.  Instead of creating multiple DocParagraphs, we can simply
     // discard any newlines and let the renderer do normal word-wrapping.
-    const unwrappedTokenText: string = token.text.replace(/[\r\n]+/g, ' ');
+    const unwrappedTokenText = token.text.replace(/[\r\n]+/g, ' ');
 
     // If it's hyperlinkable, then append a DocLinkTag
     if (token.kind === ExcerptTokenKind.Reference && token.canonicalReference) {

@@ -64,7 +64,7 @@ export class DocTable extends DocNode {
   }
 
   public createAndAddRow(): DocTableRow {
-    const row: DocTableRow = new DocTableRow({ configuration: this.configuration });
+    const row = new DocTableRow({ configuration: this.configuration });
     this.addRow(row);
     return row;
   }

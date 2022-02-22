@@ -6,5 +6,14 @@ module.exports = {
     '@rushstack/eslint-config/profile/node-trusted-tool',
     '@rushstack/eslint-config/mixins/friendly-locals'
   ],
-  parserOptions: { tsconfigRootDir: __dirname }
+  parserOptions: { tsconfigRootDir: __dirname },
+  overrides: [
+    {
+      files: '*.ts',
+
+      rules: {
+        '@typescript-eslint/typedef': 'off'
+      }
+    }
+  ]
 };

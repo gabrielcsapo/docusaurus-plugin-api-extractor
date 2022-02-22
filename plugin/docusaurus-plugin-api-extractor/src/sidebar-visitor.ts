@@ -79,7 +79,6 @@ export const VISITOR: Visitor = {
 };
 
 function containerNode(apiItem: ApiItem, meta: IVisitMeta): ContainerNode {
-  console.log(meta.id, apiItem.kind);
   return {
     type: 'category',
     label: apiItem.displayName,

@@ -38,13 +38,13 @@ export class DocTableRow extends DocNode {
   }
 
   public createAndAddCell(): DocTableCell {
-    const newCell: DocTableCell = new DocTableCell({ configuration: this.configuration });
+    const newCell = new DocTableCell({ configuration: this.configuration });
     this.addCell(newCell);
     return newCell;
   }
 
   public addPlainTextCell(cellContent: string): DocTableCell {
-    const cell: DocTableCell = this.createAndAddCell();
+    const cell = this.createAndAddCell();
     cell.content.appendNodeInParagraph(
       new DocPlainText({
         configuration: this.configuration,
