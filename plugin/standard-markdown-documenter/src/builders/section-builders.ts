@@ -28,6 +28,7 @@ import {
 } from './file-naming';
 
 export const API_ITEM_TO_FRAMEWORK_ITEM_TYPE: WeakMap<ApiItem, string> = new WeakMap();
+export const API_ITEM_TO_MODULE_PATH: WeakMap<ApiItem, string> = new WeakMap();
 
 export class SectionBuilders {
   private _b: PrimitiveBuilders;
@@ -408,6 +409,7 @@ export class SectionBuilders {
         const modulePath = b.modulePathHeading(apiItem);
 
         if (modulePath) {
+          API_ITEM_TO_MODULE_PATH.set(apiItem, modulePath.title.replace('Import Path: ', ''));
           section.appendNode(modulePath);
         }
 

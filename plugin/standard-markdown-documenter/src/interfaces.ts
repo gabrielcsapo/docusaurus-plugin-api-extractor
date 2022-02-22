@@ -55,6 +55,7 @@ export interface TerminalNode {
 export interface IVisitMeta {
   id: string;
   type: string;
+  modulePath?: string;
 }
 
 type Visit<K, T> = (apiItem: K, meta: IVisitMeta) => T;

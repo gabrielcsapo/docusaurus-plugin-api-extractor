@@ -16,7 +16,11 @@ import {
 import { promises as fs } from 'fs';
 import { InternalDelegate } from './default-delegate';
 import { PrimitiveBuilders } from './builders/primitive-builders';
-import { API_ITEM_TO_FRAMEWORK_ITEM_TYPE, SectionBuilders } from './builders/section-builders';
+import {
+  API_ITEM_TO_FRAMEWORK_ITEM_TYPE,
+  API_ITEM_TO_MODULE_PATH,
+  SectionBuilders
+} from './builders/section-builders';
 import { SidebarVisitor } from './visitor';
 
 /**
@@ -133,7 +137,7 @@ export class StandardMarkdownDocumenter {
 
     const type = API_ITEM_TO_FRAMEWORK_ITEM_TYPE.get(apiItem) || apiItem.displayName;
 
-    return { id, type };
+    return { id, type, modulePath: API_ITEM_TO_MODULE_PATH.get(apiItem) };
   }
 
   private _writeApiItemPage(apiItem: ApiItem): void {
