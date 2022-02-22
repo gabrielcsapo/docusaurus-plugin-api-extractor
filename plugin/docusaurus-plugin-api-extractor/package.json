@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-plugin-api-extractor",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Docusaurus plugin to use https://api-extractor.com",
   "main": "dist/plugin.js",
   "types": "dist/plugin.d.ts",
