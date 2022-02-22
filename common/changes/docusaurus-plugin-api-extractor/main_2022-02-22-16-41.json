@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "docusaurus-plugin-api-extractor",
+      "comment": "fix distribution",
+      "type": "patch"
+    }
+  ],
+  "packageName": "docusaurus-plugin-api-extractor"
+}
