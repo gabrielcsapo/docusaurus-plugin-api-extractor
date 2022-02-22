@@ -7,7 +7,7 @@ import {
   IDocPlainTextParameters,
   TSDocConfiguration
 } from '@microsoft/tsdoc';
-import { join } from 'path';
+import { join, sep } from 'path';
 import {
   IDocumenterDelegate,
   IMarkdownDelegateContext,
@@ -21,7 +21,7 @@ it('kitchen sink', async () => {
   model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('packageDocumentation', async () => {
@@ -29,7 +29,7 @@ it('packageDocumentation', async () => {
   model.loadPackage(join(__dirname, './fixtures/api-model.packageDocumentation.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('functions', async () => {
@@ -37,7 +37,7 @@ it('functions', async () => {
   model.loadPackage(join(__dirname, './fixtures/api-model.function.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('interfaces', async () => {
@@ -45,7 +45,7 @@ it('interfaces', async () => {
   model.loadPackage(join(__dirname, './fixtures/api-model.interfaces.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('classes', async () => {
@@ -53,7 +53,7 @@ it('classes', async () => {
   model.loadPackage(join(__dirname, './fixtures/api-model.class.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('type alias', async () => {
@@ -61,7 +61,7 @@ it('type alias', async () => {
   model.loadPackage(join(__dirname, './fixtures/api-model.type-alias.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('variable', async () => {
@@ -69,7 +69,7 @@ it('variable', async () => {
   model.loadPackage(join(__dirname, './fixtures/api-model.variable.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('frameworkItemType', async () => {
@@ -77,7 +77,7 @@ it('frameworkItemType', async () => {
   model.loadPackage(join(__dirname, './fixtures/api-model.frameworkItemType.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('modulePath', async () => {
@@ -85,7 +85,7 @@ it('modulePath', async () => {
   model.loadPackage(join(__dirname, './fixtures/api-model.modulePath.json'));
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('it defaults to built in delegate', async () => {
@@ -94,7 +94,7 @@ it('it defaults to built in delegate', async () => {
 
   const documenter = new StandardMarkdownDocumenter(model, 'foo');
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('if a custom delegate is passed with only the required fields the default implementation runs for the methods', async () => {
@@ -112,7 +112,7 @@ it('if a custom delegate is passed with only the required fields the default imp
 
   const documenter = new StandardMarkdownDocumenter(new Delegate(model, 'foo'));
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('delegate can be used to customize frontmatter', async () => {
@@ -137,7 +137,7 @@ it('delegate can be used to customize frontmatter', async () => {
 
   const documenter = new StandardMarkdownDocumenter(new Delegate(model, 'foo'));
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('delegate can be used to customize the page', async () => {
@@ -161,7 +161,7 @@ it('delegate can be used to customize the page', async () => {
 
   const documenter = new StandardMarkdownDocumenter(new Delegate(model, 'foo'));
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('delegate can be used to register custom nodes', async () => {
@@ -214,7 +214,7 @@ it('delegate can be used to register custom nodes', async () => {
 
   const documenter = new StandardMarkdownDocumenter(new Delegate(model, 'foo'));
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('delegate can be used to register custom nodes that require recursion', async () => {
@@ -269,7 +269,7 @@ it('delegate can be used to register custom nodes that require recursion', async
 
   const documenter = new StandardMarkdownDocumenter(new Delegate(model, 'foo'));
 
-  expect(await documenter.generate()).toMatchSnapshot();
+  expectToMatchMarkdown(await documenter.generate());
 });
 
 it('can generate a sidebar by default', async () => {
@@ -308,3 +308,13 @@ it('retains custom information on nodes given a visitor', async () => {
   });
   expect(sidebar).toMatchSnapshot();
 });
+
+function expectToMatchMarkdown(output: Record<string, string>): void {
+  const normailzedOutput: Record<string, string> = {};
+  Object.keys(output).forEach((key) => {
+    const newKey = key.split(sep).join('/');
+    normailzedOutput[newKey] = output[key];
+  });
+
+  expect(normailzedOutput).toMatchSnapshot();
+}
