@@ -1,6 +1,6 @@
 {
   "name": "standard-markdown-documenter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Standard markdown generator that API Documenter ",
   "private": false,
   "main": "dist/index.js",

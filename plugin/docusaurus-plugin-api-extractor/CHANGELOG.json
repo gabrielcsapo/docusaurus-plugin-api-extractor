@@ -2,6 +2,18 @@
   "name": "docusaurus-plugin-api-extractor",
   "entries": [
     {
+      "version": "2.0.3",
+      "tag": "docusaurus-plugin-api-extractor_v2.0.3",
+      "date": "Wed, 23 Feb 2022 14:03:52 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"standard-markdown-documenter\" to `0.2.1`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.2",
       "tag": "docusaurus-plugin-api-extractor_v2.0.2",
       "date": "Tue, 22 Feb 2022 16:53:41 GMT",

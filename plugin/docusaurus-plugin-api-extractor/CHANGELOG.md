@@ -1,6 +1,11 @@
 # Change Log - docusaurus-plugin-api-extractor
 
-This log was last generated on Tue, 22 Feb 2022 16:53:41 GMT and should not be manually modified.
+This log was last generated on Wed, 23 Feb 2022 14:03:52 GMT and should not be manually modified.
+
+## 2.0.3
+Wed, 23 Feb 2022 14:03:52 GMT
+
+_Version update only_
 
 ## 2.0.2
 Tue, 22 Feb 2022 16:53:41 GMT
