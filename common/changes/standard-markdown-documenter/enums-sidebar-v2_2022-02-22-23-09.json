@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "standard-markdown-documenter",
+      "comment": "fix: Omit enum members from sidebar in v2.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "standard-markdown-documenter"
+}
