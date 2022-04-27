@@ -2,6 +2,18 @@
   "name": "standard-markdown-documenter",
   "entries": [
     {
+      "version": "0.2.2",
+      "tag": "standard-markdown-documenter_v0.2.2",
+      "date": "Wed, 27 Apr 2022 23:27:36 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix peerdeps"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.2.1",
       "tag": "standard-markdown-documenter_v0.2.1",
       "date": "Wed, 23 Feb 2022 14:03:52 GMT",
