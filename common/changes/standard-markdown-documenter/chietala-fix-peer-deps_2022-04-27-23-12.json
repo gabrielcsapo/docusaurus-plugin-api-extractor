@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "standard-markdown-documenter",
+      "comment": "fix peerdeps",
+      "type": "patch"
+    }
+  ],
+  "packageName": "standard-markdown-documenter"
+}

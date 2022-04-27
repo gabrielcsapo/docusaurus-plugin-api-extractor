@@ -17,8 +17,10 @@
     "build": "heft test --clean",
     "test:update": "heft test --clean -u"
   },
+  "peerDependencies": {
+    "@microsoft/api-extractor-model": ">= 7.15.3 < 7.18.0"
+  },
   "dependencies": {
-    "@microsoft/api-extractor-model": "^7.15.3",
     "@microsoft/tsdoc": "^0.13.2",
     "@types/pluralize": "^0.0.29",
     "pluralize": "^8.0.0",
@@ -27,6 +29,7 @@
     "fs-extra": "^10.0.0"
   },
   "devDependencies": {
+    "@microsoft/api-extractor-model": "^7.15.3",
     "eslint": "^7.0.0",
     "@rushstack/eslint-config": "^2.4.5",
     "@rushstack/eslint-plugin": "^0.8.3",
