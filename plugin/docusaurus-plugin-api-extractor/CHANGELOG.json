@@ -2,6 +2,23 @@
   "name": "docusaurus-plugin-api-extractor",
   "entries": [
     {
+      "version": "2.0.4",
+      "tag": "docusaurus-plugin-api-extractor_v2.0.4",
+      "date": "Wed, 27 Apr 2022 23:25:12 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "widen api-extractor-model version"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"standard-markdown-documenter\" to `0.2.2`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.3",
       "tag": "docusaurus-plugin-api-extractor_v2.0.3",
       "date": "Wed, 23 Feb 2022 14:03:52 GMT",
