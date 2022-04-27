@@ -30,7 +30,7 @@
   ],
   "peerDependencies": {
     "@microsoft/api-extractor": ">= 7.19.4 < 7.20.0",
-    "@microsoft/api-extractor-model": ">= 7.15.3 < 7.16.0"
+    "@microsoft/api-extractor-model": ">= 7.15.3 < 7.18.0"
   },
   "dependencies": {
     "@types/ejs": "^3.1.0",
