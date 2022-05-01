@@ -34,7 +34,7 @@ export class Box<T> {
     unwrap(): T;
 }
 
-// @public (undocumented)
+// @beta
 export const foo = "fosso";
 
 // @public

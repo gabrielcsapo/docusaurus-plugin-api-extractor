@@ -101,7 +101,7 @@ export class StandardMarkdownEmitter {
         const docNoteBox = docNode as DocNoteBox;
         writer.ensureNewLine();
 
-        writer.increaseIndent('&gte; ');
+        writer.increaseIndent('> ');
 
         this.writeNode(docNoteBox.content, context, false);
         writer.ensureNewLine();

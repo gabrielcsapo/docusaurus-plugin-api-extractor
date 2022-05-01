@@ -18,7 +18,7 @@ title: my-lib package
 
 |  Variables | Description | Import Path |
 |  --- | --- | --- |
-|  [foo](./my-lib.foo.md) |  |  |
+|  [foo](./my-lib.foo.md) | **_(BETA)_** some thing is beta |  |
 
 ## Classes
 

@@ -6,7 +6,8 @@ export * from "./sum";
 export const bar = "bard";
 
 /**
- * @public
+ * some thing is beta
+ * @beta
  */
 export const foo = "fosso";
 
