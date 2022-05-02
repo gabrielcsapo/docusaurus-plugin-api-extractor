@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "standard-markdown-documenter",
+      "comment": "fix notebox encoding",
+      "type": "patch"
+    }
+  ],
+  "packageName": "standard-markdown-documenter"
+}

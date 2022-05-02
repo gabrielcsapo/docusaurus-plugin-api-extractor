@@ -57,7 +57,6 @@ export class SectionBuilders {
         const betaWarning =
           'This API is provided as a preview for developers and may change' +
           ' based on feedback that we receive.  Do not use this API in a production environment.';
-        b.noteBox([b.text(betaWarning)]);
         this._section.appendNode(b.noteBox([b.text(betaWarning)]));
       }
     }

@@ -433,14 +433,14 @@
         {
           "kind": "Variable",
           "canonicalReference": "lib!foo:var",
-          "docComment": "/**\n * @public\n */\n",
+          "docComment": "/**\n * some thing is beta\n *\n * @beta\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
               "text": "foo = \"fosso\""
             }
           ],
-          "releaseTag": "Public",
+          "releaseTag": "Beta",
           "name": "foo",
           "variableTypeTokenRange": {
             "startIndex": 0,

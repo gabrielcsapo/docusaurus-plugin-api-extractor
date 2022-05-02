@@ -88,6 +88,14 @@ it('modulePath', async () => {
   expectToMatchMarkdown(await documenter.generate());
 });
 
+it('beta tags', async () => {
+  const model = new ApiModel();
+  model.loadPackage(join(__dirname, './fixtures/api-model.beta.json'));
+  const documenter = new StandardMarkdownDocumenter(model, 'foo');
+
+  expectToMatchMarkdown(await documenter.generate());
+});
+
 it('it defaults to built in delegate', async () => {
   const model = new ApiModel();
   model.loadPackage(join(__dirname, './fixtures/api-model.kitchen-sink.json'));

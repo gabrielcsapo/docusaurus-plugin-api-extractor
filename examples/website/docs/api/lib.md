@@ -18,7 +18,7 @@ title: lib package
 
 |  Variables | Description | Import Path |
 |  --- | --- | --- |
-|  [foo](./lib.foo.md) |  |  |
+|  [foo](./lib.foo.md) | **_(BETA)_** some thing is beta |  |
 
 ## Classes
 
